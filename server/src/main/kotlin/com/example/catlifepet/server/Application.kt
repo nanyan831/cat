@@ -28,7 +28,7 @@ internal fun Application.module(
     configureHttp(settings)
     val authService = configureAuthentication(settings, authOverrides)
     if (authService != null) {
-        configureChat(authService)
+        configureChat(authService, settings.ai)
         configureMemory(authService)
     }
 }

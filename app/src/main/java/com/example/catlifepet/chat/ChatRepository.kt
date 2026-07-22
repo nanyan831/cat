@@ -157,13 +157,18 @@ class ChatRepository(
                     if (event.status == 401) {
                         unauthorized = true
                     } else {
+                        val userMessage = when (event.code) {
+                            "daily_quota_exceeded" -> "今天的聊天次数已经用完了，我们明天再继续吧。"
+                            "rate_limited" -> "说得有点快啦，稍等一会儿再试。"
+                            else -> event.message
+                        }
                         val pending = dao.listPending(conversationId).firstOrNull {
                             it.clientMessageId == clientMessageId
                         }
                         if (pending != null) {
-                            dao.upsertPending(pending.copy(state = "failed", errorMessage = event.message))
+                            dao.upsertPending(pending.copy(state = "failed", errorMessage = userMessage))
                         }
-                        emitEvent(ChatSendEvent.Failure(event.code, event.message, event.retryable))
+                        emitEvent(ChatSendEvent.Failure(event.code, userMessage, event.retryable))
                     }
                 }
             }

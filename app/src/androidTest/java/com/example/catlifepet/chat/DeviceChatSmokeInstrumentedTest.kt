@@ -55,6 +55,12 @@ class DeviceChatSmokeInstrumentedTest {
                 activity.window.decorView.findButton("发送").performClick()
             }
             scenario.waitUntil { it.window.decorView.containsText("我在呢。") }
+            scenario.waitUntil { it.window.decorView.findEditTextOrNull("想和小猫说点什么？")?.isEnabled == true }
+            scenario.onActivity { activity ->
+                activity.window.decorView.findEditText("想和小猫说点什么？").setText("我不想活了")
+                activity.window.decorView.findButton("发送").performClick()
+            }
+            scenario.waitUntil { it.window.decorView.containsText("我很在意你现在的安全") }
             if (overlayExpected) {
                 ContextCompat.startForegroundService(
                     context,

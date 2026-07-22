@@ -69,6 +69,29 @@ class AiGatewayTest {
         assertTrue(job.isCancelled)
     }
 
+    @Test
+    fun `circuit opens after retryable failures and blocks provider until cooldown`() = runTest {
+        var now = 1_000L
+        val provider = FailingProvider()
+        val gateway = AiGateway(
+            AiSettings(
+                circuitFailureThreshold = 2,
+                circuitOpenDuration = Duration.ofSeconds(30)
+            ),
+            provider,
+            nowMillis = { now }
+        )
+
+        repeat(2) { assertFailsWith<AiProviderException> { gateway.generate(validRequest()) } }
+        val open = assertFailsWith<AiProviderException> { gateway.generate(validRequest()) }
+        assertEquals("ai_circuit_open", open.code)
+        assertEquals(2, provider.calls)
+
+        now += 31_000L
+        assertFailsWith<AiProviderException> { gateway.generate(validRequest()) }
+        assertEquals(3, provider.calls)
+    }
+
     private fun validRequest(content: String = "今天有点累") = AiRequest(
         instructions = "你是一只温柔、简短回应的陪伴小猫。",
         messages = listOf(AiMessage(AiRole.USER, content)),
@@ -96,5 +119,13 @@ private class SuspendingProvider : AiProvider {
         } finally {
             cancelled.complete(true)
         }
+    }
+}
+
+private class FailingProvider : AiProvider {
+    var calls = 0
+    override suspend fun generate(request: AiRequest): AiResult {
+        calls += 1
+        throw AiProviderException("temporary", true)
     }
 }

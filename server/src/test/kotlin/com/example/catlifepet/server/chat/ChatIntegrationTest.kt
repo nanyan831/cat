@@ -39,6 +39,9 @@ import io.ktor.server.testing.ApplicationTestBuilder
 import io.ktor.server.testing.testApplication
 import io.zonky.test.db.postgres.embedded.EmbeddedPostgres
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.json.Json
@@ -118,7 +121,7 @@ class ChatIntegrationTest {
     }
 
     @Test
-    fun `failed turn can retry without duplicating the user or assistant row`() = testApplication {
+    fun `provider failure completes with fallback and replays without duplication`() = testApplication {
         val provider = ScriptedProvider(failuresBeforeSuccess = 1)
         val sender = TestEmailSender()
         application { module(settings(), AuthRuntimeOverrides(sender), AiRuntimeOverrides(provider)) }
@@ -128,7 +131,8 @@ class ChatIntegrationTest {
         val clientMessageId = UUID.randomUUID().toString()
 
         val failed = client.stream(session.accessToken, conversation.id, "再试一次", clientMessageId)
-        assertTrue(failed.bodyAsText().contains("event: error"))
+        assertTrue(failed.bodyAsText().contains("event: completed"))
+        assertTrue(failed.bodyAsText().contains("回复有点慢"))
         val retry = client.stream(session.accessToken, conversation.id, "再试一次", clientMessageId)
         assertTrue(retry.bodyAsText().contains("event: completed"))
 
@@ -137,11 +141,11 @@ class ChatIntegrationTest {
         }.body<MessageListResponse>().messages
         assertEquals(2, history.size)
         assertEquals(listOf("completed", "completed"), history.map { it.status })
-        assertEquals(2, provider.calls.get())
+        assertEquals(1, provider.calls.get())
     }
 
     @Test
-    fun `AI timeout becomes a retryable SSE error and failed persisted state`() = testApplication {
+    fun `AI timeout becomes a completed local fallback`() = testApplication {
         val provider = ScriptedProvider(delayMillis = 1_000)
         val sender = TestEmailSender()
         application {
@@ -162,12 +166,13 @@ class ChatIntegrationTest {
             UUID.randomUUID().toString()
         ).bodyAsText()
 
-        assertTrue(body.contains("ai_timeout"))
-        assertTrue(body.contains("\"retryable\":true"))
+        assertTrue(body.contains("event: completed"))
+        assertTrue(body.contains("回复有点慢"))
         val history = client.get("/v1/conversations/${conversation.id}/messages") {
             bearerAuth(session.accessToken)
         }.body<MessageListResponse>().messages
-        assertEquals("failed", history.last().status)
+        assertEquals("completed", history.last().status)
+        assertEquals("catlifepet-fallback", history.last().model)
     }
 
     @Test
@@ -222,6 +227,93 @@ class ChatIntegrationTest {
         assertEquals(0, client.get("/v1/conversations") {
             bearerAuth(owner.accessToken)
         }.body<ConversationListResponse>().conversations.size)
+    }
+
+    @Test
+    fun `crisis content uses fixed safety reply without calling provider`() = testApplication {
+        val provider = ScriptedProvider()
+        val sender = TestEmailSender()
+        application { module(settings(), AuthRuntimeOverrides(sender), AiRuntimeOverrides(provider)) }
+        val client = jsonClient()
+        val session = client.login(sender, "crisis")
+        val conversation = client.createConversation(session.accessToken, null)
+
+        val body = client.stream(
+            session.accessToken,
+            conversation.id,
+            "我不想活了",
+            UUID.randomUUID().toString()
+        ).bodyAsText()
+
+        assertTrue(body.contains("event: completed"))
+        assertTrue(body.contains("我很在意你现在的安全"))
+        assertEquals(0, provider.calls.get())
+    }
+
+    @Test
+    fun `daily quota survives application restart`() {
+        val sender = TestEmailSender()
+        lateinit var session: AuthSessionResponse
+        lateinit var conversation: ConversationResponse
+        val limited = AiSettings(
+            dailyRequestLimit = 1,
+            maximumUserRequestsPerMinute = 100,
+            maximumIpRequestsPerMinute = 100
+        )
+        testApplication {
+            application { module(settings(limited), AuthRuntimeOverrides(sender), AiRuntimeOverrides(ScriptedProvider())) }
+            val client = jsonClient()
+            session = client.login(sender, "quota")
+            conversation = client.createConversation(session.accessToken, null)
+            assertEquals(HttpStatusCode.OK, client.stream(
+                session.accessToken,
+                conversation.id,
+                "第一次",
+                UUID.randomUUID().toString()
+            ).status)
+        }
+        testApplication {
+            application { module(settings(limited), AuthRuntimeOverrides(sender), AiRuntimeOverrides(ScriptedProvider())) }
+            val client = jsonClient()
+            assertEquals(HttpStatusCode.TooManyRequests, client.stream(
+                session.accessToken,
+                conversation.id,
+                "第二次",
+                UUID.randomUUID().toString()
+            ).status)
+        }
+    }
+
+    @Test
+    fun `streaming endpoint handles bounded concurrent conversations`() = testApplication {
+        val provider = ScriptedProvider(delayMillis = 25)
+        val sender = TestEmailSender()
+        val loadSettings = AiSettings(
+            dailyRequestLimit = 100,
+            maximumUserRequestsPerMinute = 100,
+            maximumIpRequestsPerMinute = 100
+        )
+        application { module(settings(loadSettings), AuthRuntimeOverrides(sender), AiRuntimeOverrides(provider)) }
+        val client = jsonClient()
+        val session = client.login(sender, "bounded-load")
+        val conversations = (1..12).map { client.createConversation(session.accessToken, "并发 $it") }
+
+        val responses = coroutineScope {
+            conversations.mapIndexed { index, conversation ->
+                async {
+                    client.stream(
+                        session.accessToken,
+                        conversation.id,
+                        "并发消息 $index",
+                        UUID.randomUUID().toString()
+                    )
+                }
+            }.awaitAll()
+        }
+
+        assertTrue(responses.all { it.status == HttpStatusCode.OK })
+        assertTrue(responses.all { it.bodyAsText().contains("event: completed") })
+        assertEquals(12, provider.calls.get())
     }
 
     private fun settings(ai: AiSettings = AiSettings()) = ServerSettings.forTest(

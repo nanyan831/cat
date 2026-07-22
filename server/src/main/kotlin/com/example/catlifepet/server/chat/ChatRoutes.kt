@@ -13,6 +13,7 @@ import io.ktor.server.application.Application
 import io.ktor.server.application.call
 import io.ktor.server.auth.authenticate
 import io.ktor.server.request.receive
+import io.ktor.server.plugins.origin
 import io.ktor.server.response.header
 import io.ktor.server.response.respond
 import io.ktor.server.response.respondTextWriter
@@ -53,7 +54,8 @@ internal fun Application.configureChatRoutes(authService: AuthService, chatServi
                         val turn = chatService.prepareTurn(
                             identity.user.id,
                             call.conversationId(),
-                            call.receive()
+                            call.receive(),
+                            call.request.origin.remoteHost
                         )
                         call.response.header(HttpHeaders.CacheControl, CacheControl.NoCache(null).toString())
                         call.response.header("X-Accel-Buffering", "no")

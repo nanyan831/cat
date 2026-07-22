@@ -5,6 +5,8 @@ import com.example.catlifepet.server.ai.AiGateway
 import com.example.catlifepet.server.ai.AiRequest
 import com.example.catlifepet.server.ai.AiStreamEvent
 import com.example.catlifepet.server.data.ConversationRecord
+import com.example.catlifepet.server.config.AiSettings
+import com.example.catlifepet.server.data.AiRequestAuditRecord
 import com.example.catlifepet.server.data.DatabaseFactory
 import com.example.catlifepet.server.data.MessageRecord
 import com.example.catlifepet.server.data.MessageRole
@@ -22,13 +24,18 @@ import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.security.MessageDigest
 import java.time.Clock
+import java.time.LocalDate
+import java.time.ZoneOffset
 import java.util.UUID
 
 internal class ChatService(
     private val database: DatabaseFactory,
     private val repositories: Repositories,
     private val aiGateway: AiGateway,
-    private val clock: Clock = Clock.systemUTC()
+    private val settings: AiSettings = AiSettings(),
+    private val clock: Clock = Clock.systemUTC(),
+    private val requestLimiter: ChatRequestLimiter = ChatRequestLimiter(settings, clock),
+    private val nanoTime: () -> Long = System::nanoTime
 ) {
     suspend fun createConversation(userId: UUID, request: CreateConversationRequest): ConversationResponse {
         val title = request.title?.trim()?.takeIf(String::isNotEmpty)
@@ -66,7 +73,8 @@ internal class ChatService(
     suspend fun prepareTurn(
         userId: UUID,
         conversationId: UUID,
-        request: SendMessageRequest
+        request: SendMessageRequest,
+        remoteIp: String = "unknown"
     ): PreparedTurn = io {
         val content = request.content.trim()
         if (content.isEmpty()) invalid("Message content must not be blank.")
@@ -74,6 +82,7 @@ internal class ChatService(
         val clientMessageId = request.clientMessageId.toUuidOrNull()
             ?: invalid("clientMessageId must be a UUID.")
         val now = clock.instant()
+        requestLimiter.check(userId, remoteIp)
 
         database.transaction { connection ->
             val conversation = requireConversation(connection, conversationId, userId, forUpdate = true)
@@ -122,7 +131,31 @@ internal class ChatService(
             )
             val memories = repositories.memories.listActiveForUser(connection, userId)
             val promptContext = PromptContextBuilder.build(conversation.summary, memories, context)
-            PreparedTurn(userId, conversation, userMessage, assistantMessage, promptContext, replay)
+            if (!replay) {
+                val usage = repositories.dailyUsage.reserveRequest(
+                    connection,
+                    userId,
+                    LocalDate.ofInstant(now, ZoneOffset.UTC),
+                    settings.dailyRequestLimit,
+                    now
+                )
+                if (usage == null) {
+                    throw ApiException(
+                        HttpStatusCode.TooManyRequests,
+                        "daily_quota_exceeded",
+                        "The daily chat limit has been reached."
+                    )
+                }
+            }
+            PreparedTurn(
+                userId,
+                conversation,
+                userMessage,
+                assistantMessage,
+                promptContext,
+                CompanionSafetyPolicy.evaluate(content),
+                replay
+            )
         }
     }
 
@@ -130,6 +163,15 @@ internal class ChatService(
         if (turn.replay) {
             emit(ChatStreamEvent.Delta(turn.assistantMessage.id.toString(), turn.assistantMessage.content))
             emit(ChatStreamEvent.Completed(turn.assistantMessage.toResponse()))
+            return@flow
+        }
+
+        val startedAt = nanoTime()
+        if (turn.safetyDecision is SafetyDecision.FixedReply) {
+            val decision = turn.safetyDecision
+            emit(ChatStreamEvent.Delta(turn.assistantMessage.id.toString(), decision.text))
+            complete(turn, decision.text, LOCAL_SAFETY_MODEL, 0, 0, decision.outcome, null, elapsedMillis(startedAt))
+            emit(ChatStreamEvent.Completed(loadMessage(turn.assistantMessage.id).toResponse()))
             return@flow
         }
 
@@ -147,7 +189,16 @@ internal class ChatService(
                     }
                     is AiStreamEvent.Completed -> if (!completed) {
                         val result = event.result
-                        val saved = complete(turn, result.text, result.model, result.usage?.inputTokens ?: 0, result.usage?.outputTokens ?: 0)
+                        val saved = complete(
+                            turn,
+                            result.text,
+                            result.model,
+                            result.usage?.inputTokens ?: 0,
+                            result.usage?.outputTokens ?: 0,
+                            "completed",
+                            null,
+                            elapsedMillis(startedAt)
+                        )
                         if (!saved) conflict("message_finalization_conflict", "The reply was already finalized.")
                         completed = true
                         emit(ChatStreamEvent.Completed(loadMessage(turn.assistantMessage.id).toResponse()))
@@ -156,24 +207,42 @@ internal class ChatService(
             }
             if (!completed) throw IllegalStateException("AI stream ended without a completed event")
         } catch (error: CancellationException) {
-            withContext(NonCancellable) { cancel(turn) }
+            withContext(NonCancellable) { cancel(turn, elapsedMillis(startedAt)) }
             throw error
         } catch (error: IOException) {
-            withContext(NonCancellable) { cancel(turn) }
+            withContext(NonCancellable) { cancel(turn, elapsedMillis(startedAt)) }
             throw error
         } catch (error: AiException) {
-            fail(turn)
-            emit(ChatStreamEvent.Error(error.code, error.message ?: "AI request failed.", error.retryable))
+            if (error.retryable) {
+                emit(ChatStreamEvent.Delta(turn.assistantMessage.id.toString(), FALLBACK_TEXT))
+                complete(
+                    turn, FALLBACK_TEXT, LOCAL_FALLBACK_MODEL, 0, 0,
+                    "fallback", error.code, elapsedMillis(startedAt)
+                )
+                emit(ChatStreamEvent.Completed(loadMessage(turn.assistantMessage.id).toResponse()))
+            } else {
+                fail(turn, error.code, elapsedMillis(startedAt))
+                emit(ChatStreamEvent.Error(error.code, error.message ?: "AI request failed.", false))
+            }
         } catch (error: ApiException) {
-            fail(turn)
+            fail(turn, error.code, elapsedMillis(startedAt))
             emit(ChatStreamEvent.Error(error.code, error.message, false))
         } catch (error: Throwable) {
-            fail(turn)
+            fail(turn, "ai_stream_failed", elapsedMillis(startedAt))
             emit(ChatStreamEvent.Error("ai_stream_failed", "The reply was interrupted.", true))
         }
     }
 
-    private suspend fun complete(turn: PreparedTurn, content: String, model: String, input: Int, output: Int): Boolean = io {
+    private suspend fun complete(
+        turn: PreparedTurn,
+        content: String,
+        model: String,
+        input: Int,
+        output: Int,
+        outcome: String,
+        errorCategory: String?,
+        latencyMillis: Long
+    ): Boolean = io {
         database.transaction { connection ->
             val saved = repositories.messages.completeIfStreaming(
                 connection, turn.assistantMessage.id, content, model, input, output, clock.instant()
@@ -189,19 +258,66 @@ internal class ChatService(
                     summary,
                     clock.instant()
                 )
+                repositories.dailyUsage.add(
+                    connection,
+                    turn.userId,
+                    LocalDate.ofInstant(clock.instant(), ZoneOffset.UTC),
+                    0,
+                    input.toLong(),
+                    output.toLong(),
+                    0,
+                    clock.instant()
+                )
+                repositories.aiRequestAudit.insert(
+                    connection,
+                    audit(turn, model, outcome, errorCategory, input, output, latencyMillis)
+                )
             }
             saved
         }
     }
 
-    private suspend fun fail(turn: PreparedTurn) = finish(turn, MessageStatus.FAILED)
-    private suspend fun cancel(turn: PreparedTurn) = finish(turn, MessageStatus.CANCELLED)
+    private suspend fun fail(turn: PreparedTurn, code: String, latencyMillis: Long) =
+        finish(turn, MessageStatus.FAILED, code, latencyMillis)
+    private suspend fun cancel(turn: PreparedTurn, latencyMillis: Long) =
+        finish(turn, MessageStatus.CANCELLED, "client_cancelled", latencyMillis)
 
-    private suspend fun finish(turn: PreparedTurn, status: MessageStatus) = io {
-        database.transaction {
-            repositories.messages.finishIfStreaming(it, turn.assistantMessage.id, status, clock.instant())
+    private suspend fun finish(
+        turn: PreparedTurn,
+        status: MessageStatus,
+        errorCategory: String,
+        latencyMillis: Long
+    ) = io {
+        database.transaction { connection ->
+            if (repositories.messages.finishIfStreaming(
+                    connection,
+                    turn.assistantMessage.id,
+                    status,
+                    clock.instant()
+                )
+            ) {
+                repositories.aiRequestAudit.insert(
+                    connection,
+                    audit(turn, null, status.wireName, errorCategory, 0, 0, latencyMillis)
+                )
+            }
         }
     }
+
+    private fun audit(
+        turn: PreparedTurn,
+        model: String?,
+        outcome: String,
+        errorCategory: String?,
+        input: Int,
+        output: Int,
+        latencyMillis: Long
+    ) = AiRequestAuditRecord(
+        UUID.randomUUID(), turn.userId, turn.conversation.id, turn.assistantMessage.id,
+        model, outcome, errorCategory, input, output, latencyMillis, clock.instant()
+    )
+
+    private fun elapsedMillis(startedAt: Long) = ((nanoTime() - startedAt) / 1_000_000L).coerceAtLeast(0)
 
     private suspend fun loadMessage(id: UUID): MessageRecord = io {
         database.transaction { connection ->
@@ -235,11 +351,15 @@ internal class ChatService(
         val userMessage: MessageRecord,
         val assistantMessage: MessageRecord,
         val promptContext: PromptContext,
+        val safetyDecision: SafetyDecision,
         val replay: Boolean
     )
 
     private companion object {
         const val MAX_TITLE_LENGTH = 160
         const val MAX_MESSAGE_LENGTH = 4_000
+        const val LOCAL_SAFETY_MODEL = "catlifepet-safety"
+        const val LOCAL_FALLBACK_MODEL = "catlifepet-fallback"
+        const val FALLBACK_TEXT = "我还在这里，只是现在回复有点慢。我们稍后再试一次，好吗？"
     }
 }

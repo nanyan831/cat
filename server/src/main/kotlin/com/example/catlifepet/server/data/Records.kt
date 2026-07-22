@@ -101,3 +101,17 @@ data class DailyUsageRecord(
     val estimatedCostMicros: Long,
     val updatedAt: Instant
 )
+
+data class AiRequestAuditRecord(
+    val id: UUID,
+    val userId: UUID,
+    val conversationId: UUID?,
+    val messageId: UUID?,
+    val model: String?,
+    val outcome: String,
+    val errorCategory: String?,
+    val inputTokens: Int,
+    val outputTokens: Int,
+    val latencyMillis: Long,
+    val createdAt: Instant
+)

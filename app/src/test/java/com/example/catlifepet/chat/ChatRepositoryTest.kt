@@ -75,6 +75,19 @@ class ChatRepositoryTest {
         assertTrue(sentBodies.all { it.contains("client-one") })
     }
 
+    @Test
+    fun `daily quota response becomes a clear local message and preserves input`() = runBlocking {
+        server.enqueue(json(
+            """{"error":{"code":"daily_quota_exceeded","message":"limit"}}"""
+        ).setResponseCode(429))
+
+        val events = repository.sendMessage("conversation", "明天见", "quota-one").toList()
+
+        val failure = events.single() as ChatSendEvent.Failure
+        assertEquals("今天的聊天次数已经用完了，我们明天再继续吧。", failure.message)
+        assertEquals("明天见", dao.listPending("conversation").single().content)
+    }
+
     private fun sse(body: String) = MockResponse().setHeader("Content-Type", "text/event-stream").setBody(body)
     private fun json(body: String) = MockResponse().setHeader("Content-Type", "application/json").setBody(body)
 

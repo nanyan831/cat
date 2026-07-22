@@ -131,8 +131,17 @@ Privacy and limits:
 - Every request must include a stable, privacy-preserving `safety_identifier`; do not
   send an email address or raw account ID.
 - Defaults: 30 second timeout, 12,000 input characters, and 500 output tokens.
+- Defaults: 100 model turns per user/day, 12 turns per user/minute, and 40 turns per
+  source IP/minute. Daily reservations are atomic and survive process restarts.
+- Retryable provider failures and an open circuit breaker return a persisted local gentle
+  reply. Crisis phrases receive a fixed safety-oriented response without calling AI.
+- `ai_request_audit` stores model, outcome, error category, token counts, and latency; it
+  deliberately has no prompt or response-content column.
 - Override with `CATLIFEPET_AI_TIMEOUT_SECONDS`,
   `CATLIFEPET_AI_MAX_INPUT_CHARACTERS`, and `CATLIFEPET_AI_MAX_OUTPUT_TOKENS`.
+- Quota and circuit settings use `CATLIFEPET_AI_DAILY_REQUEST_LIMIT`,
+  `CATLIFEPET_AI_USER_REQUESTS_PER_MINUTE`, `CATLIFEPET_AI_IP_REQUESTS_PER_MINUTE`,
+  `CATLIFEPET_AI_CIRCUIT_FAILURE_THRESHOLD`, and `CATLIFEPET_AI_CIRCUIT_OPEN_SECONDS`.
 - `OPENAI_BASE_URL` is configurable for controlled testing; production requires HTTPS.
 
 OpenAI references:

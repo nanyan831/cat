@@ -179,7 +179,20 @@ data class ServerSettings(
                 maximumOutputTokens = config.optionalInt(
                     "catlifepet.aiMaxOutputTokens",
                     32..4_096
-                ) ?: 500
+                ) ?: 500,
+                dailyRequestLimit = config.optionalInt("catlifepet.aiDailyRequestLimit", 1..100_000) ?: 100,
+                maximumUserRequestsPerMinute = config.optionalInt(
+                    "catlifepet.aiUserRequestsPerMinute", 1..10_000
+                ) ?: 12,
+                maximumIpRequestsPerMinute = config.optionalInt(
+                    "catlifepet.aiIpRequestsPerMinute", 1..100_000
+                ) ?: 40,
+                circuitFailureThreshold = config.optionalInt(
+                    "catlifepet.aiCircuitFailureThreshold", 1..100
+                ) ?: 5,
+                circuitOpenDuration = Duration.ofSeconds(
+                    (config.optionalInt("catlifepet.aiCircuitOpenSeconds", 1..600) ?: 30).toLong()
+                )
             )
         }
 
@@ -260,7 +273,12 @@ data class AiSettings(
     val storeResponses: Boolean = false,
     val requestTimeout: Duration = Duration.ofSeconds(30),
     val maximumInputCharacters: Int = 12_000,
-    val maximumOutputTokens: Int = 500
+    val maximumOutputTokens: Int = 500,
+    val dailyRequestLimit: Int = 100,
+    val maximumUserRequestsPerMinute: Int = 12,
+    val maximumIpRequestsPerMinute: Int = 40,
+    val circuitFailureThreshold: Int = 5,
+    val circuitOpenDuration: Duration = Duration.ofSeconds(30)
 ) {
     companion object {
         const val DEFAULT_MODEL = "gpt-5.6-luna"

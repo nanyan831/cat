@@ -597,6 +597,35 @@ internal class JdbcMemoryRepository : MemoryRepository {
 }
 
 internal class JdbcDailyUsageRepository : DailyUsageRepository {
+    override fun reserveRequest(
+        connection: Connection,
+        userId: UUID,
+        date: LocalDate,
+        maximumRequests: Int,
+        updatedAt: Instant
+    ): DailyUsageRecord? {
+        require(maximumRequests > 0)
+        return connection.prepareStatement(
+            """
+            INSERT INTO daily_usage (
+                user_id, usage_date, request_count, input_tokens, output_tokens,
+                estimated_cost_micros, updated_at
+            ) VALUES (?, ?, 1, 0, 0, 0, ?)
+            ON CONFLICT (user_id, usage_date) DO UPDATE SET
+                request_count = daily_usage.request_count + 1,
+                updated_at = EXCLUDED.updated_at
+            WHERE daily_usage.request_count < ?
+            RETURNING *
+            """.trimIndent()
+        ).use { statement ->
+            statement.setObject(1, userId)
+            statement.setObject(2, date)
+            statement.setInstant(3, updatedAt)
+            statement.setInt(4, maximumRequests)
+            statement.executeQuery().use { result -> if (result.next()) mapDailyUsage(result) else null }
+        }
+    }
+
     override fun add(
         connection: Connection,
         userId: UUID,
@@ -644,6 +673,41 @@ internal class JdbcDailyUsageRepository : DailyUsageRepository {
             statement.setObject(1, userId)
             statement.setObject(2, date)
             statement.executeQuery().use { result -> if (result.next()) mapDailyUsage(result) else null }
+        }
+    }
+}
+
+internal class JdbcAiRequestAuditRepository : AiRequestAuditRepository {
+    override fun insert(connection: Connection, audit: AiRequestAuditRecord) {
+        connection.prepareStatement(
+            """
+            INSERT INTO ai_request_audit (
+                id, user_id, conversation_id, message_id, model, outcome,
+                error_category, input_tokens, output_tokens, latency_ms, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """.trimIndent()
+        ).use { statement ->
+            statement.setObject(1, audit.id)
+            statement.setObject(2, audit.userId)
+            statement.setObject(3, audit.conversationId)
+            statement.setObject(4, audit.messageId)
+            statement.setString(5, audit.model)
+            statement.setString(6, audit.outcome)
+            statement.setString(7, audit.errorCategory)
+            statement.setInt(8, audit.inputTokens)
+            statement.setInt(9, audit.outputTokens)
+            statement.setLong(10, audit.latencyMillis)
+            statement.setInstant(11, audit.createdAt)
+            statement.executeUpdate()
+        }
+    }
+
+    override fun listForUser(connection: Connection, userId: UUID): List<AiRequestAuditRecord> {
+        return connection.prepareStatement(
+            "SELECT * FROM ai_request_audit WHERE user_id = ? ORDER BY created_at, id"
+        ).use { statement ->
+            statement.setObject(1, userId)
+            statement.executeQuery().use { result -> buildList { while (result.next()) add(mapAiRequestAudit(result)) } }
         }
     }
 }
@@ -729,6 +793,20 @@ private fun mapDailyUsage(result: ResultSet) = DailyUsageRecord(
     outputTokens = result.getLong("output_tokens"),
     estimatedCostMicros = result.getLong("estimated_cost_micros"),
     updatedAt = result.getInstant("updated_at")
+)
+
+private fun mapAiRequestAudit(result: ResultSet) = AiRequestAuditRecord(
+    id = result.getObject("id", UUID::class.java),
+    userId = result.getObject("user_id", UUID::class.java),
+    conversationId = result.getObject("conversation_id", UUID::class.java),
+    messageId = result.getObject("message_id", UUID::class.java),
+    model = result.getString("model"),
+    outcome = result.getString("outcome"),
+    errorCategory = result.getString("error_category"),
+    inputTokens = result.getInt("input_tokens"),
+    outputTokens = result.getInt("output_tokens"),
+    latencyMillis = result.getLong("latency_ms"),
+    createdAt = result.getInstant("created_at")
 )
 
 private fun <T> Connection.queryOne(

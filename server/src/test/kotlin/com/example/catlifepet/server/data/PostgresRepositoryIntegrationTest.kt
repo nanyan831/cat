@@ -50,7 +50,7 @@ class PostgresRepositoryIntegrationTest {
     @Test
     @Order(1)
     fun `fresh migrations apply once and repeat idempotently`() {
-        assertEquals(4, database.migrate())
+        assertEquals(5, database.migrate())
         assertEquals(0, database.migrate())
 
         val tables = database.transaction { connection ->
@@ -77,6 +77,7 @@ class PostgresRepositoryIntegrationTest {
                     "messages",
                     "memories",
                     "daily_usage",
+                    "ai_request_audit",
                     "flyway_schema_history"
                 )
             )
@@ -166,6 +167,10 @@ class PostgresRepositoryIntegrationTest {
             createdAt = now,
             updatedAt = now
         )
+        val audit = AiRequestAuditRecord(
+            UUID.randomUUID(), user.id, conversation.id, assistantMessage.id,
+            "test-model", "completed", null, 12, 8, 250, now.plusSeconds(2)
+        )
 
         database.transaction { connection ->
             repositories.users.insert(connection, user)
@@ -175,6 +180,7 @@ class PostgresRepositoryIntegrationTest {
             repositories.messages.insert(connection, userMessage)
             repositories.messages.insert(connection, assistantMessage)
             repositories.memories.insert(connection, memory)
+            repositories.aiRequestAudit.insert(connection, audit)
         }
 
         database.transaction { connection ->
@@ -198,6 +204,7 @@ class PostgresRepositoryIntegrationTest {
                 repositories.messages.listForConversation(connection, conversation.id)
             )
             assertEquals(listOf(memory), repositories.memories.listActiveForUser(connection, user.id))
+            assertEquals(listOf(audit), repositories.aiRequestAudit.listForUser(connection, user.id))
 
             repositories.dailyUsage.add(connection, user.id, LocalDate.of(2026, 7, 22), 1, 12, 8, 40, now)
             val usage = repositories.dailyUsage.add(
@@ -214,6 +221,11 @@ class PostgresRepositoryIntegrationTest {
             assertEquals(32, usage.inputTokens)
             assertEquals(18, usage.outputTokens)
             assertEquals(100, usage.estimatedCostMicros)
+
+            val nextDate = LocalDate.of(2026, 7, 23)
+            assertNotNull(repositories.dailyUsage.reserveRequest(connection, user.id, nextDate, 2, now))
+            assertNotNull(repositories.dailyUsage.reserveRequest(connection, user.id, nextDate, 2, now))
+            assertNull(repositories.dailyUsage.reserveRequest(connection, user.id, nextDate, 2, now))
         }
     }
 

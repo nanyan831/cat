@@ -1,0 +1,36 @@
+CatLifePet M5.2 Safety, Quota, and Degradation QA Report
+Date: 2026-07-22
+
+Scope
+- Rule-based crisis and prohibited-content interception before provider invocation.
+- Per-user and per-IP one-minute burst limits.
+- PostgreSQL-backed atomic daily request quota that survives application restart.
+- AI provider circuit breaker with configurable threshold and cooldown.
+- Persisted local gentle fallback for retryable provider failures and timeouts.
+- AI request audit containing model, outcome, error category, token counts, and latency.
+- Android user-facing Chinese messages for daily quota and burst-rate responses.
+
+Privacy and safety properties
+- Crisis and prohibited-content fixed replies do not call the configured AI provider.
+- The audit schema has no prompt or response-content column.
+- Provider credentials remain server-only and secret scanning found no committed key.
+- Client cancellation still reaches the provider and finalizes the message once.
+- Safety responses are supportive and direct users in immediate danger to local emergency
+  services or a trusted nearby person; they do not claim to replace professional help.
+
+Automated checks
+- Server suite: 54 tests, 0 failures, 1 skipped paid OpenAI smoke test.
+- Android JVM suite: 14 tests, 0 failures.
+- lintDebug: 0 errors, 56 existing compatibility/API warnings.
+- assembleDebug and assembleDebugAndroidTest: passed.
+- Covered: timeout/fallback, circuit open/cooldown, crisis routing, prohibited content,
+  64-way limiter contention, daily quota restart persistence, audit round trip, and
+  12 concurrent authenticated SSE conversations.
+
+Device checks
+- Pixel emulator real login + normal SSE + crisis response + overlay coexistence:
+  1/1 passed in 4.221 seconds.
+- OPPO PCRM00 Android 12 same end-to-end check: 1/1 passed in 1.252 seconds.
+- Latest debug APK and test APK remain installed on both devices.
+
+Result: PASS

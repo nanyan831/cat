@@ -86,6 +86,14 @@ interface MemoryRepository {
 }
 
 interface DailyUsageRepository {
+    fun reserveRequest(
+        connection: Connection,
+        userId: UUID,
+        date: LocalDate,
+        maximumRequests: Int,
+        updatedAt: Instant
+    ): DailyUsageRecord?
+
     fun add(
         connection: Connection,
         userId: UUID,
@@ -100,6 +108,11 @@ interface DailyUsageRepository {
     fun find(connection: Connection, userId: UUID, date: LocalDate): DailyUsageRecord?
 }
 
+interface AiRequestAuditRepository {
+    fun insert(connection: Connection, audit: AiRequestAuditRecord)
+    fun listForUser(connection: Connection, userId: UUID): List<AiRequestAuditRecord>
+}
+
 data class Repositories(
     val users: UserRepository = JdbcUserRepository(),
     val loginCodes: LoginCodeRepository = JdbcLoginCodeRepository(),
@@ -107,5 +120,6 @@ data class Repositories(
     val conversations: ConversationRepository = JdbcConversationRepository(),
     val messages: MessageRepository = JdbcMessageRepository(),
     val memories: MemoryRepository = JdbcMemoryRepository(),
-    val dailyUsage: DailyUsageRepository = JdbcDailyUsageRepository()
+    val dailyUsage: DailyUsageRepository = JdbcDailyUsageRepository(),
+    val aiRequestAudit: AiRequestAuditRepository = JdbcAiRequestAuditRepository()
 )
