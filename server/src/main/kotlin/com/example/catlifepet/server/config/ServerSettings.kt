@@ -10,6 +10,7 @@ data class ServerSettings(
     val version: String,
     val publicBaseUrl: String,
     val auth: AuthSettings,
+    val ai: AiSettings,
     val developmentMailboxDir: String,
     val sensitive: SensitiveSettings
 ) {
@@ -38,16 +39,18 @@ data class ServerSettings(
             }
 
             val sensitive = configuredSensitive.withDevelopmentDefaults(environment)
+            val ai = loadAiSettings(config, environment, sensitive.openAiApiKey)
 
             return ServerSettings(
                 environment = environment,
                 serviceName = "catlifepet-server",
-                version = "0.11.0-SNAPSHOT",
+                version = "0.12.0-SNAPSHOT",
                 publicBaseUrl = configuredBaseUrl ?: DEFAULT_BASE_URL,
                 auth = AuthSettings(
                     issuer = config.optionalString("catlifepet.jwtIssuer") ?: "catlifepet-server",
                     audience = config.optionalString("catlifepet.jwtAudience") ?: "catlifepet-android"
                 ),
+                ai = ai,
                 developmentMailboxDir = config.optionalString("catlifepet.developmentMailboxDir")
                     ?: "server/build/dev-mailbox",
                 sensitive = sensitive
@@ -56,7 +59,8 @@ data class ServerSettings(
 
         internal fun forTest(
             database: DatabaseSettings? = null,
-            authSettings: AuthSettings = AuthSettings()
+            authSettings: AuthSettings = AuthSettings(),
+            aiSettings: AiSettings = AiSettings()
         ): ServerSettings {
             return ServerSettings(
                 environment = AppEnvironment.TEST,
@@ -64,6 +68,7 @@ data class ServerSettings(
                 version = "test",
                 publicBaseUrl = "http://localhost",
                 auth = authSettings,
+                ai = aiSettings,
                 developmentMailboxDir = "build/test-dev-mailbox",
                 sensitive = SensitiveSettings(
                     database = database,
@@ -137,6 +142,47 @@ data class ServerSettings(
             return SmtpSettings(host!!, port, username!!, password!!, from, startTls)
         }
 
+        private fun loadAiSettings(
+            config: ApplicationConfig,
+            environment: AppEnvironment,
+            apiKey: String?
+        ): AiSettings {
+            val configuredBackend = config.optionalString("catlifepet.aiProvider")
+            val backend = configuredBackend?.let(AiBackend::parse)
+                ?: if (apiKey == null) AiBackend.FAKE else AiBackend.OPENAI
+            if (backend == AiBackend.OPENAI && apiKey == null) {
+                throw ServerConfigurationException("OPENAI_API_KEY is required when CATLIFEPET_AI_PROVIDER=openai.")
+            }
+            if (environment == AppEnvironment.PRODUCTION && backend != AiBackend.OPENAI) {
+                throw ServerConfigurationException("Production requires CATLIFEPET_AI_PROVIDER=openai.")
+            }
+
+            val baseUrl = config.optionalString("catlifepet.openAiBaseUrl") ?: AiSettings.DEFAULT_OPENAI_BASE_URL
+            val uri = runCatching { URI(baseUrl) }.getOrNull()
+            val validScheme = uri?.scheme == "https" || environment != AppEnvironment.PRODUCTION && uri?.scheme == "http"
+            if (!validScheme || uri?.host.isNullOrBlank()) {
+                throw ServerConfigurationException("OPENAI_BASE_URL must be an absolute URL; production requires HTTPS.")
+            }
+
+            return AiSettings(
+                backend = backend,
+                model = config.optionalString("catlifepet.openAiModel") ?: AiSettings.DEFAULT_MODEL,
+                openAiBaseUrl = baseUrl.trimEnd('/'),
+                storeResponses = config.optionalBoolean("catlifepet.openAiStoreResponses") ?: false,
+                requestTimeout = Duration.ofSeconds(
+                    (config.optionalInt("catlifepet.aiTimeoutSeconds", 1..120) ?: 30).toLong()
+                ),
+                maximumInputCharacters = config.optionalInt(
+                    "catlifepet.aiMaxInputCharacters",
+                    256..50_000
+                ) ?: 12_000,
+                maximumOutputTokens = config.optionalInt(
+                    "catlifepet.aiMaxOutputTokens",
+                    32..4_096
+                ) ?: 500
+            )
+        }
+
         private fun validateConfiguredSecrets(sensitive: SensitiveSettings) {
             if (sensitive.jwtSecret != null && sensitive.jwtSecret.length < 32) {
                 throw ServerConfigurationException("CATLIFEPET_JWT_SECRET must contain at least 32 characters.")
@@ -195,6 +241,33 @@ data class AuthSettings(
     val maximumIpRequestsPerWindow: Int = 10
 )
 
+enum class AiBackend(val wireName: String) {
+    FAKE("fake"),
+    OPENAI("openai");
+
+    companion object {
+        fun parse(value: String): AiBackend {
+            return entries.firstOrNull { it.wireName == value.trim().lowercase() }
+                ?: throw ServerConfigurationException("Invalid CATLIFEPET_AI_PROVIDER. Expected fake or openai.")
+        }
+    }
+}
+
+data class AiSettings(
+    val backend: AiBackend = AiBackend.FAKE,
+    val model: String = DEFAULT_MODEL,
+    val openAiBaseUrl: String = DEFAULT_OPENAI_BASE_URL,
+    val storeResponses: Boolean = false,
+    val requestTimeout: Duration = Duration.ofSeconds(30),
+    val maximumInputCharacters: Int = 12_000,
+    val maximumOutputTokens: Int = 500
+) {
+    companion object {
+        const val DEFAULT_MODEL = "gpt-5.6-luna"
+        const val DEFAULT_OPENAI_BASE_URL = "https://api.openai.com/v1"
+    }
+}
+
 class SensitiveSettings(
     val database: DatabaseSettings?,
     val jwtSecret: String?,
@@ -239,4 +312,22 @@ class SmtpSettings internal constructor(
 
 private fun ApplicationConfig.optionalString(path: String): String? {
     return propertyOrNull(path)?.getString()?.trim()?.takeIf(String::isNotEmpty)
+}
+
+private fun ApplicationConfig.optionalBoolean(path: String): Boolean? {
+    val value = optionalString(path) ?: return null
+    return value.toBooleanStrictOrNull()
+        ?: throw ServerConfigurationException("${path.substringAfterLast('.')} must be true or false.")
+}
+
+private fun ApplicationConfig.optionalInt(path: String, range: IntRange): Int? {
+    val value = optionalString(path) ?: return null
+    val parsed = value.toIntOrNull()
+        ?: throw ServerConfigurationException("${path.substringAfterLast('.')} must be an integer.")
+    if (parsed !in range) {
+        throw ServerConfigurationException(
+            "${path.substringAfterLast('.')} must be between ${range.first} and ${range.last}."
+        )
+    }
+    return parsed
 }

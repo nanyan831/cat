@@ -1,6 +1,8 @@
 package com.example.catlifepet.server
 
 import com.example.catlifepet.server.config.AppEnvironment
+import com.example.catlifepet.server.config.AiBackend
+import com.example.catlifepet.server.config.AiSettings
 import com.example.catlifepet.server.config.ServerConfigurationException
 import com.example.catlifepet.server.config.ServerSettings
 import com.example.catlifepet.server.http.ApiErrorEnvelope
@@ -109,6 +111,9 @@ class ServerSettingsTest {
 
         assertEquals(AppEnvironment.DEVELOPMENT, settings.environment)
         assertEquals("http://localhost:8080", settings.publicBaseUrl)
+        assertEquals(AiBackend.FAKE, settings.ai.backend)
+        assertEquals(AiSettings.DEFAULT_MODEL, settings.ai.model)
+        assertFalse(settings.ai.storeResponses)
     }
 
     @Test
@@ -175,6 +180,8 @@ class ServerSettingsTest {
 
         assertEquals(AppEnvironment.PRODUCTION, settings.environment)
         assertEquals("https://api.example.com", settings.publicBaseUrl)
+        assertEquals(AiBackend.OPENAI, settings.ai.backend)
+        assertFalse(settings.ai.storeResponses)
         assertFalse(rendered.contains("postgres-password"))
         assertFalse(rendered.contains("jwt-secret-value"))
         assertFalse(rendered.contains("token-pepper-value"))
@@ -198,6 +205,39 @@ class ServerSettingsTest {
 
         assertTrue(error is ServerConfigurationException)
         assertTrue(error.message.orEmpty().contains("STARTTLS"))
+    }
+
+    @Test
+    fun `development selects OpenAI only when a key is configured`() {
+        val settings = ServerSettings.load(
+            MapApplicationConfig("catlifepet.openAiApiKey" to "development-openai-key")
+        )
+
+        assertEquals(AiBackend.OPENAI, settings.ai.backend)
+        assertFalse(settings.ai.storeResponses)
+    }
+
+    @Test
+    fun `explicit OpenAI provider requires a key`() {
+        val config = MapApplicationConfig("catlifepet.aiProvider" to "openai")
+
+        val error = kotlin.runCatching { ServerSettings.load(config) }.exceptionOrNull()
+
+        assertTrue(error is ServerConfigurationException)
+        assertTrue(error.message.orEmpty().contains("OPENAI_API_KEY"))
+    }
+
+    @Test
+    fun `AI limits and booleans are validated`() {
+        val timeoutError = kotlin.runCatching {
+            ServerSettings.load(MapApplicationConfig("catlifepet.aiTimeoutSeconds" to "0"))
+        }.exceptionOrNull()
+        val storeError = kotlin.runCatching {
+            ServerSettings.load(MapApplicationConfig("catlifepet.openAiStoreResponses" to "sometimes"))
+        }.exceptionOrNull()
+
+        assertTrue(timeoutError is ServerConfigurationException)
+        assertTrue(storeError is ServerConfigurationException)
     }
 
     private fun completeProductionConfig() = MapApplicationConfig(

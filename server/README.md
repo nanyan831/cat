@@ -43,6 +43,8 @@ Production variables:
 - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USERNAME`, `SMTP_PASSWORD`, `SMTP_FROM`
 - `SMTP_STARTTLS=true`
 - `OPENAI_API_KEY`
+- Optional `OPENAI_MODEL` (defaults to `gpt-5.6-luna`)
+- Optional `CATLIFEPET_AI_PROVIDER=openai` (automatically selected when a key exists)
 - Optional `HOST` and `PORT`
 
 Secrets are never written to normal application logs or configuration errors. Keep them in the deployment platform's secret manager and never in Git.
@@ -70,3 +72,39 @@ printed in logs. Production sends them through authenticated SMTP and requires:
 
 Access tokens expire after 15 minutes. Refresh tokens expire after 30 days, rotate on
 every use, and revoke the entire token family when an already-rotated token is replayed.
+
+## AI Gateway
+
+The server owns all model credentials. Never add `OPENAI_API_KEY` to Android Gradle
+properties, resources, `BuildConfig`, APKs, or client logs.
+
+Development without an API key uses `DeterministicFakeAiProvider`; production requires
+the OpenAI provider and a server-side key. The OpenAI adapter uses the Responses API and
+defaults to `gpt-5.6-luna`, which is appropriate for a cost-sensitive, high-volume
+companion flow. Override the model with `OPENAI_MODEL` after running representative
+quality and cost evaluations.
+
+Privacy and limits:
+
+- `OPENAI_STORE_RESPONSES=false` by default. The app stores its own user-visible chat
+  history and does not rely on provider-side response storage.
+- Every request must include a stable, privacy-preserving `safety_identifier`; do not
+  send an email address or raw account ID.
+- Defaults: 30 second timeout, 12,000 input characters, and 500 output tokens.
+- Override with `CATLIFEPET_AI_TIMEOUT_SECONDS`,
+  `CATLIFEPET_AI_MAX_INPUT_CHARACTERS`, and `CATLIFEPET_AI_MAX_OUTPUT_TOKENS`.
+- `OPENAI_BASE_URL` is configurable for controlled testing; production requires HTTPS.
+
+OpenAI references:
+
+- Responses and streaming: https://developers.openai.com/api/docs/guides/streaming-responses
+- Model guidance: https://developers.openai.com/api/docs/guides/latest-model
+- Data controls: https://developers.openai.com/api/docs/guides/your-data
+
+An optional paid smoke test runs only when both variables are present:
+
+```powershell
+$env:OPENAI_API_KEY = "..."
+$env:CATLIFEPET_RUN_OPENAI_SMOKE = "true"
+.\gradlew.bat :server:test --tests "*OpenAiResponsesProviderTest.optional real provider smoke test"
+```

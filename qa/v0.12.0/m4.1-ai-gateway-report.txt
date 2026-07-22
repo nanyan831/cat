@@ -1,0 +1,44 @@
+CatLifePet M4.1 Server AI Gateway QA Report
+Date: 2026-07-22
+
+Scope
+- Provider-neutral AiGateway and AiProvider contract.
+- Deterministic fake provider for development and automated tests.
+- OpenAI Responses API adapter with server-only credentials.
+- Configurable provider, model, endpoint, timeout, input limit, output limit, and storage policy.
+- Ktor application lifecycle ownership and provider cleanup.
+
+Configuration decisions
+- Development without OPENAI_API_KEY selects the deterministic fake provider.
+- Production requires the OpenAI provider and a server-side API key.
+- Default model: gpt-5.6-luna; override with OPENAI_MODEL.
+- OPENAI_STORE_RESPONSES defaults to false.
+- Default limits: 30 seconds, 12,000 input characters, 500 output tokens.
+- Every OpenAI request requires a privacy-preserving safety_identifier.
+
+Automated checks
+- Full server suite: 38 tests, 0 failures, 0 errors, 1 skipped.
+- AI gateway tests: deterministic fake, input rejection, timeout, and cancellation passed.
+- OpenAI MockEngine tests: request fields, Bearer authentication, output/usage parsing,
+  authentication failure, rate limit, server failure, malformed response, refusal, and
+  network failure mapping passed.
+- Android authentication unit tests: 5 tests, 0 failures.
+- Android assembleDebug: passed.
+- Git tracked-file scan found no credential-shaped sk-* API key.
+
+Runtime checks
+- Ktor started without OPENAI_API_KEY and returned HTTP 200 from /health.
+- Runtime version reported 0.12.0-SNAPSHOT in development mode.
+- Test process stopped cleanly and TCP port 8080 was released.
+
+Optional external check
+- Real OpenAI call was skipped because OPENAI_API_KEY was not configured and
+  CATLIFEPET_RUN_OPENAI_SMOKE was not enabled.
+- The paid smoke test remains available behind both explicit environment gates.
+
+References
+- https://developers.openai.com/api/docs/guides/streaming-responses
+- https://developers.openai.com/api/docs/guides/latest-model
+- https://developers.openai.com/api/docs/guides/your-data
+
+Result: PASS

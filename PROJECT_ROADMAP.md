@@ -11,7 +11,7 @@ Last updated: 2026-07-22
 - [x] M2.2 Add PostgreSQL and migrations - fresh/repeat migration, repository integration, rollback, and Android regression checks passed on 2026-07-22.
 - [x] M3.1 Implement passwordless email authentication - code policy, SMTP, JWT, rotation, replay defense, deletion, and secret-log checks passed on 2026-07-22.
 - [x] M3.2 Add Android authentication UI - refresh/logout unit tests, encrypted-storage checks, lint, and Pixel/PCRM00 end-to-end login passed on 2026-07-22.
-- [ ] M4.1 Add the server AI gateway.
+- [x] M4.1 Add the server AI gateway - fake contract, OpenAI request/error mapping, timeout/cancellation, no-key startup, and secret scans passed on 2026-07-22.
 - [ ] M4.2 Add conversations and SSE streaming.
 - [ ] M4.3 Add Android chat UI.
 - [ ] M5.1 Add controlled companion memory.
