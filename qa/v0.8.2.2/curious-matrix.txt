@@ -1,0 +1,5 @@
+Completed:
+- BONDED automatic CURIOUS selected during the live sample.
+- CURIOUS lifecycle now suppresses MicroBehavior even when visual state remains IDLE.
+
+Not completed: five samples for each HAPPY/NORMAL/LOW/SAD mood and the full click/drag/reminder/hide/stop interruption matrix.

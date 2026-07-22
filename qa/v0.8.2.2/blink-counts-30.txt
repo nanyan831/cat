@@ -1,0 +1,4 @@
+Automatic MicroBehavior sample: 28 Blink triggers in approximately 2 minutes.
+All observed triggers were scheduled by PetMicroBehaviorManager while the service was visible and idle.
+CURIOUS and PEEK cancelled/suppressed MicroBehavior in the observed logs.
+Requested 30-trigger sample: NOT COMPLETED; 28 observed.

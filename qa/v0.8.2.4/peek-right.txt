@@ -1,0 +1,38 @@
+CatLifePet v0.8.2.4 - PEEK edge verification
+
+Device: Pixel 6 emulator, API 37
+Screen width: 1080 px
+
+RIGHT NORMAL (160dp / 420px pet)
+window width = 934 px
+anchor = 251
+target = 303
+animation end = 251
+direction = RIGHT
+result = PASS
+
+LEFT NORMAL
+anchor = -105
+target = -157
+animation end = -105
+direction = LEFT
+result = PASS
+
+NON EDGE (120dp, restored x=125)
+result = blocked with "PEEK requires edge position"
+
+RIGHT TRIGGER x10
+requested = 10
+started = 10
+cancelled/replaced = 9
+finished normally = 1
+blocked = 0
+active animator model = one activePeekAnimator reference; each replacement cancels the previous animator first
+result = PASS
+
+PERSISTENCE
+left saved x before PEEK = -105
+left saved x after PEEK = -105
+right saved x = 251
+temporary targets were never written to SharedPreferences
+result = PASS

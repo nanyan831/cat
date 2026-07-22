@@ -1,0 +1,55 @@
+﻿--------- beginning of main
+07-20 05:06:52.893 15125 15125 D CatLifePet: 小猫状态切换: DRINKING -> IDLE
+07-20 05:06:52.893 15125 15125 D CatLifePet: animation stopped: state=DRINKING
+07-20 05:06:52.894 15125 15125 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-20 05:06:52.986 15125 15125 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-20 05:06:52.986 15125 15125 D CatLifePet: received com.example.catlifepet.action.DEBUG_CUDDLE
+07-20 05:06:52.986 15125 15125 D CatLifePet: addView skipped: pet already showing
+07-20 05:06:52.986 15125 15125 D CatLifePet: behavior cancelled: debug CUDDLE
+07-20 05:06:52.986 15125 15125 D CatLifePet: schedule next behavior: 12563ms
+07-20 05:06:52.986 15125 15125 D CatLifePet: micro behavior cancelled: debug CUDDLE
+07-20 05:06:52.986 15125 15125 D CatLifePet: CUDDLE dialogue selected: mood=SAD, message=什么都不说，也一起待一会儿吧。
+07-20 05:06:52.986 15125 15125 D CatLifePet: 小猫状态切换: IDLE -> HAPPY
+07-20 05:06:52.986 15125 15125 D CatLifePet: animation stopped: state=IDLE
+07-20 05:06:53.004 15125 15125 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-20 05:06:53.008 15125 15125 D CatLifePet: CUDDLE triggered (debug, no stat changes)
+07-20 05:06:53.710 15125 15125 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-20 05:06:53.710 15125 15125 D CatLifePet: received com.example.catlifepet.action.DEBUG_CUDDLE
+07-20 05:06:53.710 15125 15125 D CatLifePet: addView skipped: pet already showing
+07-20 05:06:53.710 15125 15125 D CatLifePet: behavior cancelled: debug CUDDLE
+07-20 05:06:53.710 15125 15125 D CatLifePet: schedule next behavior: 9698ms
+07-20 05:06:53.710 15125 15125 D CatLifePet: micro behavior cancelled: debug CUDDLE
+07-20 05:06:53.710 15125 15125 D CatLifePet: CUDDLE dialogue selected: mood=SAD, message=什么都不说，也一起待一会儿吧。
+07-20 05:06:53.710 15125 15125 D CatLifePet: animation stopped: state=HAPPY
+07-20 05:06:53.711 15125 15125 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-20 05:06:53.711 15125 15125 D CatLifePet: CUDDLE triggered (debug, no stat changes)
+07-20 05:06:54.428 15125 15125 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-20 05:06:54.428 15125 15125 D CatLifePet: received com.example.catlifepet.action.DEBUG_CUDDLE
+07-20 05:06:54.428 15125 15125 D CatLifePet: addView skipped: pet already showing
+07-20 05:06:54.429 15125 15125 D CatLifePet: behavior cancelled: debug CUDDLE
+07-20 05:06:54.429 15125 15125 D CatLifePet: schedule next behavior: 12194ms
+07-20 05:06:54.429 15125 15125 D CatLifePet: micro behavior cancelled: debug CUDDLE
+07-20 05:06:54.429 15125 15125 D CatLifePet: CUDDLE dialogue selected: mood=SAD, message=什么都不说，也一起待一会儿吧。
+07-20 05:06:54.429 15125 15125 D CatLifePet: animation stopped: state=HAPPY
+07-20 05:06:54.429 15125 15125 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-20 05:06:54.430 15125 15125 D CatLifePet: CUDDLE triggered (debug, no stat changes)
+07-20 05:06:55.158 15125 15125 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-20 05:06:55.158 15125 15125 D CatLifePet: received com.example.catlifepet.action.DEBUG_CUDDLE
+07-20 05:06:55.158 15125 15125 D CatLifePet: addView skipped: pet already showing
+07-20 05:06:55.158 15125 15125 D CatLifePet: behavior cancelled: debug CUDDLE
+07-20 05:06:55.158 15125 15125 D CatLifePet: schedule next behavior: 6510ms
+07-20 05:06:55.158 15125 15125 D CatLifePet: micro behavior cancelled: debug CUDDLE
+07-20 05:06:55.158 15125 15125 D CatLifePet: CUDDLE dialogue selected: mood=SAD, message=今天想安静地靠近一点。
+07-20 05:06:55.158 15125 15125 D CatLifePet: animation stopped: state=HAPPY
+07-20 05:06:55.158 15125 15125 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-20 05:06:55.161 15125 15125 D CatLifePet: CUDDLE triggered (debug, no stat changes)
+07-20 05:06:55.875 15125 15125 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-20 05:06:55.875 15125 15125 D CatLifePet: received com.example.catlifepet.action.DEBUG_CUDDLE
+07-20 05:06:55.875 15125 15125 D CatLifePet: addView skipped: pet already showing
+07-20 05:06:55.875 15125 15125 D CatLifePet: behavior cancelled: debug CUDDLE
+07-20 05:06:55.875 15125 15125 D CatLifePet: schedule next behavior: 12283ms
+07-20 05:06:55.875 15125 15125 D CatLifePet: micro behavior cancelled: debug CUDDLE
+07-20 05:06:55.875 15125 15125 D CatLifePet: CUDDLE dialogue selected: mood=SAD, message=什么都不说，也一起待一会儿吧。
+07-20 05:06:55.875 15125 15125 D CatLifePet: animation stopped: state=HAPPY
+07-20 05:06:55.876 15125 15125 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-20 05:06:55.876 15125 15125 D CatLifePet: CUDDLE triggered (debug, no stat changes)

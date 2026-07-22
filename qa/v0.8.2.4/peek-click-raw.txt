@@ -1,0 +1,22 @@
+﻿--------- beginning of main
+07-20 04:19:48.138 12510 12510 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:19:48.139 12510 12510 D CatLifePet: received com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:19:48.140 12510 12510 D CatLifePet: addView skipped: pet already showing
+07-20 04:19:48.140 12510 12510 D CatLifePet: behavior cancelled: debug PEEK
+07-20 04:19:48.140 12510 12510 D CatLifePet: schedule next behavior: 7861ms
+07-20 04:19:48.140 12510 12510 D CatLifePet: micro behavior cancelled: PEEK selected
+07-20 04:19:48.141 12510 12510 D CatLifePet: PEEK started: left=false, anchor=251, target=303
+07-20 04:19:48.754 12510 12510 D CatLifePet: PEEK animator cancelled: restore=true, currentX=296, anchor=251, endX=251
+07-20 04:19:48.754 12510 12510 D CatLifePet: behavior cancelled: user interaction
+07-20 04:19:48.755 12510 12510 D CatLifePet: schedule next behavior: 14041ms
+07-20 04:19:48.755 12510 12510 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-20 04:19:48.755 12510 12510 D CatLifePet: micro behavior cancelled: pet click
+07-20 04:19:48.755 12510 12510 D CatLifePet: Energy 75 -> 74 reason=USER_INTERACTION
+07-20 04:19:48.755 12510 12510 D CatLifePet: EnergyLevel HIGH -> NORMAL
+07-20 04:19:48.755 12510 12510 D CatLifePet: Mood 61 -> 62 reason=USER_INTERACTION
+07-20 04:19:48.755 12510 12510 D CatLifePet: Affection 80 -> 81 source=DAILY_FIRST_INTERACTION daily=1/5
+07-20 04:19:48.756 12510 12510 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=false, message=慢慢来，也没关系。
+07-20 04:19:48.756 12510 12510 D CatLifePet: 小猫状态切换: IDLE -> HAPPY
+07-20 04:19:48.756 12510 12510 D CatLifePet: animation stopped: state=IDLE
+07-20 04:19:48.780 12510 12510 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-20 04:19:49.669 12510 12510 D CatLifePet: animation finished and holding last frame: state=HAPPY

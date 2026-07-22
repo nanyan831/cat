@@ -1,0 +1,6 @@
+Static post-fix path:
+- Running service: startService action dispatch.
+- Service not running and background start rejected: one notification fallback.
+- Fallback covers WATER, FOOD, REST and SLEEP.
+
+Full Worker foreground/background/recents/lock-screen execution matrix: NOT COMPLETED.

@@ -1,0 +1,10 @@
+No rejected delivery has been received yet.
+
+For each rejected set, record the source filename and one or more reasons:
+- wrong canvas size or color mode
+- opaque/black background or damaged alpha
+- missing/non-continuous frame name
+- duplicate pose without an intentional hold declaration
+- unstable bottom anchor or excessive center jump
+- action does not clearly read as paw licking/self-grooming
+- character style does not match CatLifePet

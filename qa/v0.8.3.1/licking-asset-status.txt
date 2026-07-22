@@ -1,0 +1,18 @@
+CatLifePet v0.8.3.1 LICKING asset status
+Date: 2026-07-21
+
+ASSET_STATUS=READY
+RATING=PASS
+RELEASE_PROBABILITY_ENABLED=YES
+SOURCE=design-source/v0.8.3/licking/approved
+FRAME_COUNT=10
+NEW_PNG_COUNT=10
+CANVAS=512x512
+PIXEL_FORMAT=RGBA
+BACKGROUND=transparent
+TOTAL_DURATION_MS=1880
+PLAYBACK_MODE=ONCE
+
+Validation, IDLE-anchor checks, contact-sheet semantic review, Android integration,
+20-run playback, click interruption, drag interruption, Debug build, Release build,
+emulator install and physical-device install passed.

@@ -1,0 +1,90 @@
+CatLifePet v0.8.3 Real Animation Asset Upgrade - Final Report
+Date: 2026-07-20
+Device: Pixel 6 emulator, Android API 37, targetSdk 35
+Baseline: v0.8.2.4, stability rating A-
+
+1. Modified files: app/src/main/java/com/example/catlifepet/MainActivity.kt only; Debug readiness labels and unavailable-action handling.
+2. Added files: design-source/v0.8.3/validate_animation_assets.py, build_contact_sheets.py, ANIMATION_ASSET_REQUIREMENTS.md; QA reports and contact sheet under qa/v0.8.3; asset folders.
+3. Business logic changed: NO. Debug presentation only.
+4. Usable design-source animation assets: existing BLINK, legacy STRETCHING-derived YAWN only.
+5. LICKING asset status: NOT AVAILABLE / BLOCKED.
+6. LICKING real key poses: NO.
+7. LICKING frame count: 0.
+8. LICKING duration: N/A.
+9. LICKING Release enabled: NO; probability remains 0.
+10. LICKING rating: BLOCKED.
+11. YAWN asset status: LEGACY_FALLBACK.
+12. Old six-frame low-fidelity YAWN replaced: NO.
+13. YAWN new frame count: 0; legacy count is 6.
+14. YAWN new duration: N/A; legacy playback is 1.4 seconds of frame timing.
+15. YAWN rating: C; not suitable for formal replacement.
+16. CUDDLE asset status: NOT AVAILABLE / BLOCKED.
+17. CUDDLING CatState added: NO.
+18. CUDDLE frame count: 0.
+19. CUDDLE duration: N/A.
+20. CUDDLE replaced HAPPY fallback: NO.
+21. CUDDLE rating: BLOCKED.
+22. CURIOUS asset status: NOT AVAILABLE / BLOCKED.
+23. CURIOUS CatState added: NO.
+24. CURIOUS frame count: 0.
+25. CURIOUS duration: N/A.
+26. CURIOUS replaced IDLE/HAPPY fallback: NO.
+27. CURIOUS rating: BLOCKED.
+28. PEEK modified: NO; PetWindowController and restore=false behavior untouched.
+29. BLINK modified: NO; existing five-frame micro behavior untouched.
+30. Old YAWN backup retained: YES, design-source/v0.8.3/legacy-yawn/ with SHA256 record.
+31. validate_animation_assets.py established: YES.
+32. Validation covers PNG format, 512x512, RGBA, alpha, transparent corners, opaque/black backgrounds, naming gaps, hashes, duplicate frames, frame count, anchor delta, and missing asset status.
+33. build_contact_sheets.py established: YES.
+34. Contact sheet result: YAWN legacy fallback generated; LICKING/CUDDLE/CURIOUS explicitly NOT AVAILABLE and no fake sheets generated.
+35. ANIMATION_ASSET_REQUIREMENTS.md established: YES.
+36. All 62 official PNG frames 512x512: YES.
+37. All 62 official PNG frames RGBA: YES.
+38. Official PNG transparency audit: PASS; transparent corners and alpha present.
+39. Black background found: NO.
+40. Duplicate frames: legacy YAWN frame 03 and 06 have the same hash; reported.
+41. Missing candidate frames: all four requested v0.8.3 candidate sets are missing; reported as BLOCKED.
+42. First/last natural IDLE transition: not certified for missing assets; legacy YAWN is not certified as a new animation.
+43. Bottom anchor: legacy YAWN is 13px above the IDLE bottom anchor in all six frames; warning recorded.
+44. Obvious position jump: no new-resource jump introduced; legacy resource retains its known anchor warning.
+45. Obvious size jump: no new-resource size change introduced.
+46. LICKING 20 Preview: NOT APPLICABLE; button shows Asset Not Ready and does not trigger.
+47. YAWN 20 Preview: PASS as compatibility fallback, 20/20 complete and returned to IDLE; not a quality pass.
+48. CUDDLE 20 Preview: NOT APPLICABLE as animation; existing HAPPY fallback was exercised in stress testing.
+49. CURIOUS 20 Preview: NOT APPLICABLE as animation; existing fallback behavior was exercised in stress testing.
+50. 60 rapid switches: PASS compatibility stress; 60 UI triggers, no fatal or WindowManager exception.
+51. Animation acceleration: none observed in the clean 20-run YAWN log.
+52. Old Runnable overwrite: none observed in the captured stress log.
+53. LICKING interruption: NOT APPLICABLE; no real animation.
+54. YAWN interruption: compatibility behavior PASS; explicit clean run had 0 early stops.
+55. CUDDLE interruption: fallback behavior only; no new animation matrix applicable.
+56. CURIOUS interruption: fallback behavior only; no new animation matrix applicable.
+57. Micro Blink insertion: existing cancellation path remained intact; no new animation active was added.
+58. Three-size test: no asset-dependent size path changed; existing 80/120/160dp implementation remains unchanged.
+59. Left/right edge animation display: no new animation was installed; PEEK edge behavior remains baseline-tested.
+60. New PNG count: 0.
+61. Final official PNG count: 62.
+62. New resource volume: 0 bytes.
+63. Debug APK delta: +256 bytes, 8500851 -> 8501107.
+64. Release APK delta: +736 bytes, 6861910 -> 6862646.
+65. Memory T0: no new-image memory gate required; baseline v0.8.2.4 T0 PSS 87070 KB.
+66. Memory T10: no new-image memory gate required; baseline T10 PSS 87967 KB.
+67. Memory T20: no new-image memory gate required; baseline T20 PSS 82875 KB.
+68. Obvious memory growth: NO evidence in baseline or v0.8.3 stress run.
+69. OOM: NONE.
+70. v0.8.2.4 behavior regression: PASS for the exercised compatibility paths; no core manager code changed.
+71. PEEK restore=false regression: NOT OBSERVED; code untouched and baseline matrix remains PASS.
+72. Reminder regression: no reminder business code changed; existing delivery path remained active during stress with no exception.
+73. Service regression: PASS; foreground service remained alive during Pixel 6 tests.
+74. WindowManager regression: PASS; no duplicate view or WindowManager exception observed.
+75. clean assembleDebug: BUILD SUCCESSFUL.
+76. assembleRelease: BUILD SUCCESSFUL; unsigned release retained.
+77. Debug APK: C:\Users\11329\Desktop\CatLifePet\app\build\outputs\apk\debug\app-debug.apk.
+78. Release APK: C:\Users\11329\Desktop\CatLifePet\app\build\outputs\apk\release\app-release-unsigned.apk.
+79. QA files: asset-readiness.txt, animation-validation.txt, animation-switch-test.txt, animation-interruption-test.txt, memory-20min.txt, apk-size-comparison.txt, official-png-audit.txt, legacy-yawn-sha256.txt, yawn-contact-sheet.png, preview/stress logs, Pixel 6 screenshots and UI dumps.
+80. READY animations: no v0.8.3 target animation.
+81. FALLBACK animations: legacy YAWN; existing HAPPY/IDLE relationship fallbacks.
+82. BLOCKED animations: LICKING, CUDDLE, CURIOUS; new high-quality YAWN replacement also blocked.
+83. Next-stage recommendation: do not enter animation polish yet. Proceed to Animation Asset Production, starting with real LICKING poses, then YAWN, with the supplied validation/contact-sheet gate.
+
+Final decision: v0.8.3 tooling, asset audit, honest Debug readiness, and compatibility verification are complete. Formal animation quality upgrade is intentionally blocked until real artwork is delivered.

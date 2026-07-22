@@ -1,0 +1,17 @@
+CatLifePet LICKING 20-minute memory result
+Date: 2026-07-21
+Device: Pixel 6 emulator, Android API 37
+
+TIME    PSS_KB    RSS_KB
+T+0m    119166    204432
+T+10m   101635    186804
+T+20m   101095    186972
+
+LICKING_STRESS_TRIGGERS=40
+LINEAR_MEMORY_GROWTH=NO
+OOM=0
+FATAL=0
+
+PSS dropped by 18071KB from T0 to T20. RSS dropped by 17460KB and remained
+effectively flat between T10 and T20 (+168KB). Raw timestamps and PID are in
+memory-20min-final.txt.

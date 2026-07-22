@@ -1,0 +1,35 @@
+CatLifePet v0.8.3 animation asset validation
+PROJECT_ROOT=C:\Users\11329\Desktop\CatLifePet
+IDLE_BOTTOM_ANCHOR=451
+
+[LICKING]
+SOURCE=C:\Users\11329\Desktop\CatLifePet\design-source\v0.8.3\licking
+STATUS=NOT_AVAILABLE
+FRAME_COUNT=0
+RESULT=BLOCKED
+
+[YAWNING]
+SOURCE=C:\Users\11329\Desktop\CatLifePet\design-source\v0.8.3\legacy-yawn
+STATUS=LEGACY_FALLBACK
+FRAME_COUNT=6
+RESULT=FALLBACK
+WARNING=cat_yawning_01.png: bottom anchor delta=-13px, bbox=(53, 92, 450, 438)
+WARNING=cat_yawning_02.png: bottom anchor delta=-13px, bbox=(54, 89, 450, 438)
+WARNING=cat_yawning_03.png: bottom anchor delta=-13px, bbox=(54, 87, 449, 438)
+WARNING=cat_yawning_04.png: bottom anchor delta=-13px, bbox=(54, 83, 448, 438)
+WARNING=cat_yawning_05.png: bottom anchor delta=-13px, bbox=(54, 82, 448, 438)
+WARNING=cat_yawning_06.png: bottom anchor delta=-13px, bbox=(54, 87, 449, 438)
+WARNING=duplicate hash group: cat_yawning_03.png, cat_yawning_06.png
+WARNING=frame count 6 outside recommended 8..10
+
+[CUDDLE]
+SOURCE=C:\Users\11329\Desktop\CatLifePet\design-source\v0.8.3\cuddle
+STATUS=NOT_AVAILABLE
+FRAME_COUNT=0
+RESULT=BLOCKED
+
+[CURIOUS]
+SOURCE=C:\Users\11329\Desktop\CatLifePet\design-source\v0.8.3\curious
+STATUS=NOT_AVAILABLE
+FRAME_COUNT=0
+RESULT=BLOCKED

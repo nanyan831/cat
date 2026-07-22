@@ -1,0 +1,5 @@
+Completed: left edge anchor/target/restore, non-edge block, autonomous PEEK selection, and targeted drag-safe implementation audit.
+Observed left values: anchor=-78, target=-117, end=-78.
+Runtime log also recorded a right-edge snap anchor x=329, but a clean right-PEEK animation sample was not isolated.
+Not completed as isolated runs: 10 rapid triggers, entry/hold/restore drag, click, WATER, FOOD, REST, SLEEP, Hide and Service stop.
+No WindowManager error appeared in the final log scan.

@@ -1,0 +1,11 @@
+ACTUAL DECISIONS = 298 in the retained emulator log session.
+SELECTED / SUCCESS / BLOCKED aggregate:
+NONE 96 / 96 / 0
+STRETCH 44 / 44 / 0
+HAPPY 103 / 103 / 0
+SHORT_SLEEP 12 / 12 / 0
+YAWN 1 / 1 / 0
+LICKING 0 / 0 / 0
+CURIOUS 20 / 20 / 0
+PEEK 22 / 22 / 0
+PEEK position-blocked cases were observed in targeted Debug tests and are not counted as success here.

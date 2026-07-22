@@ -1,0 +1,94 @@
+﻿===== SHOW_WATER =====
+07-20 04:20:03.245 12510 12510 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:20:03.245 12510 12510 D CatLifePet: received com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:20:03.245 12510 12510 D CatLifePet: 小猫状态切换: STRETCHING -> IDLE
+07-20 04:20:03.245 12510 12510 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-20 04:20:03.245 12510 12510 D CatLifePet: behavior cancelled: debug PEEK
+07-20 04:20:03.246 12510 12510 D CatLifePet: micro behavior cancelled: PEEK selected
+07-20 04:20:03.246 12510 12510 D CatLifePet: PEEK started: left=false, anchor=251, target=303
+07-20 04:20:03.896 12510 12510 D CatLifePet: 收到 ACTION_SHOW_WATER
+07-20 04:20:03.896 12510 12510 D CatLifePet: PEEK animator cancelled: restore=true, currentX=298, anchor=251, endX=251
+07-20 04:20:03.897 12510 12510 D CatLifePet: 小猫状态切换: IDLE -> DRINKING
+07-20 04:20:03.922 12510 12510 D CatLifePet: cat visual state: DRINKING, mode=LOOP
+07-20 04:20:06.924 12510 12510 D CatLifePet: 小猫状态切换: DRINKING -> IDLE
+07-20 04:20:06.924 12510 12510 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-20 04:20:07.257 12510 12510 D CatLifePet: 小猫状态切换: IDLE -> BLINKING
+07-20 04:20:07.257 12510 12510 D CatLifePet: cat visual state: BLINKING, mode=ONCE
+===== SHOW_FOOD =====
+07-20 04:20:07.524 12510 12510 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:20:07.524 12510 12510 D CatLifePet: received com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:20:07.524 12510 12510 D CatLifePet: behavior cancelled: debug PEEK
+07-20 04:20:07.525 12510 12510 D CatLifePet: PEEK requires edge position
+07-20 04:20:07.708 12510 12510 D CatLifePet: 小猫状态切换: BLINKING -> IDLE
+07-20 04:20:07.709 12510 12510 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-20 04:20:08.100 12510 12510 D CatLifePet: 收到 ACTION_SHOW_FOOD
+07-20 04:20:08.100 12510 12510 D CatLifePet: 小猫状态切换: IDLE -> EATING
+07-20 04:20:08.125 12510 12510 D CatLifePet: cat visual state: EATING, mode=LOOP
+07-20 04:20:11.130 12510 12510 D CatLifePet: 小猫状态切换: EATING -> IDLE
+07-20 04:20:11.147 12510 12510 D CatLifePet: cat visual state: IDLE, mode=LOOP
+===== SHOW_REST =====
+07-20 04:20:11.729 12510 12510 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:20:11.729 12510 12510 D CatLifePet: received com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:20:11.729 12510 12510 D CatLifePet: behavior cancelled: debug PEEK
+07-20 04:20:11.730 12510 12510 D CatLifePet: micro behavior cancelled: PEEK selected
+07-20 04:20:11.730 12510 12510 D CatLifePet: PEEK started: left=false, anchor=251, target=303
+07-20 04:20:12.329 12510 12510 D CatLifePet: 收到 ACTION_SHOW_REST
+07-20 04:20:12.330 12510 12510 D CatLifePet: PEEK animator cancelled: restore=true, currentX=295, anchor=251, endX=251
+07-20 04:20:12.330 12510 12510 D CatLifePet: 小猫状态切换: IDLE -> STRETCHING
+07-20 04:20:12.348 12510 12510 D CatLifePet: cat visual state: STRETCHING, mode=ONCE
+07-20 04:20:13.852 12510 12510 D CatLifePet: 小猫状态切换: STRETCHING -> IDLE
+07-20 04:20:13.853 12510 12510 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-20 04:20:15.638 12510 12510 D CatLifePet: 小猫状态切换: IDLE -> BLINKING
+07-20 04:20:15.650 12510 12510 D CatLifePet: cat visual state: BLINKING, mode=ONCE
+===== SHOW_SLEEP =====
+07-20 04:20:15.977 12510 12510 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:20:15.977 12510 12510 D CatLifePet: received com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:20:15.977 12510 12510 D CatLifePet: behavior cancelled: debug PEEK
+07-20 04:20:15.977 12510 12510 D CatLifePet: PEEK requires edge position
+07-20 04:20:16.101 12510 12510 D CatLifePet: 小猫状态切换: BLINKING -> IDLE
+07-20 04:20:16.102 12510 12510 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-20 04:20:16.530 12510 12510 D CatLifePet: 收到 ACTION_SHOW_SLEEP
+07-20 04:20:16.530 12510 12510 D CatLifePet: 小猫状态切换: IDLE -> STRETCHING
+07-20 04:20:16.531 12510 12510 D CatLifePet: cat visual state: STRETCHING, mode=ONCE
+07-20 04:20:18.036 12510 12510 D CatLifePet: 小猫状态切换: STRETCHING -> SLEEPING
+07-20 04:20:18.054 12510 12510 D CatLifePet: cat visual state: SLEEPING, mode=LOOP
+===== SHOW_FOOD RETRY =====
+07-20 04:20:34.305 12510 12510 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:20:34.305 12510 12510 D CatLifePet: received com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:20:34.306 12510 12510 D CatLifePet: behavior cancelled: debug PEEK
+07-20 04:20:34.306 12510 12510 D CatLifePet: PEEK requires edge position
+07-20 04:20:35.116 12510 12510 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:20:35.116 12510 12510 D CatLifePet: received com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:20:35.116 12510 12510 D CatLifePet: behavior cancelled: debug PEEK
+07-20 04:20:35.116 12510 12510 D CatLifePet: PEEK requires edge position
+07-20 04:20:35.681 12510 12510 D CatLifePet: 收到 ACTION_SHOW_FOOD
+07-20 04:20:35.681 12510 12510 D CatLifePet: 小猫状态切换: SLEEPING -> EATING
+07-20 04:20:35.682 12510 12510 D CatLifePet: cat visual state: EATING, mode=LOOP
+===== SHOW_SLEEP RETRY =====
+07-20 04:20:38.515 12510 12510 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:20:38.515 12510 12510 D CatLifePet: received com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:20:38.515 12510 12510 D CatLifePet: behavior cancelled: debug PEEK
+07-20 04:20:38.515 12510 12510 D CatLifePet: PEEK requires edge position
+07-20 04:20:38.686 12510 12510 D CatLifePet: 小猫状态切换: EATING -> IDLE
+07-20 04:20:38.686 12510 12510 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-20 04:20:39.281 12510 12510 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:20:39.281 12510 12510 D CatLifePet: received com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:20:39.281 12510 12510 D CatLifePet: behavior cancelled: debug PEEK
+07-20 04:20:39.281 12510 12510 D CatLifePet: micro behavior cancelled: PEEK selected
+07-20 04:20:39.281 12510 12510 D CatLifePet: PEEK started: left=false, anchor=251, target=303
+07-20 04:20:39.863 12510 12510 D CatLifePet: 收到 ACTION_SHOW_SLEEP
+07-20 04:20:39.863 12510 12510 D CatLifePet: PEEK animator cancelled: restore=true, currentX=294, anchor=251, endX=251
+07-20 04:20:39.863 12510 12510 D CatLifePet: 小猫状态切换: IDLE -> STRETCHING
+07-20 04:20:39.864 12510 12510 D CatLifePet: cat visual state: STRETCHING, mode=ONCE
+07-20 04:20:41.366 12510 12510 D CatLifePet: 小猫状态切换: STRETCHING -> SLEEPING
+07-20 04:20:41.367 12510 12510 D CatLifePet: cat visual state: SLEEPING, mode=LOOP
+===== SHOW_FOOD VALID =====
+07-20 04:20:57.033 12510 12510 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:20:57.033 12510 12510 D CatLifePet: received com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:20:57.034 12510 12510 D CatLifePet: behavior cancelled: debug PEEK
+07-20 04:20:57.034 12510 12510 D CatLifePet: micro behavior cancelled: PEEK selected
+07-20 04:20:57.035 12510 12510 D CatLifePet: PEEK started: left=false, anchor=251, target=303
+07-20 04:20:57.627 12510 12510 D CatLifePet: 收到 ACTION_SHOW_FOOD
+07-20 04:20:57.627 12510 12510 D CatLifePet: PEEK animator cancelled: restore=true, currentX=295, anchor=251, endX=251
+07-20 04:20:57.627 12510 12510 D CatLifePet: 小猫状态切换: IDLE -> EATING
+07-20 04:20:57.628 12510 12510 D CatLifePet: cat visual state: EATING, mode=LOOP

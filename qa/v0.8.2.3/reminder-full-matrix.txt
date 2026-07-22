@@ -1,0 +1,6 @@
+WorkManager fix remains in place:
+- Existing service: startService action dispatch.
+- Background start rejection: one Notification fallback.
+
+Final anomaly scan: zero matching fatal, WindowManager, Worker failure or ForegroundServiceStartNotAllowedException entries in retained final logcat.
+Full foreground/background/recents/lock-screen WATER/FOOD/REST/SLEEP matrix was not isolated in this session.

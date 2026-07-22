@@ -1,0 +1,41 @@
+{
+  "animationName": "LICKING",
+  "state": "LICKING",
+  "mode": "ONCE",
+  "assetStatus": "READY",
+  "statusReason": "Validation and contact-sheet semantic review passed; promoted to approved and drawable-nodpi",
+  "canvasSize": [512, 512],
+  "pixelFormat": "RGBA",
+  "background": "transparent",
+  "anchorReference": "app/src/main/res/drawable-nodpi/cat_idle_01.png",
+  "alphaThreshold": 8,
+  "targetFrameCount": 10,
+  "frames": [
+    "cat_licking_01.png",
+    "cat_licking_02.png",
+    "cat_licking_03.png",
+    "cat_licking_04.png",
+    "cat_licking_05.png",
+    "cat_licking_06.png",
+    "cat_licking_07.png",
+    "cat_licking_08.png",
+    "cat_licking_09.png",
+    "cat_licking_10.png"
+  ],
+  "durationsMs": [160, 150, 180, 180, 260, 260, 180, 170, 160, 180],
+  "plannedFrameNames": [
+    "cat_licking_01.png",
+    "cat_licking_02.png",
+    "cat_licking_03.png",
+    "cat_licking_04.png",
+    "cat_licking_05.png",
+    "cat_licking_06.png",
+    "cat_licking_07.png",
+    "cat_licking_08.png",
+    "cat_licking_09.png",
+    "cat_licking_10.png"
+  ],
+  "plannedDurationsMs": [160, 150, 180, 180, 260, 260, 180, 170, 160, 180],
+  "plannedTotalDurationMs": 1880,
+  "intentionalDuplicateFrames": []
+}

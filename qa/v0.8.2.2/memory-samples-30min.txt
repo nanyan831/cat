@@ -1,0 +1,3 @@
+T0/T+2m sampling attempt was started, but the PowerShell sampler used the reserved variable name PID and did not write valid memory rows.
+30-minute continuous run: NOT COMPLETED.
+No memory-growth conclusion is claimed.

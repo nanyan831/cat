@@ -1,0 +1,3 @@
+Automatic CURIOUS selected count in retained log: 20.
+CURIOUS was observed without an erroneous Blink insertion during its active lifecycle.
+LOW/SAD five-sample dialogue matrix and every interruption combination were not fully isolated.

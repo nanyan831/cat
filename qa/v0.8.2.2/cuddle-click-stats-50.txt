@@ -1,0 +1,4 @@
+CUDDLE decision remains unified inside DialogueManager.randomClickMessage.
+The branch is approximately 10 percent for BONDED and selects exactly one dialogue source.
+Debug CUDDLE was exercised without stat changes.
+Requested 50 real-click sample: NOT COMPLETED.

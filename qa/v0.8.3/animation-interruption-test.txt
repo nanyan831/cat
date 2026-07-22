@@ -1,0 +1,7 @@
+CatLifePet v0.8.3 interruption test
+
+New animation interruption matrix: NOT APPLICABLE because LICKING, CUDDLE, and CURIOUS have no real animation assets and YAWN remains legacy fallback.
+Compatibility stress: rapid behavior replacement was run 60 times.
+YAWN preview: 20/20 full runs completed with no early stop in the clean run.
+No stale animation completion was observed overriding the final state in the captured stress log.
+PEEK baseline: v0.8.2.4 interruption matrix remains the reference; PetWindowController was not modified in v0.8.3.

@@ -1,0 +1,9 @@
+SERVICE ALREADY RUNNING
+ACTUAL REPEAT STARTS = 10
+onStartCommand ACTION_START = 10
+addView skipped: pet already showing = 10
+new addView calls = 0
+exceptions = 0
+
+Only the existing controller/view/schedulers remained active.
+RESULT = PASS

@@ -1,0 +1,28 @@
+Duration: 30 minutes after 65-second stabilization
+PID: 14258 for all samples
+
+TIME | PSS_KB | RSS_KB
+T+0 | 87070 | 195276
+T+10 | 87967 | 196860
+T+20 | 82875 | 191584
+T+30 | 77650 | 186608
+
+T0 -> T30:
+PSS = -9420 KB
+RSS = -8668 KB
+
+GC observations:
+- 9 GC events were retained in process Logcat.
+- GC included explicit/background/native-allocation concurrent mark-compact collections.
+- PSS and RSS fell after the mid-run samples.
+- No OOM, FATAL, or process restart occurred.
+
+Behavior regression during this run:
+- 145 autonomous decisions
+- 417 Blink triggers
+- 5 completed PEEK intervals, Blink inside PEEK = 0
+- 11 CURIOUS intervals, Blink inside CURIOUS = 0
+- selected behavior LICKING = 0 (expected release probability)
+
+Profiler was not used. Evidence is dumpsys meminfo plus process GC Logcat.
+Conclusion: second run stabilized and fell; no reproducible linear leak evidence.

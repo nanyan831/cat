@@ -1,0 +1,6 @@
+CUDDLE decision is part of one DialogueManager click decision chain.
+It uses one approximately 10 percent branch, then selects one CUDDLE message.
+The original click Energy/Mood/cooldown path runs once; CUDDLE adds no Affection.
+Debug CUDDLE explicitly performs no stat changes.
+
+Exact 50-click sample: NOT COMPLETED.

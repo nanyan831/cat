@@ -1,0 +1,26 @@
+{
+  "animationName": "YAWNING",
+  "state": "YAWNING",
+  "mode": "ONCE",
+  "assetStatus": "READY",
+  "statusReason": "Validation, anchor checks, and contact-sheet semantic review passed",
+  "canvasSize": [512, 512],
+  "pixelFormat": "RGBA",
+  "background": "transparent",
+  "anchorReference": "app/src/main/res/drawable-nodpi/cat_idle_01.png",
+  "alphaThreshold": 8,
+  "targetFrameCount": 8,
+  "frames": [
+    "cat_yawning_01.png",
+    "cat_yawning_02.png",
+    "cat_yawning_03.png",
+    "cat_yawning_04.png",
+    "cat_yawning_05.png",
+    "cat_yawning_06.png",
+    "cat_yawning_07.png",
+    "cat_yawning_08.png"
+  ],
+  "durationsMs": [180, 180, 200, 230, 300, 240, 180, 180],
+  "plannedTotalDurationMs": 1690,
+  "intentionalDuplicateFrames": []
+}

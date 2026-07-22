@@ -1,0 +1,26 @@
+Environment:
+Device = Pixel 6 emulator
+Android API = 37
+targetSdk = 35
+Overlay permission = granted
+Notification permission = granted
+
+STATE | SERVICE | WATER | FOOD | REST | SLEEP
+FOREGROUND | RUNNING | overlay PASS | overlay PASS | overlay PASS | overlay PASS
+BACKGROUND | RUNNING | overlay PASS | overlay PASS | overlay PASS | overlay PASS
+BACKGROUND | STOPPED | fallback PASS | fallback PASS | fallback PASS | fallback PASS
+RECENTS CLEARED IN LAUNCHER | RUNNING | overlay PASS | overlay PASS | overlay PASS | overlay PASS
+RECENTS CLEARED IN LAUNCHER | STOPPED | fallback PASS | fallback PASS | fallback PASS | fallback PASS
+LOCKED | RUNNING | overlay PASS | overlay PASS | overlay PASS | overlay PASS
+LOCKED | STOPPED | fallback PASS | fallback PASS | fallback PASS | fallback PASS
+
+Worker validation:
+- Real ReminderWorker jobs were forced through JobScheduler's androidx.work.systemjobscheduler namespace.
+- Four types logged their actual WorkManager trigger time.
+- When background FGS start was denied, ForegroundServiceStartNotAllowedException was caught.
+- Notification fallback records were present for IDs 2000, 2001, 2002, and 2003 with the expected CatLifePet title and message.
+- No silent reminder loss was observed.
+- No Worker failure or infinite retry was observed; debug jobs were rescheduled normally.
+
+Emulator note:
+Launcher "Clear all" was used for the recents-cleared cases. Android 37 dumpsys retained hidden/historical task records even though the visible recent cards were cleared; delivery behavior was tested after the UI operation.

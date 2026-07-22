@@ -1,0 +1,6 @@
+CatLifePet v0.8.3 memory gate
+
+Status: NOT REQUIRED FOR NEW IMAGE ASSET GATE
+Reason: no PNG was added or replaced in v0.8.3; drawable-nodpi count and resource volume are unchanged.
+Reference baseline: v0.8.2.4 second memory run showed no reproducible linear leak and no OOM.
+The v0.8.3 Pixel 6 stress run also produced no OOM, process restart, or WindowManager exception.

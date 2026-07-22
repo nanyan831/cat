@@ -1,0 +1,18 @@
+CASE | OBSERVED | RESULT
+DRAG ENTER | cancel restore=false, currentX=280, endX=280; drag continued and snapped | PASS
+DRAG HOLD | cancel restore=false, currentX=275, endX=275; drag continued and snapped | PASS
+DRAG RETURN | cancel restore=false, currentX=265, endX=265; drag continued and snapped | PASS
+CLICK | cancel restore=true, currentX=296, anchor=251, endX=251; HAPPY/dialogue shown | PASS
+WATER | PEEK cancelled, DRINKING shown | PASS
+FOOD | PEEK cancelled, EATING shown | PASS
+REST | PEEK cancelled, STRETCHING shown | PASS
+SLEEP | PEEK cancelled, STRETCHING then SLEEPING shown | PASS
+HIDE ENTER | cancel restore=false at x=272, removeView | PASS
+HIDE HOLD | cancel restore=false at x=280, removeView | PASS
+HIDE RETURN | cancel restore=false at x=267, removeView | PASS
+SERVICE STOP | cancel restore=false at x=296, removeView | PASS
+
+No View-not-attached, WindowLeaked, IllegalArgumentException, or updateViewLayout exception occurred.
+
+Minimal bug fix made before this rerun:
+ValueAnimator.onAnimationEnd now restores the anchor only when it is still the active animator. A cancelled PEEK with restore=false therefore keeps the current visible coordinate for drag takeover.

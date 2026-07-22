@@ -1,0 +1,10 @@
+ACTUAL ROUNDS = 10
+onCreate = 10
+onDestroy = 10
+addView = 10
+removeView = 10
+WindowManager/lifecycle exceptions = 0
+
+Behavior and MicroBehavior were stopped during remove and restarted with each new controller.
+No duplicate View, leaked animator, WindowLeaked, or frequency multiplication was observed.
+RESULT = PASS

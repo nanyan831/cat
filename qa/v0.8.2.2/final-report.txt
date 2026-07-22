@@ -1,0 +1,5 @@
+v0.8.2.2 final quantitative gate: incomplete.
+Live sample: approximately 2 minutes, 10 automatic Behavior decisions, 28 automatic Blink triggers.
+No targeted logcat errors found.
+Full required quantitative gate was not completed, so rating is B for incomplete important validation, not a crash finding.
+Do not enter v0.8.3 yet.

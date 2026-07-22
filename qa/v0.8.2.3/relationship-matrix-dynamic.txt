@@ -1,0 +1,10 @@
+STATIC RESULT:
+NEW      LOCKED LOCKED LOCKED
+FAMILIAR UNLOCKED LOCKED LOCKED
+CLOSE    UNLOCKED UNLOCKED LOCKED
+BONDED   UNLOCKED UNLOCKED UNLOCKED
+
+RUNTIME RESULT:
+- BONDED CURIOUS, PEEK and CUDDLE were exercised on Pixel 6.
+- HighestUnlockedLevel persisted after current Affection downgrade in the existing emulator state.
+- Full four-level dynamic UI reset-and-exercise matrix was not completed in this session.

@@ -1,0 +1,36 @@
+﻿===== FOREGROUND|RUNNING =====
+07-20 04:28:22.224 13922 13922 D CatLifePet: onStartCommand action=com.example.catlifepet.action.SHOW_WATER
+07-20 04:28:22.224 13922 13922 D CatLifePet: 收到 ACTION_SHOW_WATER
+07-20 04:28:22.225 13922 13922 D CatLifePet: 小猫状态切换: IDLE -> DRINKING
+07-20 04:28:22.760 13922 13922 D CatLifePet: onStartCommand action=com.example.catlifepet.action.SHOW_FOOD
+07-20 04:28:22.760 13922 13922 D CatLifePet: 收到 ACTION_SHOW_FOOD
+07-20 04:28:22.762 13922 13922 D CatLifePet: 小猫状态切换: DRINKING -> EATING
+07-20 04:28:23.280 13922 13922 D CatLifePet: onStartCommand action=com.example.catlifepet.action.SHOW_REST
+07-20 04:28:23.280 13922 13922 D CatLifePet: 收到 ACTION_SHOW_REST
+07-20 04:28:23.281 13922 13922 D CatLifePet: 小猫状态切换: EATING -> STRETCHING
+07-20 04:28:23.798 13922 13922 D CatLifePet: onStartCommand action=com.example.catlifepet.action.SHOW_SLEEP
+07-20 04:28:23.799 13922 13922 D CatLifePet: 收到 ACTION_SHOW_SLEEP
+===== BACKGROUND|RUNNING =====
+07-20 04:28:25.056 13922 13922 D CatLifePet: onStartCommand action=com.example.catlifepet.action.SHOW_WATER
+07-20 04:28:25.056 13922 13922 D CatLifePet: 收到 ACTION_SHOW_WATER
+07-20 04:28:25.056 13922 13922 D CatLifePet: 小猫状态切换: STRETCHING -> DRINKING
+07-20 04:28:25.575 13922 13922 D CatLifePet: onStartCommand action=com.example.catlifepet.action.SHOW_FOOD
+07-20 04:28:25.576 13922 13922 D CatLifePet: 收到 ACTION_SHOW_FOOD
+07-20 04:28:25.576 13922 13922 D CatLifePet: 小猫状态切换: DRINKING -> EATING
+07-20 04:28:26.111 13922 13922 D CatLifePet: onStartCommand action=com.example.catlifepet.action.SHOW_REST
+07-20 04:28:26.111 13922 13922 D CatLifePet: 收到 ACTION_SHOW_REST
+07-20 04:28:26.111 13922 13922 D CatLifePet: 小猫状态切换: EATING -> STRETCHING
+07-20 04:28:26.611 13922 13922 D CatLifePet: onStartCommand action=com.example.catlifepet.action.SHOW_SLEEP
+07-20 04:28:26.611 13922 13922 D CatLifePet: 收到 ACTION_SHOW_SLEEP
+===== LOCKED|RUNNING =====
+07-20 04:28:28.113 13922 13922 D CatLifePet: onStartCommand action=com.example.catlifepet.action.SHOW_WATER
+07-20 04:28:28.113 13922 13922 D CatLifePet: 收到 ACTION_SHOW_WATER
+07-20 04:28:28.113 13922 13922 D CatLifePet: 小猫状态切换: STRETCHING -> DRINKING
+07-20 04:28:28.644 13922 13922 D CatLifePet: onStartCommand action=com.example.catlifepet.action.SHOW_FOOD
+07-20 04:28:28.644 13922 13922 D CatLifePet: 收到 ACTION_SHOW_FOOD
+07-20 04:28:28.644 13922 13922 D CatLifePet: 小猫状态切换: DRINKING -> EATING
+07-20 04:28:29.213 13922 13922 D CatLifePet: onStartCommand action=com.example.catlifepet.action.SHOW_REST
+07-20 04:28:29.213 13922 13922 D CatLifePet: 收到 ACTION_SHOW_REST
+07-20 04:28:29.213 13922 13922 D CatLifePet: 小猫状态切换: EATING -> STRETCHING
+07-20 04:28:29.761 13922 13922 D CatLifePet: onStartCommand action=com.example.catlifepet.action.SHOW_SLEEP
+07-20 04:28:29.761 13922 13922 D CatLifePet: 收到 ACTION_SHOW_SLEEP

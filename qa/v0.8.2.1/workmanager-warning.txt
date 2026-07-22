@@ -1,0 +1,17 @@
+Observed warning before v0.8.2.1:
+ForegroundServiceStartNotAllowedException: startForegroundService() not allowed for CatFloatingService
+
+Source:
+- ReminderWorker.doWork()
+- CatFloatingService.showReminder()
+- ContextCompat.startForegroundService()
+
+Environment:
+- Pixel 6 emulator, Android API 35, targetSdk 35
+
+Assessment:
+- When the service is already running, the old implementation unnecessarily used startForegroundService from the Worker. This was a real non-fatal restriction warning and could prevent action delivery in some states.
+- v0.8.2.1 now uses context.startService for an already-running service.
+- If the service is not running and Android rejects the background foreground-service start, a single reminder notification fallback is shown.
+
+Post-fix full foreground/background/recents/lock-screen matrix: NOT COMPLETED.

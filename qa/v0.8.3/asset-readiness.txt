@@ -1,0 +1,32 @@
+CatLifePet v0.8.3 asset readiness
+Date: 2026-07-20
+
+Audit result: no new formal animation PNG was promoted to drawable-nodpi.
+
+LICKING: BLOCKED
+- No real licking poses found in design-source or drawable-nodpi.
+- No Release probability or CatState integration change.
+- Debug page shows Asset Not Ready and does not trigger the placeholder.
+
+YAWN: FALLBACK, rating C
+- The six existing cat_yawning_01..06 files are copies of stretching artwork.
+- They do not show mouth opening or a distinct yawn pose.
+- They were not replaced. A byte-for-byte backup is in design-source/v0.8.3/legacy-yawn/.
+- The legacy preview completed 20/20 runs on Pixel 6, but this is compatibility evidence only.
+
+CUDDLE: BLOCKED
+- No independent cuddle poses found.
+- Existing HAPPY fallback remains unchanged; no CUDDLING state added.
+
+CURIOUS: BLOCKED
+- No independent curious poses found.
+- Existing IDLE/HAPPY and dialogue fallback remains unchanged; no CURIOUS state added.
+
+Official resource audit:
+- drawable-nodpi PNG count: 62 before and after this phase.
+- New PNG count: 0.
+- New PNG volume: 0 bytes.
+- Candidate contact sheets were not generated for missing animations; this is intentional.
+- Generated contact sheet: qa/v0.8.3/yawning-contact-sheet.png, explicitly labeled LEGACY_FALLBACK.
+
+Release gate: do not enable LICKING, new YAWN, CUDDLE, or CURIOUS until real artwork passes validation, visual review, Pixel 6 preview, interruption tests, and memory checks.

@@ -1,0 +1,52 @@
+CatLifePet v0.8.3.1 LICKING final report
+Date: 2026-07-21
+
+RESULT=PASS
+
+ASSETS
+- 10 independent cat_licking_01..10 PNG frames delivered.
+- Every frame is 512x512 RGBA with a transparent background.
+- Anchor validation passed against cat_idle_01.png.
+- Maximum bottomY deviation: 2px.
+- Maximum centerX deviation: 4.5px.
+- Contact sheet passed manual semantic review as paw licking/self-grooming.
+
+ANDROID INTEGRATION
+- Existing CatState.LICKING is reused; no duplicate state was introduced.
+- CatAnimationManager plays 10 frames once using the requested 1880ms timing.
+- State occupancy is 1950ms to avoid a final-frame/IDLE callback race.
+- Debug page provides an active LICKING preview control.
+- Release weights: HIGH 4, NORMAL 3, LOW 0, EXHAUSTED 0, DND 0.
+- LOW and SAD moods force LICKING weight to 0.
+- LICKING does not modify Energy, Mood, or Affection.
+
+VALIDATION
+- 20/20 emulator previews completed and returned to IDLE.
+- Early animation stops: 0; exceptions: 0.
+- Click interruption: PASS.
+- Drag interruption and edge snap: PASS.
+- WATER, FOOD, REST, and SLEEP interruption: PASS through the app's Service actions.
+- Temporary-hide interruption: PASS; active view removed without an exception.
+- Graceful service stop and restart: PASS; onDestroy/removeView completed and exactly one view returned.
+- 80dp, 120dp, and 160dp playback: PASS; each size completed all ten frames.
+- Left and right edge playback: PASS; 160dp right-edge peek retained 105px hidden offset.
+- Sixty rapid Service actions: PASS; 60 commands, 67 state changes, 0 fatal/OOM/window errors.
+- Twenty-minute memory test with 40 LICKING stress triggers: PASS.
+- PSS T0/T10/T20: 119166 / 101635 / 101095KB; no linear growth.
+- RSS T0/T10/T20: 204432 / 186804 / 186972KB; stable after warm-up.
+- Android Lint: PASS with 0 errors; DefaultLocale warning fixed.
+- clean assembleDebug: PASS.
+- assembleRelease: PASS (unsigned).
+- Emulator install and launch: PASS.
+- Physical PCRM00 Android 12 install and launch: PASS.
+- Foreground service active on both devices: PASS.
+- SYSTEM_ALERT_WINDOW allowed on both devices: PASS.
+- Final smoke-log fatal/WindowManager/OOM count: 0.
+
+OUTPUTS
+- Debug APK: app/build/outputs/apk/debug/app-debug.apk (9762824 bytes).
+- Debug APK SHA-256: C59C96C2100A4A09FA053B7139D3452074CA9D90270D207350BDE3E1B5DB8EDD.
+- Release APK: app/build/outputs/apk/release/app-release-unsigned.apk (8122822 bytes).
+- Contact sheet: qa/v0.8.3.1/licking-contact-sheet.png.
+- Device screenshots: qa/v0.8.3.1/emulator-5554-final.png and c03f36c-final.png.
+- Full validation and playback logs are in qa/v0.8.3.1.

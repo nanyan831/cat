@@ -1,0 +1,3 @@
+Latest service was started successfully and one CatFloatingService instance was observed.
+Targeted prior PEEK tests showed one active animator and normal restore.
+10 stop/start rounds and 10 duplicate-start rounds: NOT COMPLETED in this run.

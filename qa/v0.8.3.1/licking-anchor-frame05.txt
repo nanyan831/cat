@@ -1,0 +1,11 @@
+CatLifePet LICKING anchor report
+REFERENCE=C:\Users\11329\Desktop\CatLifePet\app\src\main\res\drawable-nodpi\cat_idle_01.png
+ALPHA_THRESHOLD=8
+IDLE_BBOX=FrameMetrics(left=89, top=77, right=483, bottom=451, center_x=286.0)
+
+SOURCE=C:\Users\11329\Desktop\CatLifePet\design-source\v0.8.3\licking\incoming
+FRAME_COUNT=1
+FRAME=cat_licking_05.png BBOX=(89,54,484,452) CENTER_X=286.5 BOTTOM_Y=452 CENTER_DELTA=0.5 BOTTOM_DELTA=1
+MAX_ABS_BOTTOM_DELTA=1
+MAX_ABS_CENTER_DELTA=0.5
+RESULT=INVALID

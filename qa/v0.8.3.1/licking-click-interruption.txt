@@ -1,0 +1,51 @@
+﻿07-21 10:23:13.039   690  1021 I NotificationService: cancelToast pkg=com.example.catlifepet token=android.os.BinderProxy@d986ba9
+07-21 10:23:13.039   690  1021 W NotificationService: Toast already cancelled. pkg=com.example.catlifepet token=android.os.BinderProxy@d986ba9
+07-21 10:23:13.044 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 10:23:13.056 13198 13198 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_LICKING
+07-21 10:23:13.056 13198 13198 D CatLifePet: 收到 debug behavior=LICKING
+07-21 10:23:13.056 13198 13198 D CatLifePet: addView skipped: pet already showing
+07-21 10:23:13.057 13198 13198 D CatLifePet: behavior cancelled: debug behavior: LICKING
+07-21 10:23:13.057 13198 13198 D CatLifePet: schedule next behavior: 14374ms
+07-21 10:23:13.057 13198 13198 D CatLifePet: micro behavior cancelled: debug behavior: LICKING
+07-21 10:23:13.057 13198 13198 D CatLifePet: 小猫状态切换: IDLE -> LICKING
+07-21 10:23:13.057 13198 13198 D CatLifePet: animation stopped: state=IDLE
+07-21 10:23:13.057 13198 13198 V CatLifePet: animation frame displayed: state=LICKING, index=1
+07-21 10:23:13.058 13198 13198 D CatLifePet: cat visual state: LICKING, mode=ONCE
+07-21 10:23:13.058 13198 13198 D CatLifePet: debug behavior triggered: LICKING token=1784629393057
+07-21 10:23:13.218 13198 13198 V CatLifePet: animation frame displayed: state=LICKING, index=2
+07-21 10:23:13.370 13198 13198 V CatLifePet: animation frame displayed: state=LICKING, index=3
+07-21 10:23:13.551 13198 13198 V CatLifePet: animation frame displayed: state=LICKING, index=4
+07-21 10:23:13.736 13198 13198 V CatLifePet: animation frame displayed: state=LICKING, index=5
+07-21 10:23:13.738 13198 13198 D CatLifePet: behavior cancelled: user interaction
+07-21 10:23:13.738 13198 13198 D CatLifePet: schedule next behavior: 14147ms
+07-21 10:23:13.738 13198 13198 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-21 10:23:13.738 13198 13198 D CatLifePet: micro behavior cancelled: pet click
+07-21 10:23:13.740 13198 13198 D CatLifePet: Energy 69 -> 68 reason=USER_INTERACTION
+07-21 10:23:13.749 13198 13198 D CatLifePet: Mood 62 -> 63 reason=USER_INTERACTION
+07-21 10:23:13.750 13198 13198 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=11 daily=1/5
+07-21 10:23:13.757 13198 13198 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=NEW, affectionSpecial=false, message=摸摸我嘛～
+07-21 10:23:13.757 13198 13198 D CatLifePet: 小猫状态切换: LICKING -> HAPPY
+07-21 10:23:13.757 13198 13198 D CatLifePet: animation stopped: state=LICKING
+07-21 10:23:13.849 13198 13198 V CatLifePet: animation frame displayed: state=HAPPY, index=1
+07-21 10:23:13.851 13198 13198 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-21 10:23:13.885 13198 13207 I mple.catlifepet: NativeAlloc concurrent mark compact GC freed 1221KB AllocSpace bytes, 16(1024KB) LOS objects, 49% free, 3226KB/6453KB, paused 2.741ms,11.174ms total 65.064ms
+07-21 10:23:13.972 13198 13198 V CatLifePet: animation frame displayed: state=HAPPY, index=2
+07-21 10:23:14.094 13198 13198 V CatLifePet: animation frame displayed: state=HAPPY, index=3
+07-21 10:23:14.236 13198 13198 V CatLifePet: animation frame displayed: state=HAPPY, index=4
+07-21 10:23:14.397 13198 13198 V CatLifePet: animation frame displayed: state=HAPPY, index=5
+07-21 10:23:14.538 13198 13198 V CatLifePet: animation frame displayed: state=HAPPY, index=6
+07-21 10:23:14.739 13198 13198 D CatLifePet: animation finished and holding last frame: state=HAPPY
+07-21 10:23:15.057 13198 13198 D CatLifePet: 小猫状态切换: HAPPY -> IDLE
+07-21 10:23:15.078 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 10:23:15.078 13198 13198 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-21 10:23:15.259 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 10:23:15.421 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 10:23:15.602 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 10:23:15.656   690  1186 W NotificationService: Toast already killed. pkg=com.example.catlifepet token=android.os.BinderProxy@d72c4bb
+07-21 10:23:15.763 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=5
+07-21 10:23:15.946 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=6
+07-21 10:23:16.127 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 10:23:16.309 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 10:23:16.471 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 10:23:16.652 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 10:23:16.814 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=5

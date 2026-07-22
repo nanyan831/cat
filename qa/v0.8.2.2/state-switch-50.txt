@@ -1,0 +1,6 @@
+CatLifePet v0.8.2.2 quantitative state sample
+Real collection window: approximately 2 minutes, Pixel 6 API 35.
+Automatic sample observed: 10 behavior decisions and 28 automatic Blink triggers.
+Observed behavior transitions included STRETCH, CURIOUS, NONE, HAPPY and PEEK.
+Manual/debug state matrix of 50 transitions: NOT COMPLETED.
+No state-card freeze, animation acceleration, WindowManager error, or stale-transition error appeared in the collected log.

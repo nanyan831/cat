@@ -1,0 +1,3 @@
+Long-run service process remained alive for the 30-minute memory session.
+No duplicate View or WindowManager exception was found in the final log scan.
+10 isolated stop/start rounds and 10 duplicate-start rounds were not completed as a separately enumerated test.

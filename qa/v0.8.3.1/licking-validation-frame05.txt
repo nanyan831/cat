@@ -1,0 +1,13 @@
+CatLifePet v0.8.3 animation asset validation
+PROJECT_ROOT=C:\Users\11329\Desktop\CatLifePet
+ALPHA_THRESHOLD=8
+IDLE_BBOX=FrameMetrics(left=89, top=77, right=483, bottom=451, center_x=286.0)
+
+[LICKING]
+SOURCE=C:\Users\11329\Desktop\CatLifePet\design-source\v0.8.3\licking\incoming
+STATUS=INCOMING
+FRAME_COUNT=1
+RESULT=INVALID
+FRAME=cat_licking_05.png BBOX=(89,54,484,452) CENTER_X=286.5 BOTTOM_Y=452 CENTER_DELTA=0.5 BOTTOM_DELTA=1
+ERROR=missing frame numbers: [1, 2, 3, 4]
+WARNING=frame count 1 outside recommended 8..12

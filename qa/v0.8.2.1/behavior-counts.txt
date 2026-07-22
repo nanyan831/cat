@@ -1,0 +1,7 @@
+PetBehaviorManager static audit:
+- NONE, STRETCH, HAPPY, SHORT_SLEEP, YAWN, LICKING, CURIOUS, PEEK are represented.
+- LICKING release weight remains 0.
+- CURIOUS/PEEK weights are taken from NONE and total remains 100.
+- DND and EXHAUSTED relationship behavior weights are 0.
+
+Exact 30-run statistical sample: NOT COMPLETED.

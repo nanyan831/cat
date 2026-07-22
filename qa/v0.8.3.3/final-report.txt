@@ -1,0 +1,79 @@
+CatLifePet v0.8.3.3 CURIOUS animation QA report
+Date: 2026-07-22
+
+ASSET RESULT
+- CURIOUS: READY
+- 8 independent 512 x 512 RGBA PNG frames
+- Playback: ONCE
+- Frame durations: 180, 160, 180, 200, 320, 220, 180, 180 ms
+- Total frame duration: 1620 ms
+- State duration: 1690 ms
+- Alpha bottom delta: 0 px maximum
+- Alpha center-X delta: 0.5 px maximum
+- Strict approved validation: PASS
+- Contact-sheet semantic review: PASS
+
+RUNTIME INTEGRATION
+- Added CatState.CURIOUS with an IDLE fallback.
+- Added the eight-frame CURIOUS animation to CatAnimationManager.
+- PetWindowController now enters CURIOUS, shows dialogue without replacing the state,
+  and returns to IDLE only when CURIOUS is still current.
+- Click, drag, reminders, hide, and other behavior cancellation cannot be overwritten
+  by the stale CURIOUS completion callback.
+- Debug CURIOUS now cancels active micro behavior first for deterministic replay.
+- Debug screen copy now identifies the real eight-frame animation.
+
+BUILD RESULT
+- clean assembleDebug: PASS
+- assembleRelease: PASS
+- lintDebug: PASS
+- Lint errors: 0
+- Lint warnings: 55 existing warnings
+
+APK OUTPUT
+- Debug: app/build/outputs/apk/debug/app-debug.apk
+- Debug size: 11159110 bytes
+- Debug SHA-256: DB819E62ABBC50D4BD549A96BC4558698EDA4DBB0E180DC53DAAC36DE2F41B2F
+- Release unsigned: app/build/outputs/apk/release/app-release-unsigned.apk
+- Release size: 9436550 bytes
+- Release SHA-256: 834E9F03132D3D8EA1A032E4F1A3E645295C09B9046FEDD3246DC2831518F632
+
+EMULATOR QA
+- Device: Pixel_6 / emulator-5554
+- Install replacement: PASS
+- One complete playback: 8 frames, 1 IDLE return, 0 blocks, 0 exceptions
+- 80dp: 8 frames, 1 IDLE return, 0 exceptions
+- 120dp: 8 frames, 1 IDLE return, 0 exceptions
+- 160dp: 8 frames, 1 IDLE return, 0 exceptions
+- 20-run replay: 20 triggers, 160 displayed CURIOUS frames, 20 IDLE returns,
+  0 blocked triggers, 0 AndroidRuntime exceptions
+- Click interruption: CURIOUS -> IDLE -> HAPPY -> IDLE, PASS
+- Drag interruption: CURIOUS -> IDLE -> DRAGGING -> edge snap -> IDLE, PASS
+- WATER interruption: CURIOUS cancelled, DRINKING retained past old CURIOUS timeout, PASS
+
+REAL PHONE QA
+- Device: PCRM00 / c03f36c / Android 12
+- Install replacement: PASS
+- Foreground service and overlay started from the app: PASS
+- Final playback: 8 frames, 1 IDLE return, 0 blocks, 0 exceptions
+- Live key-pose screenshot: qa/v0.8.3.3/curious-phone-live-fixed.png
+
+FIX FOUND DURING QA
+- The original companion-message API switched CURIOUS to HAPPY immediately.
+- showPassiveMessage now displays the relationship bubble without replacing the
+  currently playing behavior state. Full eight-frame playback was verified afterward.
+
+ARTIFACTS
+- design-source/v0.8.3/curious/curious_manifest.json
+- design-source/v0.8.3/curious/CURIOUS_ASSET_NOTES.md
+- design-source/v0.8.3/curious/approved/cat_curious_01.png .. cat_curious_08.png
+- qa/v0.8.3.3/curious-contact-sheet.png
+- qa/v0.8.3.3/curious-validation-approved.txt
+- qa/v0.8.3.3/curious-anchor-approved.txt
+- qa/v0.8.3.3/curious-emulator-live.png
+- qa/v0.8.3.3/curious-emulator-20-runs-final.log
+- qa/v0.8.3.3/curious-phone-final.log
+
+OPEN ITEMS
+- No blocking CURIOUS animation issue remains.
+- The release APK is unsigned, matching the existing project release configuration.

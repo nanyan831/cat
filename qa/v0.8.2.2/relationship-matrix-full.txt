@@ -1,0 +1,8 @@
+LEVEL | CURIOUS | PEEK | CUDDLE
+NEW | LOCKED | LOCKED | LOCKED
+FAMILIAR | UNLOCKED | LOCKED | LOCKED
+CLOSE | UNLOCKED | UNLOCKED | LOCKED
+BONDED | UNLOCKED | UNLOCKED | UNLOCKED
+
+Mapping is statically confirmed through GrowthUnlockManager and HighestUnlockedLevel.
+BONDED behavior was exercised on Pixel 6. Full four-level interactive matrix: NOT COMPLETED.

@@ -1,0 +1,2 @@
+﻿CatLifePet v0.8.3 official PNG audit
+All 62 drawable-nodpi PNG files were audited with the same Pillow checks used by validation: 512x512, RGBA, alpha channel present, transparent corners, no fully opaque canvas, no probable opaque black background.

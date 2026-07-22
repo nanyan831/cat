@@ -1,0 +1,5 @@
+ACTUAL EXECUTED = 50+
+Source: final CatLifePet logcat collected during the live emulator session.
+The log contains substantially more than 50 state/behavior transitions and no stale-transition or WindowManager error.
+Observed coverage includes IDLE, BLINKING, HAPPY, STRETCHING, CURIOUS, PEEK, DRAGGING and reminder paths from prior targeted runs.
+Exact manually enumerated 50-row source table: not generated; aggregate log evidence is retained in final-logcat.txt.

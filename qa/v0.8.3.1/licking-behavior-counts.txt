@@ -1,0 +1,14 @@
+CatLifePet LICKING Release behavior configuration
+Date: 2026-07-21
+
+RELEASE_PROBABILITY_ENABLED=YES
+LICKING_WEIGHT_HIGH=4
+LICKING_WEIGHT_NORMAL=3
+LICKING_WEIGHT_LOW=0
+LICKING_WEIGHT_EXHAUSTED=0
+LICKING_WEIGHT_DND=0
+LICKING_WEIGHT_MOOD_LOW=0
+LICKING_WEIGHT_MOOD_SAD=0
+
+No synthetic 50-decision distribution is claimed. Runtime selection uses the existing
+100-point weighted behavior picker and keeps LICKING rare and context-appropriate.

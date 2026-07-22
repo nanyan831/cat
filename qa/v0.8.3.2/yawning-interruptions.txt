@@ -1,0 +1,341 @@
+﻿--------- beginning of main
+07-21 13:19:58.756 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 13:19:58.842 16146 16146 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_YAWN
+07-21 13:19:58.842 16146 16146 D CatLifePet: 收到 debug behavior=YAWNING
+07-21 13:19:58.842 16146 16146 D CatLifePet: addView skipped: pet already showing
+07-21 13:19:58.842 16146 16146 D CatLifePet: behavior cancelled: debug behavior: YAWNING
+07-21 13:19:58.842 16146 16146 D CatLifePet: schedule next behavior: 12730ms
+07-21 13:19:58.842 16146 16146 D CatLifePet: micro behavior cancelled: debug behavior: YAWNING
+07-21 13:19:58.842 16146 16146 D CatLifePet: 小猫状态切换: IDLE -> YAWNING
+07-21 13:19:58.842 16146 16146 D CatLifePet: animation stopped: state=IDLE
+07-21 13:19:58.872 16146 16146 V CatLifePet: animation frame displayed: state=YAWNING, index=1
+07-21 13:19:58.872 16146 16146 D CatLifePet: cat visual state: YAWNING, mode=ONCE
+07-21 13:19:58.872 16146 16146 D CatLifePet: debug behavior triggered: YAWNING token=1784639998842
+07-21 13:19:59.054 16146 16146 V CatLifePet: animation frame displayed: state=YAWNING, index=2
+07-21 13:19:59.236 16146 16146 V CatLifePet: animation frame displayed: state=YAWNING, index=3
+07-21 13:19:59.311 16146 16146 D CatLifePet: onStartCommand action=com.example.catlifepet.action.SHOW_WATER
+07-21 13:19:59.311 16146 16146 D CatLifePet: 收到 ACTION_SHOW_WATER
+07-21 13:19:59.311 16146 16146 D CatLifePet: addView skipped: pet already showing
+07-21 13:19:59.311 16146 16146 D CatLifePet: behavior cancelled: reminder: WATER
+07-21 13:19:59.311 16146 16146 D CatLifePet: schedule next behavior: 6658ms
+07-21 13:19:59.311 16146 16146 D CatLifePet: micro behavior cancelled: reminder: WATER
+07-21 13:19:59.313 16146 16146 D CatLifePet: 随机文案选择: state=DRINKING, message=小猫也想喝水啦。
+07-21 13:19:59.313 16146 16146 D CatLifePet: 提醒确认反馈: state=DRINKING, message=好耶，喝水完成。
+07-21 13:19:59.313 16146 16146 D CatLifePet: 小猫状态切换: YAWNING -> DRINKING
+07-21 13:19:59.313 16146 16146 D CatLifePet: animation stopped: state=YAWNING
+07-21 13:19:59.337 16146 16146 V CatLifePet: animation frame displayed: state=DRINKING, index=1
+07-21 13:19:59.337 16146 16146 D CatLifePet: cat visual state: DRINKING, mode=LOOP
+07-21 13:19:59.499 16146 16146 V CatLifePet: animation frame displayed: state=DRINKING, index=2
+07-21 13:19:59.642 16146 16146 V CatLifePet: animation frame displayed: state=DRINKING, index=3
+07-21 13:19:59.783 16146 16146 V CatLifePet: animation frame displayed: state=DRINKING, index=4
+07-21 13:19:59.965 16146 16146 V CatLifePet: animation frame displayed: state=DRINKING, index=5
+07-21 13:20:00.126 16146 16146 V CatLifePet: animation frame displayed: state=DRINKING, index=6
+07-21 13:20:00.267 16146 16146 V CatLifePet: animation frame displayed: state=DRINKING, index=7
+07-21 13:20:00.429 16146 16146 V CatLifePet: animation frame displayed: state=DRINKING, index=8
+07-21 13:20:00.672 16146 16146 V CatLifePet: animation frame displayed: state=DRINKING, index=1
+07-21 13:20:00.833 16146 16146 V CatLifePet: animation frame displayed: state=DRINKING, index=2
+07-21 13:20:00.973 16146 16146 V CatLifePet: animation frame displayed: state=DRINKING, index=3
+07-21 13:20:01.116 16146 16146 V CatLifePet: animation frame displayed: state=DRINKING, index=4
+07-21 13:20:01.298 16146 16146 V CatLifePet: animation frame displayed: state=DRINKING, index=5
+07-21 13:20:01.460 16146 16146 V CatLifePet: animation frame displayed: state=DRINKING, index=6
+07-21 13:20:01.603 16146 16146 V CatLifePet: animation frame displayed: state=DRINKING, index=7
+07-21 13:20:01.764 16146 16146 V CatLifePet: animation frame displayed: state=DRINKING, index=8
+07-21 13:20:02.006 16146 16146 V CatLifePet: animation frame displayed: state=DRINKING, index=1
+07-21 13:20:02.167 16146 16146 V CatLifePet: animation frame displayed: state=DRINKING, index=2
+07-21 13:20:02.307 16146 16146 V CatLifePet: animation frame displayed: state=DRINKING, index=3
+07-21 13:20:02.341 16146 16146 D CatLifePet: 小猫状态切换: DRINKING -> IDLE
+07-21 13:20:02.341 16146 16146 D CatLifePet: animation stopped: state=DRINKING
+07-21 13:20:02.341 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 13:20:02.341 16146 16146 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-21 13:20:02.522 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 13:20:02.684 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 13:20:02.866 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 13:20:03.027 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=5
+07-21 13:20:03.209 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=6
+07-21 13:20:03.372 16146 16146 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_YAWN
+07-21 13:20:03.373 16146 16146 D CatLifePet: 收到 debug behavior=YAWNING
+07-21 13:20:03.373 16146 16146 D CatLifePet: addView skipped: pet already showing
+07-21 13:20:03.373 16146 16146 D CatLifePet: behavior cancelled: debug behavior: YAWNING
+07-21 13:20:03.373 16146 16146 D CatLifePet: schedule next behavior: 10204ms
+07-21 13:20:03.373 16146 16146 D CatLifePet: micro behavior cancelled: debug behavior: YAWNING
+07-21 13:20:03.373 16146 16146 D CatLifePet: 小猫状态切换: IDLE -> YAWNING
+07-21 13:20:03.373 16146 16146 D CatLifePet: animation stopped: state=IDLE
+07-21 13:20:03.373 16146 16146 V CatLifePet: animation frame displayed: state=YAWNING, index=1
+07-21 13:20:03.374 16146 16146 D CatLifePet: cat visual state: YAWNING, mode=ONCE
+07-21 13:20:03.374 16146 16146 D CatLifePet: debug behavior triggered: YAWNING token=1784640003373
+07-21 13:20:03.555 16146 16146 V CatLifePet: animation frame displayed: state=YAWNING, index=2
+07-21 13:20:03.736 16146 16146 V CatLifePet: animation frame displayed: state=YAWNING, index=3
+07-21 13:20:03.792 16146 16146 D CatLifePet: onStartCommand action=com.example.catlifepet.action.SHOW_FOOD
+07-21 13:20:03.792 16146 16146 D CatLifePet: 收到 ACTION_SHOW_FOOD
+07-21 13:20:03.792 16146 16146 D CatLifePet: addView skipped: pet already showing
+07-21 13:20:03.792 16146 16146 D CatLifePet: behavior cancelled: reminder: FOOD
+07-21 13:20:03.792 16146 16146 D CatLifePet: schedule next behavior: 9893ms
+07-21 13:20:03.792 16146 16146 D CatLifePet: micro behavior cancelled: reminder: FOOD
+07-21 13:20:03.792 16146 16146 D CatLifePet: 随机文案选择: state=EATING, message=吃点东西再继续吧。
+07-21 13:20:03.792 16146 16146 D CatLifePet: 提醒确认反馈: state=EATING, message=好好吃饭，小猫放心了。
+07-21 13:20:03.792 16146 16146 D CatLifePet: 小猫状态切换: YAWNING -> EATING
+07-21 13:20:03.792 16146 16146 D CatLifePet: animation stopped: state=YAWNING
+07-21 13:20:03.814 16146 16146 V CatLifePet: animation frame displayed: state=EATING, index=1
+07-21 13:20:03.814 16146 16146 D CatLifePet: cat visual state: EATING, mode=LOOP
+07-21 13:20:03.955 16146 16146 V CatLifePet: animation frame displayed: state=EATING, index=2
+07-21 13:20:04.077 16146 16146 V CatLifePet: animation frame displayed: state=EATING, index=3
+07-21 13:20:04.218 16146 16146 V CatLifePet: animation frame displayed: state=EATING, index=4
+07-21 13:20:04.339 16146 16146 V CatLifePet: animation frame displayed: state=EATING, index=5
+07-21 13:20:04.481 16146 16146 V CatLifePet: animation frame displayed: state=EATING, index=6
+07-21 13:20:04.602 16146 16146 V CatLifePet: animation frame displayed: state=EATING, index=7
+07-21 13:20:04.744 16146 16146 V CatLifePet: animation frame displayed: state=EATING, index=8
+07-21 13:20:04.966 16146 16146 V CatLifePet: animation frame displayed: state=EATING, index=1
+07-21 13:20:05.107 16146 16146 V CatLifePet: animation frame displayed: state=EATING, index=2
+07-21 13:20:05.228 16146 16146 V CatLifePet: animation frame displayed: state=EATING, index=3
+07-21 13:20:05.369 16146 16146 V CatLifePet: animation frame displayed: state=EATING, index=4
+07-21 13:20:05.491 16146 16146 V CatLifePet: animation frame displayed: state=EATING, index=5
+07-21 13:20:05.633 16146 16146 V CatLifePet: animation frame displayed: state=EATING, index=6
+07-21 13:20:05.755 16146 16146 V CatLifePet: animation frame displayed: state=EATING, index=7
+07-21 13:20:05.896 16146 16146 V CatLifePet: animation frame displayed: state=EATING, index=8
+07-21 13:20:06.119 16146 16146 V CatLifePet: animation frame displayed: state=EATING, index=1
+07-21 13:20:06.259 16146 16146 V CatLifePet: animation frame displayed: state=EATING, index=2
+07-21 13:20:06.380 16146 16146 V CatLifePet: animation frame displayed: state=EATING, index=3
+07-21 13:20:06.523 16146 16146 V CatLifePet: animation frame displayed: state=EATING, index=4
+07-21 13:20:06.645 16146 16146 V CatLifePet: animation frame displayed: state=EATING, index=5
+07-21 13:20:06.785 16146 16146 V CatLifePet: animation frame displayed: state=EATING, index=6
+07-21 13:20:06.815 16146 16146 D CatLifePet: 小猫状态切换: EATING -> IDLE
+07-21 13:20:06.815 16146 16146 D CatLifePet: animation stopped: state=EATING
+07-21 13:20:06.830 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 13:20:06.830 16146 16146 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-21 13:20:07.011 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 13:20:07.173 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 13:20:07.354 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 13:20:07.516 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=5
+07-21 13:20:07.699 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=6
+07-21 13:20:07.872 16146 16146 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_YAWN
+07-21 13:20:07.872 16146 16146 D CatLifePet: 收到 debug behavior=YAWNING
+07-21 13:20:07.872 16146 16146 D CatLifePet: addView skipped: pet already showing
+07-21 13:20:07.873 16146 16146 D CatLifePet: behavior cancelled: debug behavior: YAWNING
+07-21 13:20:07.873 16146 16146 D CatLifePet: schedule next behavior: 14604ms
+07-21 13:20:07.873 16146 16146 D CatLifePet: micro behavior cancelled: debug behavior: YAWNING
+07-21 13:20:07.873 16146 16146 D CatLifePet: 小猫状态切换: IDLE -> YAWNING
+07-21 13:20:07.873 16146 16146 D CatLifePet: animation stopped: state=IDLE
+07-21 13:20:07.900 16146 16146 V CatLifePet: animation frame displayed: state=YAWNING, index=1
+07-21 13:20:07.900 16146 16146 D CatLifePet: cat visual state: YAWNING, mode=ONCE
+07-21 13:20:07.900 16146 16146 D CatLifePet: debug behavior triggered: YAWNING token=1784640007873
+07-21 13:20:08.082 16146 16146 V CatLifePet: animation frame displayed: state=YAWNING, index=2
+07-21 13:20:08.264 16146 16146 V CatLifePet: animation frame displayed: state=YAWNING, index=3
+07-21 13:20:08.284 16146 16146 D CatLifePet: onStartCommand action=com.example.catlifepet.action.SHOW_REST
+07-21 13:20:08.284 16146 16146 D CatLifePet: 收到 ACTION_SHOW_REST
+07-21 13:20:08.284 16146 16146 D CatLifePet: addView skipped: pet already showing
+07-21 13:20:08.284 16146 16146 D CatLifePet: behavior cancelled: reminder: REST
+07-21 13:20:08.284 16146 16146 D CatLifePet: schedule next behavior: 10730ms
+07-21 13:20:08.284 16146 16146 D CatLifePet: micro behavior cancelled: reminder: REST
+07-21 13:20:08.284 16146 16146 D CatLifePet: 随机文案选择: state=STRETCHING, message=休息 5 分钟也没关系。
+07-21 13:20:08.284 16146 16146 D CatLifePet: 提醒确认反馈: state=STRETCHING, message=休息一下也很重要。
+07-21 13:20:08.284 16146 16146 D CatLifePet: 小猫状态切换: YAWNING -> STRETCHING
+07-21 13:20:08.284 16146 16146 D CatLifePet: animation stopped: state=YAWNING
+07-21 13:20:08.301 16146 16146 V CatLifePet: animation frame displayed: state=STRETCHING, index=1
+07-21 13:20:08.301 16146 16146 D CatLifePet: cat visual state: STRETCHING, mode=ONCE
+07-21 13:20:08.483 16146 16146 V CatLifePet: animation frame displayed: state=STRETCHING, index=2
+07-21 13:20:08.665 16146 16146 V CatLifePet: animation frame displayed: state=STRETCHING, index=3
+07-21 13:20:08.888 16146 16146 V CatLifePet: animation frame displayed: state=STRETCHING, index=4
+07-21 13:20:09.138 16146 16146 V CatLifePet: animation frame displayed: state=STRETCHING, index=5
+07-21 13:20:09.489 16146 16146 V CatLifePet: animation frame displayed: state=STRETCHING, index=6
+07-21 13:20:09.790 16146 16146 D CatLifePet: animation finished and holding last frame: state=STRETCHING
+07-21 13:20:09.804 16146 16146 D CatLifePet: 小猫状态切换: STRETCHING -> IDLE
+07-21 13:20:09.805 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 13:20:09.805 16146 16146 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-21 13:20:09.986 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 13:20:10.147 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 13:20:10.328 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 13:20:10.490 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=5
+07-21 13:20:10.672 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=6
+07-21 13:20:10.854 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 13:20:11.036 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 13:20:11.197 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 13:20:11.378 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 13:20:11.539 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=5
+07-21 13:20:11.722 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=6
+07-21 13:20:11.905 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 13:20:12.006 16146 16146 D CatLifePet: 小猫状态切换: IDLE -> BLINKING
+07-21 13:20:12.006 16146 16146 D CatLifePet: animation stopped: state=IDLE
+07-21 13:20:12.018 16146 16146 V CatLifePet: animation frame displayed: state=BLINKING, index=1
+07-21 13:20:12.018 16146 16146 D CatLifePet: cat visual state: BLINKING, mode=ONCE
+07-21 13:20:12.018 16146 16146 D CatLifePet: micro behavior triggered: BLINKING
+07-21 13:20:12.099 16146 16146 V CatLifePet: animation frame displayed: state=BLINKING, index=2
+07-21 13:20:12.170 16146 16146 V CatLifePet: animation frame displayed: state=BLINKING, index=3
+07-21 13:20:12.260 16146 16146 V CatLifePet: animation frame displayed: state=BLINKING, index=4
+07-21 13:20:12.331 16146 16146 V CatLifePet: animation frame displayed: state=BLINKING, index=5
+07-21 13:20:12.348 16146 16146 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_YAWN
+07-21 13:20:12.348 16146 16146 D CatLifePet: 收到 debug behavior=YAWNING
+07-21 13:20:12.349 16146 16146 D CatLifePet: addView skipped: pet already showing
+07-21 13:20:12.349 16146 16146 D CatLifePet: behavior cancelled: debug behavior: YAWNING
+07-21 13:20:12.349 16146 16146 D CatLifePet: schedule next behavior: 10566ms
+07-21 13:20:12.349 16146 16146 D CatLifePet: 小猫状态切换: BLINKING -> IDLE
+07-21 13:20:12.349 16146 16146 D CatLifePet: animation stopped: state=BLINKING
+07-21 13:20:12.350 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 13:20:12.350 16146 16146 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-21 13:20:12.354 16146 16146 D CatLifePet: micro behavior cancelled: debug behavior: YAWNING
+07-21 13:20:12.354 16146 16146 D CatLifePet: 小猫状态切换: IDLE -> YAWNING
+07-21 13:20:12.354 16146 16146 D CatLifePet: animation stopped: state=IDLE
+07-21 13:20:12.354 16146 16146 V CatLifePet: animation frame displayed: state=YAWNING, index=1
+07-21 13:20:12.354 16146 16146 D CatLifePet: cat visual state: YAWNING, mode=ONCE
+07-21 13:20:12.355 16146 16146 D CatLifePet: debug behavior triggered: YAWNING token=1784640012354
+07-21 13:20:12.535 16146 16146 V CatLifePet: animation frame displayed: state=YAWNING, index=2
+07-21 13:20:12.716 16146 16146 V CatLifePet: animation frame displayed: state=YAWNING, index=3
+07-21 13:20:12.769 16146 16146 D CatLifePet: onStartCommand action=com.example.catlifepet.action.SHOW_SLEEP
+07-21 13:20:12.769 16146 16146 D CatLifePet: 收到 ACTION_SHOW_SLEEP
+07-21 13:20:12.770 16146 16146 D CatLifePet: addView skipped: pet already showing
+07-21 13:20:12.770 16146 16146 D CatLifePet: behavior cancelled: reminder: SLEEP
+07-21 13:20:12.770 16146 16146 D CatLifePet: schedule next behavior: 10627ms
+07-21 13:20:12.770 16146 16146 D CatLifePet: micro behavior cancelled: reminder: SLEEP
+07-21 13:20:12.770 16146 16146 D CatLifePet: 随机文案选择: state=SLEEPING, message=小猫要困啦，你也休息吧。
+07-21 13:20:12.770 16146 16146 D CatLifePet: 提醒确认反馈: state=SLEEPING, message=晚安，小猫陪你。
+07-21 13:20:12.770 16146 16146 D CatLifePet: 小猫状态切换: YAWNING -> STRETCHING
+07-21 13:20:12.770 16146 16146 D CatLifePet: animation stopped: state=YAWNING
+07-21 13:20:12.771 16146 16146 V CatLifePet: animation frame displayed: state=STRETCHING, index=1
+07-21 13:20:12.771 16146 16146 D CatLifePet: cat visual state: STRETCHING, mode=ONCE
+07-21 13:20:12.952 16146 16146 V CatLifePet: animation frame displayed: state=STRETCHING, index=2
+07-21 13:20:13.135 16146 16146 V CatLifePet: animation frame displayed: state=STRETCHING, index=3
+07-21 13:20:13.356 16146 16146 V CatLifePet: animation frame displayed: state=STRETCHING, index=4
+07-21 13:20:13.608 16146 16146 V CatLifePet: animation frame displayed: state=STRETCHING, index=5
+07-21 13:20:13.958 16146 16146 V CatLifePet: animation frame displayed: state=STRETCHING, index=6
+07-21 13:20:14.259 16146 16146 D CatLifePet: animation finished and holding last frame: state=STRETCHING
+07-21 13:20:14.276 16146 16146 D CatLifePet: 小猫状态切换: STRETCHING -> SLEEPING
+07-21 13:20:14.294 16146 16146 V CatLifePet: animation frame displayed: state=SLEEPING, index=1
+07-21 13:20:14.295 16146 16146 D CatLifePet: cat visual state: SLEEPING, mode=LOOP
+07-21 13:20:14.646 16146 16146 V CatLifePet: animation frame displayed: state=SLEEPING, index=2
+07-21 13:20:14.998 16146 16146 V CatLifePet: animation frame displayed: state=SLEEPING, index=3
+07-21 13:20:15.450 16146 16146 V CatLifePet: animation frame displayed: state=SLEEPING, index=4
+07-21 13:20:15.801 16146 16146 V CatLifePet: animation frame displayed: state=SLEEPING, index=5
+07-21 13:20:16.153 16146 16146 V CatLifePet: animation frame displayed: state=SLEEPING, index=6
+07-21 13:20:16.655 16146 16146 V CatLifePet: animation frame displayed: state=SLEEPING, index=1
+07-21 13:20:16.840 16146 16146 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_YAWN
+07-21 13:20:16.841 16146 16146 D CatLifePet: 收到 debug behavior=YAWNING
+07-21 13:20:16.841 16146 16146 D CatLifePet: addView skipped: pet already showing
+07-21 13:20:16.841 16146 16146 D CatLifePet: behavior cancelled: debug behavior: YAWNING
+07-21 13:20:16.841 16146 16146 D CatLifePet: schedule next behavior: 8314ms
+07-21 13:20:16.841 16146 16146 D CatLifePet: micro behavior cancelled: debug behavior: YAWNING
+07-21 13:20:16.841 16146 16146 D CatLifePet: 小猫状态切换: SLEEPING -> YAWNING
+07-21 13:20:16.841 16146 16146 D CatLifePet: animation stopped: state=SLEEPING
+07-21 13:20:16.841 16146 16146 V CatLifePet: animation frame displayed: state=YAWNING, index=1
+07-21 13:20:16.841 16146 16146 D CatLifePet: cat visual state: YAWNING, mode=ONCE
+07-21 13:20:16.841 16146 16146 D CatLifePet: debug behavior triggered: YAWNING token=1784640016841
+07-21 13:20:17.023 16146 16146 V CatLifePet: animation frame displayed: state=YAWNING, index=2
+07-21 13:20:17.204 16146 16146 V CatLifePet: animation frame displayed: state=YAWNING, index=3
+07-21 13:20:17.262 16146 16146 D CatLifePet: onStartCommand action=com.example.catlifepet.action.HIDE_TEMPORARILY
+07-21 13:20:17.262 16146 16146 D CatLifePet: behavior scheduling stopped
+07-21 13:20:17.262 16146 16146 D CatLifePet: micro behavior scheduling stopped
+07-21 13:20:17.262 16146 16146 D CatLifePet: Affection companionship session stopped
+07-21 13:20:17.262 16146 16146 D CatLifePet: removeView
+07-21 13:20:17.263 16146 16146 D CatLifePet: cat animation manager released
+07-21 13:20:17.263 16146 16146 D CatLifePet: pet hidden temporarily
+07-21 13:20:17.932 16146 16146 D CatLifePet: onStartCommand action=com.example.catlifepet.action.STOP
+07-21 13:20:17.935 16146 16146 D CatLifePet: 服务停止 onDestroy
+07-21 13:20:17.935 16146 16146 D CatLifePet: micro behavior scheduling stopped
+07-21 13:20:17.935 16146 16146 D CatLifePet: behavior scheduling stopped
+07-21 13:20:17.935 16146 16146 D CatLifePet: micro behavior scheduling stopped
+07-21 13:20:18.712 16146 16146 D CatLifePet: 服务启动 onCreate
+07-21 13:20:18.717 16146 16146 D CatLifePet: onStartCommand action=com.example.catlifepet.action.START
+07-21 13:20:18.718 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 13:20:18.718 16146 16146 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-21 13:20:18.718 16146 16146 D CatLifePet: CatPetView uses one transparent FIT_CENTER ImageView for all PNG states
+07-21 13:20:18.723 16146 16146 D CatLifePet: addView: x=-105, y=1282, width=934, height=483
+07-21 13:20:18.724 16146 16146 D CatLifePet: Affection companionship session started
+07-21 13:20:18.724 16146 16146 D CatLifePet: behavior scheduling started
+07-21 13:20:18.724 16146 16146 D CatLifePet: schedule next behavior: 8220ms
+07-21 13:20:18.724 16146 16146 D CatLifePet: micro behavior scheduling started
+07-21 13:20:18.724 16146 16146 D CatLifePet: 调试模式开关状态: false
+07-21 13:20:18.725 16146 16146 D CatLifePet: 安排提醒: type=FOOD, delayMinutes=279, debug=false
+07-21 13:20:18.725 16146 16146 D CatLifePet: 安排提醒: type=SLEEP, delayMinutes=609, debug=false
+07-21 13:20:18.900 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 13:20:19.062 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 13:20:19.243 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 13:20:19.405 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=5
+07-21 13:20:19.586 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=6
+--------- beginning of main
+07-21 13:20:43.241 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 13:20:43.296 16146 16146 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_YAWN
+07-21 13:20:43.296 16146 16146 D CatLifePet: 收到 debug behavior=YAWNING
+07-21 13:20:43.296 16146 16146 D CatLifePet: addView skipped: pet already showing
+07-21 13:20:43.296 16146 16146 D CatLifePet: behavior cancelled: debug behavior: YAWNING
+07-21 13:20:43.296 16146 16146 D CatLifePet: schedule next behavior: 8267ms
+07-21 13:20:43.296 16146 16146 D CatLifePet: micro behavior cancelled: debug behavior: YAWNING
+07-21 13:20:43.296 16146 16146 D CatLifePet: 小猫状态切换: IDLE -> YAWNING
+07-21 13:20:43.296 16146 16146 D CatLifePet: animation stopped: state=IDLE
+07-21 13:20:43.318 16146 16146 V CatLifePet: animation frame displayed: state=YAWNING, index=1
+07-21 13:20:43.319 16146 16146 D CatLifePet: cat visual state: YAWNING, mode=ONCE
+07-21 13:20:43.319 16146 16146 D CatLifePet: debug behavior triggered: YAWNING token=1784640043296
+07-21 13:20:43.500 16146 16146 V CatLifePet: animation frame displayed: state=YAWNING, index=2
+07-21 13:20:43.682 16146 16146 V CatLifePet: animation frame displayed: state=YAWNING, index=3
+07-21 13:20:43.738 16146 16146 D CatLifePet: behavior cancelled: user interaction
+07-21 13:20:43.738 16146 16146 D CatLifePet: schedule next behavior: 13264ms
+07-21 13:20:43.738 16146 16146 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-21 13:20:43.738 16146 16146 D CatLifePet: micro behavior cancelled: pet click
+07-21 13:20:43.738 16146 16146 D CatLifePet: Energy 99 -> 98 reason=USER_INTERACTION
+07-21 13:20:43.739 16146 16146 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=13 daily=3/5
+07-21 13:20:43.739 16146 16146 D CatLifePet: 陪伴文案选择: moodLevel=HAPPY, affectionLevel=NEW, affectionSpecial=false, message=嘿嘿，陪我玩一会儿嘛～
+07-21 13:20:43.739 16146 16146 D CatLifePet: 小猫状态切换: YAWNING -> HAPPY
+07-21 13:20:43.739 16146 16146 D CatLifePet: animation stopped: state=YAWNING
+07-21 13:20:43.739 16146 16146 V CatLifePet: animation frame displayed: state=HAPPY, index=1
+07-21 13:20:43.739 16146 16146 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-21 13:20:43.861 16146 16146 V CatLifePet: animation frame displayed: state=HAPPY, index=2
+07-21 13:20:43.982 16146 16146 V CatLifePet: animation frame displayed: state=HAPPY, index=3
+07-21 13:20:44.125 16146 16146 V CatLifePet: animation frame displayed: state=HAPPY, index=4
+07-21 13:20:44.286 16146 16146 V CatLifePet: animation frame displayed: state=HAPPY, index=5
+07-21 13:20:44.427 16146 16146 V CatLifePet: animation frame displayed: state=HAPPY, index=6
+07-21 13:20:44.628 16146 16146 D CatLifePet: animation finished and holding last frame: state=HAPPY
+07-21 13:20:44.941 16146 16146 D CatLifePet: 小猫状态切换: HAPPY -> IDLE
+07-21 13:20:44.942 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 13:20:44.942 16146 16146 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-21 13:20:45.123 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 13:20:45.286 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 13:20:45.467 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 13:20:45.628 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=5
+07-21 13:20:45.810 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=6
+07-21 13:20:45.820 16146 16146 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_YAWN
+07-21 13:20:45.820 16146 16146 D CatLifePet: 收到 debug behavior=YAWNING
+07-21 13:20:45.820 16146 16146 D CatLifePet: addView skipped: pet already showing
+07-21 13:20:45.820 16146 16146 D CatLifePet: behavior cancelled: debug behavior: YAWNING
+07-21 13:20:45.820 16146 16146 D CatLifePet: schedule next behavior: 6377ms
+07-21 13:20:45.820 16146 16146 D CatLifePet: micro behavior cancelled: debug behavior: YAWNING
+07-21 13:20:45.820 16146 16146 D CatLifePet: 小猫状态切换: IDLE -> YAWNING
+07-21 13:20:45.820 16146 16146 D CatLifePet: animation stopped: state=IDLE
+07-21 13:20:45.820 16146 16146 V CatLifePet: animation frame displayed: state=YAWNING, index=1
+07-21 13:20:45.820 16146 16146 D CatLifePet: cat visual state: YAWNING, mode=ONCE
+07-21 13:20:45.820 16146 16146 D CatLifePet: debug behavior triggered: YAWNING token=1784640045820
+07-21 13:20:46.002 16146 16146 V CatLifePet: animation frame displayed: state=YAWNING, index=2
+07-21 13:20:46.184 16146 16146 V CatLifePet: animation frame displayed: state=YAWNING, index=3
+07-21 13:20:46.268 16146 16146 D CatLifePet: behavior cancelled: user interaction
+07-21 13:20:46.268 16146 16146 D CatLifePet: schedule next behavior: 6657ms
+07-21 13:20:46.268 16146 16146 D CatLifePet: micro behavior cancelled: user interaction: DRAG
+07-21 13:20:46.268 16146 16146 D CatLifePet: 小猫状态切换: YAWNING -> DRAGGING
+07-21 13:20:46.268 16146 16146 D CatLifePet: animation stopped: state=YAWNING
+07-21 13:20:46.279 16146 16146 V CatLifePet: animation frame displayed: state=DRAGGING, index=1
+07-21 13:20:46.279 16146 16146 D CatLifePet: cat visual state: DRAGGING, mode=LOOP
+07-21 13:20:46.469 16146 16146 V CatLifePet: animation frame displayed: state=DRAGGING, index=2
+07-21 13:20:46.654 16146 16146 V CatLifePet: animation frame displayed: state=DRAGGING, index=3
+07-21 13:20:46.837 16146 16146 V CatLifePet: animation frame displayed: state=DRAGGING, index=4
+07-21 13:20:46.922 16146 16146 D CatLifePet: snap peek edge: left=false, x=251, y=1321, hidden=105px
+07-21 13:20:46.922 16146 16146 D CatLifePet: 小猫状态切换: DRAGGING -> IDLE
+07-21 13:20:46.922 16146 16146 D CatLifePet: animation stopped: state=DRAGGING
+07-21 13:20:46.922 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 13:20:46.922 16146 16146 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-21 13:20:47.103 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 13:20:47.264 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 13:20:47.445 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 13:20:47.606 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=5
+07-21 13:20:47.787 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=6
+07-21 13:20:47.968 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 13:20:48.149 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 13:20:48.311 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 13:20:48.445 16146 16146 D CatLifePet: 小猫状态切换: IDLE -> BLINKING
+07-21 13:20:48.445 16146 16146 D CatLifePet: animation stopped: state=IDLE
+07-21 13:20:48.455 16146 16146 V CatLifePet: animation frame displayed: state=BLINKING, index=1
+07-21 13:20:48.455 16146 16146 D CatLifePet: cat visual state: BLINKING, mode=ONCE
+07-21 13:20:48.455 16146 16146 D CatLifePet: micro behavior triggered: BLINKING
+07-21 13:20:48.536 16146 16146 V CatLifePet: animation frame displayed: state=BLINKING, index=2
+07-21 13:20:48.607 16146 16146 V CatLifePet: animation frame displayed: state=BLINKING, index=3
+07-21 13:20:48.700 16146 16146 V CatLifePet: animation frame displayed: state=BLINKING, index=4
+07-21 13:20:48.771 16146 16146 V CatLifePet: animation frame displayed: state=BLINKING, index=5
+07-21 13:20:48.873 16146 16146 D CatLifePet: animation finished and holding last frame: state=BLINKING
+07-21 13:20:48.907 16146 16146 D CatLifePet: 小猫状态切换: BLINKING -> IDLE
+07-21 13:20:48.907 16146 16146 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 13:20:48.907 16146 16146 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-21 13:20:48.907 16146 16146 D CatLifePet: micro behavior finished: BLINKING

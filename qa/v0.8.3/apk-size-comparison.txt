@@ -1,0 +1,14 @@
+CatLifePet v0.8.3 APK size comparison
+Baseline: v0.8.2.4 build outputs recorded before this phase
+
+Debug baseline: 8500851 bytes
+Debug v0.8.3: 8501107 bytes
+Debug delta: +256 bytes
+
+Release baseline: 6861910 bytes
+Release v0.8.3 unsigned: 6862646 bytes
+Release delta: +736 bytes
+
+PNG count: 62 -> 62
+PNG resource volume: 4384832 bytes; no new PNGs
+The small APK deltas come from the Debug page readiness copy and build metadata, not animation assets.

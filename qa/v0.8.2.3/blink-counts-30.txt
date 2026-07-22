@@ -1,0 +1,4 @@
+ACTUAL AUTOMATIC BLINKS = 873 in the retained emulator log session.
+All counted entries are PetMicroBehaviorManager automatic triggers, not Debug Blink buttons.
+No Blink error was found in the final anomaly scan.
+CURIOUS is now excluded from the MicroBehavior visibility predicate while its lifecycle is active.

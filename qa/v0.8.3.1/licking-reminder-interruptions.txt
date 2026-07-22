@@ -1,0 +1,197 @@
+﻿07-21 10:25:11.969 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 10:25:12.007   690  1743 I NotificationService: cancelToast pkg=com.example.catlifepet token=android.os.BinderProxy@d677d08
+07-21 10:25:12.007   690  1743 W NotificationService: Toast already cancelled. pkg=com.example.catlifepet token=android.os.BinderProxy@d677d08
+07-21 10:25:12.018 13198 13198 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_LICKING
+07-21 10:25:12.018 13198 13198 D CatLifePet: 收到 debug behavior=LICKING
+07-21 10:25:12.018 13198 13198 D CatLifePet: addView skipped: pet already showing
+07-21 10:25:12.018 13198 13198 D CatLifePet: behavior cancelled: debug behavior: LICKING
+07-21 10:25:12.018 13198 13198 D CatLifePet: schedule next behavior: 10182ms
+07-21 10:25:12.018 13198 13198 D CatLifePet: micro behavior cancelled: debug behavior: LICKING
+07-21 10:25:12.018 13198 13198 D CatLifePet: 小猫状态切换: IDLE -> LICKING
+07-21 10:25:12.018 13198 13198 D CatLifePet: animation stopped: state=IDLE
+07-21 10:25:12.019 13198 13198 V CatLifePet: animation frame displayed: state=LICKING, index=1
+07-21 10:25:12.019 13198 13198 D CatLifePet: cat visual state: LICKING, mode=ONCE
+07-21 10:25:12.019 13198 13198 D CatLifePet: debug behavior triggered: LICKING token=1784629512018
+07-21 10:25:12.179 13198 13198 V CatLifePet: animation frame displayed: state=LICKING, index=2
+07-21 10:25:12.330 13198 13198 V CatLifePet: animation frame displayed: state=LICKING, index=3
+07-21 10:25:12.512 13198 13198 V CatLifePet: animation frame displayed: state=LICKING, index=4
+07-21 10:25:12.694 13198 13198 V CatLifePet: animation frame displayed: state=LICKING, index=5
+07-21 10:25:12.967 13198 13198 V CatLifePet: animation frame displayed: state=LICKING, index=6
+07-21 10:25:13.235 13198 13198 V CatLifePet: animation frame displayed: state=LICKING, index=7
+07-21 10:25:13.417 13198 13198 V CatLifePet: animation frame displayed: state=LICKING, index=8
+07-21 10:25:13.589 13198 13198 V CatLifePet: animation frame displayed: state=LICKING, index=9
+07-21 10:25:13.752 13198 13198 V CatLifePet: animation frame displayed: state=LICKING, index=10
+07-21 10:25:13.933 13198 13198 D CatLifePet: animation finished and holding last frame: state=LICKING
+07-21 10:25:13.970 13198 13198 D CatLifePet: 小猫状态切换: LICKING -> IDLE
+07-21 10:25:13.970 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 10:25:13.970 13198 13198 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-21 10:25:13.970 13198 13198 D CatLifePet: debug behavior finished: LICKING token=1784629512018
+07-21 10:25:14.169 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 10:25:14.331 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 10:25:14.513 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 10:25:14.625   690  1186 W NotificationService: Toast already killed. pkg=com.example.catlifepet token=android.os.BinderProxy@d4bcb5e
+07-21 10:25:14.675 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=5
+07-21 10:25:14.857 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=6
+07-21 10:25:15.039 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 10:25:15.221 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 10:25:15.382 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 10:25:15.565 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 10:25:15.727 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=5
+07-21 10:25:15.908 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=6
+07-21 10:25:16.089 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 10:25:16.269 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 10:25:16.385 13198 13198 D CatLifePet: 小猫状态切换: IDLE -> BLINKING
+07-21 10:25:16.385 13198 13198 D CatLifePet: animation stopped: state=IDLE
+07-21 10:25:16.385 13198 13198 V CatLifePet: animation frame displayed: state=BLINKING, index=1
+07-21 10:25:16.386 13198 13198 D CatLifePet: cat visual state: BLINKING, mode=ONCE
+07-21 10:25:16.386 13198 13198 D CatLifePet: micro behavior triggered: BLINKING
+07-21 10:25:16.467 13198 13198 V CatLifePet: animation frame displayed: state=BLINKING, index=2
+07-21 10:25:16.539 13198 13198 V CatLifePet: animation frame displayed: state=BLINKING, index=3
+07-21 10:25:16.630 13198 13198 V CatLifePet: animation frame displayed: state=BLINKING, index=4
+07-21 10:25:16.702 13198 13198 V CatLifePet: animation frame displayed: state=BLINKING, index=5
+07-21 10:25:16.803 13198 13198 D CatLifePet: animation finished and holding last frame: state=BLINKING
+07-21 10:25:16.836 13198 13198 D CatLifePet: 小猫状态切换: BLINKING -> IDLE
+07-21 10:25:16.837 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 10:25:16.837 13198 13198 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-21 10:25:16.837 13198 13198 D CatLifePet: micro behavior finished: BLINKING
+07-21 10:25:17.017 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 10:25:17.183 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 10:25:17.364 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 10:25:17.527 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=5
+07-21 10:25:17.709 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=6
+07-21 10:25:17.891 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 10:25:18.073 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 10:25:18.234 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 10:25:18.417 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 10:25:18.585 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=5
+07-21 10:25:18.767 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=6
+07-21 10:25:18.949 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 10:25:19.131 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 10:25:19.301 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 10:25:19.483 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 10:25:19.644 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=5
+07-21 10:25:19.726 13198 13198 D CatLifePet: 小猫状态切换: IDLE -> BLINKING
+07-21 10:25:19.726 13198 13198 D CatLifePet: animation stopped: state=IDLE
+07-21 10:25:19.727 13198 13198 V CatLifePet: animation frame displayed: state=BLINKING, index=1
+07-21 10:25:19.727 13198 13198 D CatLifePet: cat visual state: BLINKING, mode=ONCE
+07-21 10:25:19.727 13198 13198 D CatLifePet: micro behavior triggered: BLINKING
+07-21 10:25:19.810 13198 13198 V CatLifePet: animation frame displayed: state=BLINKING, index=2
+07-21 10:25:19.882 13198 13198 V CatLifePet: animation frame displayed: state=BLINKING, index=3
+07-21 10:25:19.973 13198 13198 V CatLifePet: animation frame displayed: state=BLINKING, index=4
+07-21 10:25:20.044 13198 13198 V CatLifePet: animation frame displayed: state=BLINKING, index=5
+07-21 10:25:20.146 13198 13198 D CatLifePet: animation finished and holding last frame: state=BLINKING
+07-21 10:25:20.179 13198 13198 D CatLifePet: 小猫状态切换: BLINKING -> IDLE
+07-21 10:25:20.179 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 10:25:20.180 13198 13198 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-21 10:25:20.180 13198 13198 D CatLifePet: micro behavior finished: BLINKING
+07-21 10:25:20.361 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 10:25:20.523 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 10:25:20.705 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 10:25:20.867 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=5
+07-21 10:25:21.049 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=6
+07-21 10:25:21.231 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 10:25:21.412 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 10:25:21.574 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 10:25:21.756 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 10:25:21.916 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=5
+07-21 10:25:22.098 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=6
+07-21 10:25:22.219 13198 13198 D CatLifePet: behavior weights: energy=68 level=NORMAL mood=63 moodLevel=NORMAL dnd=false weights=BehaviorWeights(none=53, stretch=20, happy=15, shortSleep=10, yawn=2, licking=0, curious=0, peek=0) roll=17
+07-21 10:25:22.219 13198 13198 D CatLifePet: selected behavior: NONE
+07-21 10:25:22.219 13198 13198 D CatLifePet: schedule next behavior: 7999ms
+07-21 10:25:22.283 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 10:25:22.470 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 10:25:22.633 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 10:25:22.816 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 10:25:22.978 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=5
+07-21 10:25:23.159 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=6
+07-21 10:25:23.342 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 10:25:23.534 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 10:25:23.701 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 10:25:23.883 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 10:25:24.045 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=5
+07-21 10:25:24.226 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=6
+07-21 10:25:24.407 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 10:25:24.601 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 10:25:24.763 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 10:25:24.945 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 10:25:25.019 13198 13198 D CatLifePet: 小猫状态切换: IDLE -> BLINKING
+07-21 10:25:25.019 13198 13198 D CatLifePet: animation stopped: state=IDLE
+07-21 10:25:25.019 13198 13198 V CatLifePet: animation frame displayed: state=BLINKING, index=1
+07-21 10:25:25.019 13198 13198 D CatLifePet: cat visual state: BLINKING, mode=ONCE
+07-21 10:25:25.019 13198 13198 D CatLifePet: micro behavior triggered: BLINKING
+07-21 10:25:25.102 13198 13198 V CatLifePet: animation frame displayed: state=BLINKING, index=2
+07-21 10:25:25.174 13198 13198 V CatLifePet: animation frame displayed: state=BLINKING, index=3
+07-21 10:25:25.266 13198 13198 V CatLifePet: animation frame displayed: state=BLINKING, index=4
+07-21 10:25:25.336 13198 13198 V CatLifePet: animation frame displayed: state=BLINKING, index=5
+07-21 10:25:25.439 13198 13198 D CatLifePet: animation finished and holding last frame: state=BLINKING
+07-21 10:25:25.471 13198 13198 D CatLifePet: 小猫状态切换: BLINKING -> IDLE
+07-21 10:25:25.472 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 10:25:25.472 13198 13198 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-21 10:25:25.472 13198 13198 D CatLifePet: micro behavior finished: BLINKING
+07-21 10:25:25.653 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 10:25:25.814 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 10:25:25.994 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 10:25:26.157 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=5
+07-21 10:25:26.338 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=6
+07-21 10:25:26.521 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 10:25:26.703 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 10:25:26.864 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 10:25:27.045 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 10:25:27.206 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=5
+07-21 10:25:27.387 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=6
+07-21 10:25:27.569 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 10:25:27.751 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 10:25:27.913 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 10:25:28.095 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 10:25:28.255 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=5
+07-21 10:25:28.436 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=6
+07-21 10:25:28.617 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 10:25:28.800 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 10:25:28.961 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 10:25:29.144 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 10:25:29.317 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=5
+07-21 10:25:29.501 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=6
+07-21 10:25:29.682 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 10:25:29.780 13198 13198 D CatLifePet: 小猫状态切换: IDLE -> BLINKING
+07-21 10:25:29.780 13198 13198 D CatLifePet: animation stopped: state=IDLE
+07-21 10:25:29.781 13198 13198 V CatLifePet: animation frame displayed: state=BLINKING, index=1
+07-21 10:25:29.781 13198 13198 D CatLifePet: cat visual state: BLINKING, mode=ONCE
+07-21 10:25:29.781 13198 13198 D CatLifePet: micro behavior triggered: BLINKING
+07-21 10:25:29.862 13198 13198 V CatLifePet: animation frame displayed: state=BLINKING, index=2
+07-21 10:25:29.934 13198 13198 V CatLifePet: animation frame displayed: state=BLINKING, index=3
+07-21 10:25:30.025 13198 13198 V CatLifePet: animation frame displayed: state=BLINKING, index=4
+07-21 10:25:30.096 13198 13198 V CatLifePet: animation frame displayed: state=BLINKING, index=5
+07-21 10:25:30.197 13198 13198 D CatLifePet: animation finished and holding last frame: state=BLINKING
+07-21 10:25:30.219 13198 13198 D CatLifePet: skip behavior because currentState=BLINKING
+07-21 10:25:30.219 13198 13198 D CatLifePet: schedule next behavior: 11061ms
+07-21 10:25:30.232 13198 13198 D CatLifePet: 小猫状态切换: BLINKING -> IDLE
+07-21 10:25:30.232 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 10:25:30.232 13198 13198 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-21 10:25:30.233 13198 13198 D CatLifePet: micro behavior finished: BLINKING
+07-21 10:25:30.413 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 10:25:30.576 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 10:25:30.758 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 10:25:30.919 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=5
+07-21 10:25:31.100 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=6
+07-21 10:25:31.281 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 10:25:31.463 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 10:25:31.625 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 10:25:31.808 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 10:25:31.970 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=5
+07-21 10:25:32.152 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=6
+07-21 10:25:32.333 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 10:25:32.359 13198 13198 D CatLifePet: 小猫状态切换: IDLE -> BLINKING
+07-21 10:25:32.359 13198 13198 D CatLifePet: animation stopped: state=IDLE
+07-21 10:25:32.359 13198 13198 V CatLifePet: animation frame displayed: state=BLINKING, index=1
+07-21 10:25:32.359 13198 13198 D CatLifePet: cat visual state: BLINKING, mode=ONCE
+07-21 10:25:32.359 13198 13198 D CatLifePet: micro behavior triggered: BLINKING
+07-21 10:25:32.441 13198 13198 V CatLifePet: animation frame displayed: state=BLINKING, index=2
+07-21 10:25:32.512 13198 13198 V CatLifePet: animation frame displayed: state=BLINKING, index=3
+07-21 10:25:32.602 13198 13198 V CatLifePet: animation frame displayed: state=BLINKING, index=4
+07-21 10:25:32.685 13198 13198 V CatLifePet: animation frame displayed: state=BLINKING, index=5
+07-21 10:25:32.785 13198 13198 D CatLifePet: animation finished and holding last frame: state=BLINKING
+07-21 10:25:32.817 13198 13198 D CatLifePet: 小猫状态切换: BLINKING -> IDLE
+07-21 10:25:32.817 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 10:25:32.817 13198 13198 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-21 10:25:32.817 13198 13198 D CatLifePet: micro behavior finished: BLINKING
+07-21 10:25:33.000 13198 13198 V CatLifePet: animation frame displayed: state=IDLE, index=2

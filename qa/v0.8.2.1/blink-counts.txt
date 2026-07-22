@@ -1,0 +1,5 @@
+BLINK remains owned by one PetMicroBehaviorManager with one Handler and generation token.
+It requires currentState == IDLE and visibility predicate true.
+It is cancelled by user interaction, reminders, PEEK, CURIOUS, hide, and service stop.
+
+Exact 30-blink sample: NOT COMPLETED.

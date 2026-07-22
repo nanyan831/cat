@@ -1,0 +1,44 @@
+﻿--------- beginning of main
+07-20 05:05:29.017 14605 14605 D CatLifePet: onStartCommand action=com.example.catlifepet.action.SHOW_WATER
+07-20 05:05:29.017 14605 14605 D CatLifePet: 收到 ACTION_SHOW_WATER
+07-20 05:05:29.017 14605 14605 D CatLifePet: addView skipped: pet already showing
+07-20 05:05:29.017 14605 14605 D CatLifePet: behavior cancelled: reminder: WATER
+07-20 05:05:29.017 14605 14605 D CatLifePet: schedule next behavior: 7095ms
+07-20 05:05:29.018 14605 14605 D CatLifePet: micro behavior cancelled: reminder: WATER
+07-20 05:05:29.018 14605 14605 D CatLifePet: 随机文案选择: state=DRINKING, message=补一点水分会舒服些。
+07-20 05:05:29.018 14605 14605 D CatLifePet: 提醒确认反馈: state=DRINKING, message=好耶，喝水完成。
+07-20 05:05:29.018 14605 14605 D CatLifePet: 小猫状态切换: IDLE -> DRINKING
+07-20 05:05:29.018 14605 14605 D CatLifePet: animation stopped: state=IDLE
+07-20 05:05:29.046 14605 14605 D CatLifePet: cat visual state: DRINKING, mode=LOOP
+07-20 05:05:29.495 14605 14605 D CatLifePet: onStartCommand action=com.example.catlifepet.action.SHOW_FOOD
+07-20 05:05:29.495 14605 14605 D CatLifePet: 收到 ACTION_SHOW_FOOD
+07-20 05:05:29.495 14605 14605 D CatLifePet: addView skipped: pet already showing
+07-20 05:05:29.495 14605 14605 D CatLifePet: behavior cancelled: reminder: FOOD
+07-20 05:05:29.495 14605 14605 D CatLifePet: schedule next behavior: 12170ms
+07-20 05:05:29.495 14605 14605 D CatLifePet: micro behavior cancelled: reminder: FOOD
+07-20 05:05:29.495 14605 14605 D CatLifePet: 随机文案选择: state=EATING, message=到饭点啦，好好吃饭。
+07-20 05:05:29.495 14605 14605 D CatLifePet: 提醒确认反馈: state=EATING, message=好好吃饭，小猫放心了。
+07-20 05:05:29.495 14605 14605 D CatLifePet: 小猫状态切换: DRINKING -> EATING
+07-20 05:05:29.495 14605 14605 D CatLifePet: animation stopped: state=DRINKING
+07-20 05:05:29.522 14605 14605 D CatLifePet: cat visual state: EATING, mode=LOOP
+07-20 05:05:29.975 14605 14605 D CatLifePet: onStartCommand action=com.example.catlifepet.action.SHOW_REST
+07-20 05:05:29.975 14605 14605 D CatLifePet: 收到 ACTION_SHOW_REST
+07-20 05:05:29.975 14605 14605 D CatLifePet: addView skipped: pet already showing
+07-20 05:05:29.975 14605 14605 D CatLifePet: behavior cancelled: reminder: REST
+07-20 05:05:29.975 14605 14605 D CatLifePet: schedule next behavior: 5693ms
+07-20 05:05:29.975 14605 14605 D CatLifePet: micro behavior cancelled: reminder: REST
+07-20 05:05:29.975 14605 14605 D CatLifePet: 随机文案选择: state=STRETCHING, message=小猫陪你放松一下。
+07-20 05:05:29.975 14605 14605 D CatLifePet: 提醒确认反馈: state=STRETCHING, message=休息一下也很重要。
+07-20 05:05:29.976 14605 14605 D CatLifePet: 小猫状态切换: EATING -> STRETCHING
+07-20 05:05:29.976 14605 14605 D CatLifePet: animation stopped: state=EATING
+07-20 05:05:29.992 14605 14605 D CatLifePet: cat visual state: STRETCHING, mode=ONCE
+07-20 05:05:30.447 14605 14605 D CatLifePet: onStartCommand action=com.example.catlifepet.action.SHOW_SLEEP
+07-20 05:05:30.447 14605 14605 D CatLifePet: 收到 ACTION_SHOW_SLEEP
+07-20 05:05:30.447 14605 14605 D CatLifePet: addView skipped: pet already showing
+07-20 05:05:30.447 14605 14605 D CatLifePet: behavior cancelled: reminder: SLEEP
+07-20 05:05:30.447 14605 14605 D CatLifePet: schedule next behavior: 7257ms
+07-20 05:05:30.447 14605 14605 D CatLifePet: micro behavior cancelled: reminder: SLEEP
+07-20 05:05:30.447 14605 14605 D CatLifePet: 随机文案选择: state=SLEEPING, message=今天已经很努力了。
+07-20 05:05:30.447 14605 14605 D CatLifePet: 提醒确认反馈: state=SLEEPING, message=晚安，小猫陪你。
+07-20 05:05:30.447 14605 14605 D CatLifePet: animation stopped: state=STRETCHING
+07-20 05:05:30.448 14605 14605 D CatLifePet: cat visual state: STRETCHING, mode=ONCE

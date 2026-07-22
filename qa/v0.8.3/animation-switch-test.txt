@@ -1,0 +1,10 @@
+CatLifePet v0.8.3 animation compatibility test
+Device: Pixel 6 emulator, Android API 37
+
+YAWN legacy fallback preview: 20/20 complete, 20/20 returned to IDLE, 0 early stops, 0 exceptions.
+Rapid compatibility switching: 60 taps across BLINKING, YAWNING, CURIOUS fallback, CUDDLE HAPPY fallback, reminders, and UI state paths.
+Observed: no FATAL EXCEPTION, WindowLeaked, BadTokenException, View-not-attached, Unable-to-update-window, OOM, or ANR.
+Observed: existing generation/cancellation logs appear when behaviors replace one another.
+PEEK: taps while not at an edge were correctly blocked by the existing edge requirement; no PEEK code was changed.
+
+This is not a READY animation result. No new animation exists to certify.

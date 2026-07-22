@@ -1,0 +1,50 @@
+﻿===== DRAG_ENTER delay=180ms =====
+07-20 04:19:00.322 12510 12510 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:19:00.323 12510 12510 D CatLifePet: received com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:19:00.323 12510 12510 D CatLifePet: behavior cancelled: debug PEEK
+07-20 04:19:00.323 12510 12510 D CatLifePet: micro behavior cancelled: PEEK selected
+07-20 04:19:00.323 12510 12510 D CatLifePet: PEEK started: left=false, anchor=251, target=303
+07-20 04:19:00.709 12510 12510 D CatLifePet: PEEK animator cancelled: restore=false, currentX=280, anchor=251, endX=280
+07-20 04:19:00.710 12510 12510 D CatLifePet: 小猫状态切换: IDLE -> DRAGGING
+07-20 04:19:00.710 12510 12510 D CatLifePet: cat visual state: DRAGGING, mode=LOOP
+07-20 04:19:01.145 12510 12510 D CatLifePet: snap peek edge: left=false, x=251, y=1218, hidden=105px
+07-20 04:19:01.146 12510 12510 D CatLifePet: 小猫状态切换: DRAGGING -> IDLE
+07-20 04:19:01.146 12510 12510 D CatLifePet: animation stopped: state=DRAGGING
+===== DRAG_HOLD delay=1150ms =====
+07-20 04:19:02.415 12510 12510 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:19:02.415 12510 12510 D CatLifePet: received com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:19:02.415 12510 12510 D CatLifePet: behavior cancelled: debug PEEK
+07-20 04:19:02.416 12510 12510 D CatLifePet: micro behavior cancelled: PEEK selected
+07-20 04:19:02.416 12510 12510 D CatLifePet: PEEK started: left=false, anchor=251, target=303
+07-20 04:19:03.710 12510 12510 D CatLifePet: PEEK animator cancelled: restore=false, currentX=275, anchor=251, endX=275
+07-20 04:19:03.711 12510 12510 D CatLifePet: 小猫状态切换: IDLE -> DRAGGING
+07-20 04:19:03.712 12510 12510 D CatLifePet: cat visual state: DRAGGING, mode=LOOP
+07-20 04:19:04.145 12510 12510 D CatLifePet: snap peek edge: left=false, x=251, y=1245, hidden=105px
+07-20 04:19:04.146 12510 12510 D CatLifePet: 小猫状态切换: DRAGGING -> IDLE
+07-20 04:19:04.146 12510 12510 D CatLifePet: animation stopped: state=DRAGGING
+===== DRAG_RETURN delay=1850ms =====
+07-20 04:19:05.401 12510 12510 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:19:05.401 12510 12510 D CatLifePet: received com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:19:05.401 12510 12510 D CatLifePet: behavior cancelled: debug PEEK
+07-20 04:19:05.401 12510 12510 D CatLifePet: micro behavior cancelled: PEEK selected
+07-20 04:19:05.402 12510 12510 D CatLifePet: PEEK started: left=false, anchor=251, target=303
+07-20 04:19:07.810 12510 12510 D CatLifePet: PEEK finished: left=false, anchor=251, endX=251
+===== DRAG_RETURN_RETRY delay=1400ms =====
+07-20 04:19:25.755 12510 12510 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:19:25.755 12510 12510 D CatLifePet: received com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:19:25.759 12510 12510 D CatLifePet: behavior cancelled: debug PEEK
+07-20 04:19:25.759 12510 12510 D CatLifePet: micro behavior cancelled: PEEK selected
+07-20 04:19:25.760 12510 12510 D CatLifePet: PEEK started: left=false, anchor=251, target=303
+07-20 04:19:28.194 12510 12510 D CatLifePet: PEEK finished: left=false, anchor=251, endX=251
+===== DRAG_RETURN_VALID delay=1400ms =====
+07-20 04:19:38.038 12510 12510 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:19:38.038 12510 12510 D CatLifePet: received com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:19:38.038 12510 12510 D CatLifePet: behavior cancelled: debug PEEK
+07-20 04:19:38.038 12510 12510 D CatLifePet: micro behavior cancelled: PEEK selected
+07-20 04:19:38.039 12510 12510 D CatLifePet: PEEK started: left=false, anchor=251, target=303
+07-20 04:19:39.610 12510 12510 D CatLifePet: PEEK animator cancelled: restore=false, currentX=265, anchor=251, endX=265
+07-20 04:19:39.610 12510 12510 D CatLifePet: 小猫状态切换: IDLE -> DRAGGING
+07-20 04:19:39.611 12510 12510 D CatLifePet: cat visual state: DRAGGING, mode=LOOP
+07-20 04:19:39.912 12510 12510 D CatLifePet: snap peek edge: left=false, x=251, y=1283, hidden=105px
+07-20 04:19:39.912 12510 12510 D CatLifePet: 小猫状态切换: DRAGGING -> IDLE
+07-20 04:19:39.912 12510 12510 D CatLifePet: animation stopped: state=DRAGGING

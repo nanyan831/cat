@@ -1,0 +1,36 @@
+﻿===== HIDE_ENTER delay=180 =====
+07-20 04:21:16.983 12510 12510 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:21:16.984 12510 12510 D CatLifePet: received com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:21:16.984 12510 12510 D CatLifePet: behavior cancelled: debug PEEK
+07-20 04:21:16.984 12510 12510 D CatLifePet: micro behavior cancelled: PEEK selected
+07-20 04:21:16.985 12510 12510 D CatLifePet: PEEK started: left=false, anchor=251, target=303
+07-20 04:21:17.263 12510 12510 D CatLifePet: PEEK animator cancelled: restore=false, currentX=272, anchor=251, endX=272
+07-20 04:21:17.264 12510 12510 D CatLifePet: removeView
+07-20 04:21:17.264 12510 12510 D CatLifePet: pet hidden temporarily
+===== HIDE_HOLD delay=1100 =====
+07-20 04:21:19.646 12510 12510 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:21:19.646 12510 12510 D CatLifePet: received com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:21:19.646 12510 12510 D CatLifePet: behavior cancelled: debug PEEK
+07-20 04:21:19.646 12510 12510 D CatLifePet: micro behavior cancelled: PEEK selected
+07-20 04:21:19.646 12510 12510 D CatLifePet: PEEK started: left=false, anchor=251, target=303
+07-20 04:21:20.824 12510 12510 D CatLifePet: PEEK animator cancelled: restore=false, currentX=280, anchor=251, endX=280
+07-20 04:21:20.824 12510 12510 D CatLifePet: removeView
+07-20 04:21:20.825 12510 12510 D CatLifePet: pet hidden temporarily
+===== HIDE_RETURN delay=1400 =====
+07-20 04:21:23.121 12510 12510 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:21:23.122 12510 12510 D CatLifePet: received com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:21:23.122 12510 12510 D CatLifePet: behavior cancelled: debug PEEK
+07-20 04:21:23.122 12510 12510 D CatLifePet: micro behavior cancelled: PEEK selected
+07-20 04:21:23.122 12510 12510 D CatLifePet: PEEK started: left=false, anchor=251, target=303
+07-20 04:21:24.613 12510 12510 D CatLifePet: PEEK animator cancelled: restore=false, currentX=267, anchor=251, endX=267
+07-20 04:21:24.614 12510 12510 D CatLifePet: removeView
+07-20 04:21:24.614 12510 12510 D CatLifePet: pet hidden temporarily
+===== SERVICE_STOP delay=500 =====
+07-20 04:21:26.924 12510 12510 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:21:26.924 12510 12510 D CatLifePet: received com.example.catlifepet.action.DEBUG_PEEK
+07-20 04:21:26.925 12510 12510 D CatLifePet: behavior cancelled: debug PEEK
+07-20 04:21:26.925 12510 12510 D CatLifePet: micro behavior cancelled: PEEK selected
+07-20 04:21:26.926 12510 12510 D CatLifePet: PEEK started: left=false, anchor=251, target=303
+07-20 04:21:27.527 12510 12510 D CatLifePet: 服务停止 onDestroy
+07-20 04:21:27.527 12510 12510 D CatLifePet: PEEK animator cancelled: restore=false, currentX=296, anchor=251, endX=296
+07-20 04:21:27.529 12510 12510 D CatLifePet: removeView

@@ -1,0 +1,10 @@
+Automatic PetBehaviorManager sample: 10 decisions, not the requested 30.
+NONE: selected 1
+STRETCH: selected 3
+HAPPY: selected 4
+SHORT_SLEEP: selected 0
+YAWN: selected 0
+LICKING: selected 0 (release weight remains 0)
+CURIOUS: selected 1
+PEEK: selected 1, success 1, blocked 0
+No consecutive CURIOUS or PEEK occurred in this sample.

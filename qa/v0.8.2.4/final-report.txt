@@ -1,0 +1,81 @@
+CatLifePet v0.8.2.4 Final Blocking Gate
+Date: 2026-07-20
+Device: Pixel 6 emulator, Android API 37, targetSdk 35
+
+1. Business code changed: YES, one minimal PEEK cancellation bug fix in PetWindowController only.
+2. Right PEEK completed: YES.
+3. Right anchor: 251 px.
+4. Right target: 303 px.
+5. Right restored to original anchor: YES, endX=251.
+6. PEEK x10: 10 started, 9 replaced/cancelled, 1 normal finish, 0 blocked.
+7. Only one active animator: YES; replacement cancels the previous activePeekAnimator before assigning the next.
+8. PEEK entering-phase Drag: PASS, currentX=280 and endX=280 with restore=false.
+9. PEEK hold-phase Drag: PASS, currentX=275 and endX=275 with restore=false.
+10. PEEK return-phase Drag: PASS, currentX=265 and endX=265 with restore=false.
+11. PEEK Click: PASS; PEEK cancelled/restored and HAPPY/dialogue executed.
+12. PEEK WATER: PASS; DRINKING executed.
+13. PEEK FOOD: PASS; EATING executed.
+14. PEEK REST: PASS; STRETCHING executed.
+15. PEEK SLEEP: PASS; STRETCHING -> SLEEPING executed.
+16. PEEK Hide three phases: PASS; animator cancelled and view removed in enter/hold/return.
+17. PEEK Service stop: PASS; animator cancelled, view removed, no WindowManager exception.
+18. PEEK polluted permanent coordinates: NO; saved anchors stayed -105/251 and targets were not persisted.
+19. BONDED real valid clicks: 50.
+20. CUDDLE count: 4.
+21. CUDDLE actual rate: 8%.
+22. BONDED_SPECIAL count: 2.
+23. RELATIONSHIP count: 18.
+24. MOOD_BASE count: 26.
+25. One click produced multiple Dialogue sources: NO; total sources=50 for 50 clicks.
+26. CUDDLE repeated Energy/Mood changes: NO.
+27. CUDDLE extra Affection increase: NO.
+28. SAD CUDDLE: 5/5 calm-pool messages; quiet, warm, no mood conflict.
+29. Service stop/start actual rounds: 10.
+30. All 10 lifecycle rounds passed: YES; 10 create/add and 10 destroy/remove.
+31. Repeat Service start actual count: 10.
+32. Duplicate View occurred: NO; 10 addView-skipped and 0 real new addView.
+33. Duplicate Behavior scheduler observed: NO.
+34. Duplicate MicroBehavior scheduler observed: NO.
+35. Foreground + Service running reminders: WATER/FOOD/REST/SLEEP all overlay PASS.
+36. Background + Service running reminders: all four overlay PASS.
+37. Background + Service stopped reminders: all four Worker triggers reached notification fallback.
+38. Launcher recents cleared + Service running: service remained running; all four overlay PASS.
+39. Launcher recents cleared + Service stopped: four Worker triggers; all four fallback PASS.
+40. Locked + Service running: all four overlay dispatches PASS.
+41. Locked + Service stopped: four Worker triggers; all four fallback PASS.
+42. WATER fallback: PASS, notification id=2000.
+43. FOOD fallback: PASS, notification id=2001.
+44. REST fallback: PASS, notification id=2002.
+45. SLEEP fallback: PASS, notification id=2003.
+46. Silent reminder loss: NONE observed.
+47. ForegroundServiceStartNotAllowedException appeared: YES, in expected background-stopped cases.
+48. Exception safely caught: YES; fallback notifications were posted.
+49. Worker failure: NONE; no infinite retry, debug jobs rescheduled normally.
+50. Second memory run duration: 30 minutes after 65-second stabilization.
+51. Stable T0: PSS 87070 KB, RSS 195276 KB.
+52. T10: PSS 87967 KB, RSS 196860 KB.
+53. T20: PSS 82875 KB, RSS 191584 KB.
+54. T30: PSS 77650 KB, RSS 186608 KB.
+55. T45/T60: not run; requested minimum T30 was completed.
+56. Second-run trend: stabilized then fell; T0->T30 PSS -9420 KB, RSS -8668 KB.
+57. Android Studio Profiler used: NO.
+58. Profiler findings: N/A.
+59. Non-Profiler method: dumpsys meminfo at four points plus process Logcat GC analysis.
+60. GC: 9 mark-compact events; memory fell after collection; no OOM or process restart.
+61. Real leak suspected: NO reproducible evidence after second run; continue long-duration observation as normal release hygiene.
+62. CURIOUS still blocks Blink: YES; 11 intervals, 0 Blink inside.
+63. PEEK blocks Blink: YES; 5 completed intervals, 0 Blink inside.
+64. LICKING random=0 retained: YES; selected behavior LICKING=0.
+65. FATAL EXCEPTION: NONE.
+66. WindowManager exception: NONE.
+67. OOM: NONE.
+68. QA directory: qa/v0.8.2.4 contains requested summaries, raw Logcat, memory data, screenshots, and reproducible QA scripts.
+69. clean assembleDebug: BUILD SUCCESSFUL.
+70. assembleRelease: BUILD SUCCESSFUL; unsigned release retained.
+71. Debug APK: C:\Users\11329\Desktop\CatLifePet\app\build\outputs\apk\debug\app-debug.apk
+72. Release APK: C:\Users\11329\Desktop\CatLifePet\app\build\outputs\apk\release\app-release-unsigned.apk
+73. Final rating: A-.
+74. Enter v0.8.3 recommendation: YES. Remaining caveat is emulator recents bookkeeping retaining hidden task records after launcher Clear all; visible-card clearing and both delivery paths passed, so this is documented as non-blocking.
+
+Final smoke test:
+Debug APK installed successfully. Launch, summon, Blink, Yawn, Curious, left PEEK, right PEEK, Cuddle, Water, Food, Rest, Sleep, Hide, Stop, and Start all logged successfully. Final smoke exception count=0.

@@ -1,0 +1,3 @@
+Observed CUDDLE triggered log entries: 3.
+The retained session did not provide a clean, isolated 50-real-click denominator, so no probability claim is made from this count.
+Debug CUDDLE remains stat-neutral; production CUDDLE uses the unified DialogueManager click decision.

@@ -1,0 +1,95 @@
+﻿--------- beginning of main
+07-21 10:50:13.428 13722 13722 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 10:50:13.625 13722 13722 D CatLifePet: onStartCommand action=com.example.catlifepet.action.UPDATE_SIZE
+07-21 10:50:13.626 13722 13722 D CatLifePet: pet size changed: petSizePx=210, x=-52, y=1337
+07-21 10:50:13.751 13722 13722 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 10:50:13.913 13722 13722 V CatLifePet: animation frame displayed: state=IDLE, index=5
+07-21 10:50:14.096 13722 13722 V CatLifePet: animation frame displayed: state=IDLE, index=6
+07-21 10:50:14.235 13722 13722 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_LICKING
+07-21 10:50:14.236 13722 13722 D CatLifePet: 收到 debug behavior=LICKING
+07-21 10:50:14.236 13722 13722 D CatLifePet: addView skipped: pet already showing
+07-21 10:50:14.236 13722 13722 D CatLifePet: behavior cancelled: debug behavior: LICKING
+07-21 10:50:14.236 13722 13722 D CatLifePet: schedule next behavior: 6135ms
+07-21 10:50:14.237 13722 13722 D CatLifePet: micro behavior cancelled: debug behavior: LICKING
+07-21 10:50:14.237 13722 13722 D CatLifePet: 小猫状态切换: IDLE -> LICKING
+07-21 10:50:14.237 13722 13722 D CatLifePet: animation stopped: state=IDLE
+07-21 10:50:14.312 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=1
+07-21 10:50:14.312 13722 13722 D CatLifePet: cat visual state: LICKING, mode=ONCE
+07-21 10:50:14.312 13722 13722 D CatLifePet: debug behavior triggered: LICKING token=1784631014237
+07-21 10:50:14.475 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=2
+07-21 10:50:14.627 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=3
+07-21 10:50:14.809 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=4
+07-21 10:50:14.991 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=5
+07-21 10:50:15.259 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=6
+07-21 10:50:15.522 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=7
+07-21 10:50:15.705 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=8
+07-21 10:50:15.876 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=9
+07-21 10:50:16.038 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=10
+07-21 10:50:16.219 13722 13722 D CatLifePet: animation finished and holding last frame: state=LICKING
+07-21 10:50:16.265 13722 13722 D CatLifePet: 小猫状态切换: LICKING -> IDLE
+07-21 10:50:16.265 13722 13722 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 10:50:16.265 13722 13722 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-21 10:50:16.265 13722 13722 D CatLifePet: debug behavior finished: LICKING token=1784631014237
+07-21 10:50:16.446 13722 13722 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 10:50:16.624 13722 13722 D CatLifePet: onStartCommand action=com.example.catlifepet.action.UPDATE_SIZE
+07-21 10:50:16.625 13722 13722 D CatLifePet: pet size changed: petSizePx=315, x=-78, y=1285
+07-21 10:50:16.679 13722 13722 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 10:50:16.861 13722 13722 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 10:50:17.023 13722 13722 V CatLifePet: animation frame displayed: state=IDLE, index=5
+07-21 10:50:17.155 13722 13722 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_LICKING
+07-21 10:50:17.155 13722 13722 D CatLifePet: 收到 debug behavior=LICKING
+07-21 10:50:17.155 13722 13722 D CatLifePet: addView skipped: pet already showing
+07-21 10:50:17.155 13722 13722 D CatLifePet: behavior cancelled: debug behavior: LICKING
+07-21 10:50:17.155 13722 13722 D CatLifePet: schedule next behavior: 14243ms
+07-21 10:50:17.155 13722 13722 D CatLifePet: micro behavior cancelled: debug behavior: LICKING
+07-21 10:50:17.155 13722 13722 D CatLifePet: 小猫状态切换: IDLE -> LICKING
+07-21 10:50:17.155 13722 13722 D CatLifePet: animation stopped: state=IDLE
+07-21 10:50:17.157 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=1
+07-21 10:50:17.158 13722 13722 D CatLifePet: cat visual state: LICKING, mode=ONCE
+07-21 10:50:17.158 13722 13722 D CatLifePet: debug behavior triggered: LICKING token=1784631017155
+07-21 10:50:17.319 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=2
+07-21 10:50:17.475 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=3
+07-21 10:50:17.655 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=4
+07-21 10:50:17.837 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=5
+07-21 10:50:18.100 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=6
+07-21 10:50:18.370 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=7
+07-21 10:50:18.553 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=8
+07-21 10:50:18.726 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=9
+07-21 10:50:18.887 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=10
+07-21 10:50:19.070 13722 13722 D CatLifePet: animation finished and holding last frame: state=LICKING
+07-21 10:50:19.110 13722 13722 D CatLifePet: 小猫状态切换: LICKING -> IDLE
+07-21 10:50:19.110 13722 13722 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 10:50:19.110 13722 13722 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-21 10:50:19.111 13722 13722 D CatLifePet: debug behavior finished: LICKING token=1784631017155
+07-21 10:50:19.294 13722 13722 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 10:50:19.462 13722 13722 D CatLifePet: onStartCommand action=com.example.catlifepet.action.UPDATE_SIZE
+07-21 10:50:19.462 13722 13722 D CatLifePet: pet size changed: petSizePx=420, x=-105, y=1233
+07-21 10:50:19.528 13722 13722 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 10:50:19.709 13722 13722 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 10:50:19.871 13722 13722 V CatLifePet: animation frame displayed: state=IDLE, index=5
+07-21 10:50:20.044 13722 13722 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_LICKING
+07-21 10:50:20.044 13722 13722 D CatLifePet: 收到 debug behavior=LICKING
+07-21 10:50:20.044 13722 13722 D CatLifePet: addView skipped: pet already showing
+07-21 10:50:20.044 13722 13722 D CatLifePet: behavior cancelled: debug behavior: LICKING
+07-21 10:50:20.044 13722 13722 D CatLifePet: schedule next behavior: 7298ms
+07-21 10:50:20.044 13722 13722 D CatLifePet: micro behavior cancelled: debug behavior: LICKING
+07-21 10:50:20.044 13722 13722 D CatLifePet: 小猫状态切换: IDLE -> LICKING
+07-21 10:50:20.044 13722 13722 D CatLifePet: animation stopped: state=IDLE
+07-21 10:50:20.045 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=1
+07-21 10:50:20.045 13722 13722 D CatLifePet: cat visual state: LICKING, mode=ONCE
+07-21 10:50:20.045 13722 13722 D CatLifePet: debug behavior triggered: LICKING token=1784631020044
+07-21 10:50:20.208 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=2
+07-21 10:50:20.360 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=3
+07-21 10:50:20.542 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=4
+07-21 10:50:20.725 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=5
+07-21 10:50:20.986 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=6
+07-21 10:50:21.251 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=7
+07-21 10:50:21.433 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=8
+07-21 10:50:21.604 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=9
+07-21 10:50:21.767 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=10
+07-21 10:50:21.950 13722 13722 D CatLifePet: animation finished and holding last frame: state=LICKING
+07-21 10:50:21.996 13722 13722 D CatLifePet: 小猫状态切换: LICKING -> IDLE
+07-21 10:50:21.997 13722 13722 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 10:50:21.998 13722 13722 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-21 10:50:21.998 13722 13722 D CatLifePet: debug behavior finished: LICKING token=1784631020044
+07-21 10:50:22.180 13722 13722 V CatLifePet: animation frame displayed: state=IDLE, index=2

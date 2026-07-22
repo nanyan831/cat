@@ -1,0 +1,17 @@
+CatLifePet LICKING interruption matrix
+Date: 2026-07-21
+
+CLICK=PASS (LICKING -> HAPPY -> IDLE)
+DRAG=PASS (LICKING -> DRAGGING -> edge snap -> IDLE)
+WATER=PASS (LICKING -> DRINKING)
+FOOD=PASS (LICKING -> EATING)
+REST=PASS (LICKING -> STRETCHING)
+SLEEP=PASS (LICKING -> sleep transition -> SLEEPING)
+HIDE=PASS (active LICKING view removed; temporary-hide state entered)
+SERVICE_STOP=PASS (onDestroy executed; service absent after stop)
+SERVICE_RESTART=PASS (foreground service recreated; one view added)
+EXCEPTIONS=0
+
+Reminder actions were sent as the app UID to the same unexported Service entry points
+used by MainActivity. Full logs: licking-reminder-interruptions-final.txt and
+licking-hide-stop-final.txt.

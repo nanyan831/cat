@@ -1,0 +1,8 @@
+Feature mapping from HighestUnlockedLevel:
+- NEW: CURIOUS locked, PEEK locked, CUDDLE locked.
+- FAMILIAR: CURIOUS unlocked, PEEK locked, CUDDLE locked.
+- CLOSE: CURIOUS unlocked, PEEK unlocked, CUDDLE locked.
+- BONDED: CURIOUS unlocked, PEEK unlocked, CUDDLE unlocked.
+
+Persistence uses the existing HighestUnlockedLevel store. BONDED remained visible after current Affection was lowered in emulator state.
+Full NEW/FAMILIAR/CLOSE/BONDED UI matrix: NOT COMPLETED.

@@ -1,0 +1,28 @@
+Session preparation:
+HighestUnlockedLevel = BONDED
+Affection = 80
+Mood = NORMAL (60)
+Energy = NORMAL (70)
+DND = false
+Logcat cleared immediately before input
+
+ACTUAL VALID CLICKS = 50
+CUDDLE = 4
+BONDED_SPECIAL = 2
+RELATIONSHIP = 18
+MOOD_BASE = 26
+TOTAL DIALOGUE SOURCES = 50
+CUDDLE RATE = 8%
+ONE CLICK / ONE DIALOGUE SOURCE = PASS
+
+Before: Energy 70, Mood 60, Affection 80, daily gain 1
+After: Energy 69, Mood 61, Affection 80, daily gain 1
+CUDDLE extra Energy/Mood mutation = NONE
+CUDDLE extra Affection gain = NONE
+
+SAD CUDDLE follow-up:
+5 debug presentation samples, all logged mood=SAD.
+Messages were calm and non-conflicting, including:
+- 什么都不说，也一起待一会儿吧。
+- 今天想安静地靠近一点。
+Result = PASS

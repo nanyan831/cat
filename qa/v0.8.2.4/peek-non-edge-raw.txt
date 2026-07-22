@@ -1,0 +1,15 @@
+﻿--------- beginning of main
+07-20 05:07:26.655 15226 15226 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_PEEK
+07-20 05:07:26.655 15226 15226 D CatLifePet: received com.example.catlifepet.action.DEBUG_PEEK
+07-20 05:07:26.655 15226 15226 D CatLifePet: addView skipped: pet already showing
+07-20 05:07:26.655 15226 15226 D CatLifePet: behavior cancelled: debug PEEK
+07-20 05:07:26.656 15226 15226 D CatLifePet: schedule next behavior: 5889ms
+07-20 05:07:26.656 15226 15226 D CatLifePet: PEEK requires edge position
+07-20 05:07:27.130 15226 15226 D CatLifePet: 小猫状态切换: IDLE -> BLINKING
+07-20 05:07:27.130 15226 15226 D CatLifePet: animation stopped: state=IDLE
+07-20 05:07:27.141 15226 15226 D CatLifePet: cat visual state: BLINKING, mode=ONCE
+07-20 05:07:27.142 15226 15226 D CatLifePet: micro behavior triggered: BLINKING
+07-20 05:07:27.558 15226 15226 D CatLifePet: animation finished and holding last frame: state=BLINKING
+07-20 05:07:27.593 15226 15226 D CatLifePet: 小猫状态切换: BLINKING -> IDLE
+07-20 05:07:27.594 15226 15226 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-20 05:07:27.594 15226 15226 D CatLifePet: micro behavior finished: BLINKING

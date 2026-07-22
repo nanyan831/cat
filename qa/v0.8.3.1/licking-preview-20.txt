@@ -1,0 +1,15 @@
+CatLifePet LICKING 20-run preview test
+Date: 2026-07-21
+Device: Pixel 6 emulator, Android API 37
+
+RESULT=PASS
+TRIGGERED=20
+ANIMATION_FINISHED=20
+DEBUG_FINISHED=20
+BACK_TO_IDLE=20
+EARLY_STOP=0
+EXCEPTIONS=0
+
+The state occupancy window is 1950ms, leaving a 70ms completion margin after the
+1880ms frame sequence so the final animation callback cannot race the IDLE timer.
+Full log: licking-preview-20-logcat-final.txt

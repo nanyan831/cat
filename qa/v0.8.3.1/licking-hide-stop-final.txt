@@ -1,0 +1,50 @@
+﻿--------- beginning of main
+07-21 10:48:22.612 13722 13722 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_LICKING
+07-21 10:48:22.612 13722 13722 D CatLifePet: 收到 debug behavior=LICKING
+07-21 10:48:22.613 13722 13722 D CatLifePet: addView skipped: pet already showing
+07-21 10:48:22.613 13722 13722 D CatLifePet: behavior cancelled: debug behavior: LICKING
+07-21 10:48:22.614 13722 13722 D CatLifePet: schedule next behavior: 6408ms
+07-21 10:48:22.615 13722 13722 D CatLifePet: micro behavior cancelled: debug behavior: LICKING
+07-21 10:48:22.615 13722 13722 D CatLifePet: 小猫状态切换: SLEEPING -> LICKING
+07-21 10:48:22.615 13722 13722 D CatLifePet: animation stopped: state=SLEEPING
+07-21 10:48:22.642 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=1
+07-21 10:48:22.642 13722 13722 D CatLifePet: cat visual state: LICKING, mode=ONCE
+07-21 10:48:22.642 13722 13722 D CatLifePet: debug behavior triggered: LICKING token=1784630902615
+07-21 10:48:22.804 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=2
+07-21 10:48:22.956 13722 13722 V CatLifePet: animation frame displayed: state=LICKING, index=3
+07-21 10:48:23.093 13722 13722 D CatLifePet: onStartCommand action=com.example.catlifepet.action.HIDE_TEMPORARILY
+07-21 10:48:23.105 13722 13722 D CatLifePet: behavior scheduling stopped
+07-21 10:48:23.105 13722 13722 D CatLifePet: micro behavior scheduling stopped
+07-21 10:48:23.106 13722 13722 D CatLifePet: Affection companionship session stopped
+07-21 10:48:23.116 13722 13722 D CatLifePet: removeView
+07-21 10:48:23.127 13722 13722 D CatLifePet: cat animation manager released
+07-21 10:48:23.128 13722 13722 D CatLifePet: pet hidden temporarily
+07-21 10:48:24.005 13722 13722 D CatLifePet: onStartCommand action=com.example.catlifepet.action.STOP
+07-21 10:48:24.062 13722 13722 D CatLifePet: 服务停止 onDestroy
+07-21 10:48:24.062 13722 13722 D CatLifePet: micro behavior scheduling stopped
+07-21 10:48:24.062 13722 13722 D CatLifePet: behavior scheduling stopped
+07-21 10:48:24.062 13722 13722 D CatLifePet: micro behavior scheduling stopped
+07-21 10:48:25.256 13722 13722 D CatLifePet: 服务启动 onCreate
+07-21 10:48:25.345 13722 13722 D CatLifePet: onStartCommand action=com.example.catlifepet.action.START
+07-21 10:48:25.348 13722 13722 D CatLifePet: Energy 100 -> 99 reason=TIME_DECAY
+07-21 10:48:25.390 13722 13722 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 10:48:25.390 13722 13722 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-21 10:48:25.390 13722 13722 D CatLifePet: CatPetView uses one transparent FIT_CENTER ImageView for all PNG states
+07-21 10:48:25.477 13722 13722 D CatLifePet: addView: x=-105, y=1232, width=934, height=483
+07-21 10:48:25.477 13722 13722 D CatLifePet: Affection companionship session started
+07-21 10:48:25.477 13722 13722 D CatLifePet: behavior scheduling started
+07-21 10:48:25.477 13722 13722 D CatLifePet: schedule next behavior: 10821ms
+07-21 10:48:25.477 13722 13722 D CatLifePet: micro behavior scheduling started
+07-21 10:48:25.479 13722 13722 D CatLifePet: 调试模式开关状态: false
+07-21 10:48:25.531 13722 13722 D CatLifePet: 安排提醒: type=FOOD, delayMinutes=71, debug=false
+07-21 10:48:25.539 13722 13722 D CatLifePet: 安排提醒: type=SLEEP, delayMinutes=761, debug=false
+07-21 10:48:25.717 13722 13722 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 10:48:25.878 13722 13722 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 10:48:26.060 13722 13722 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 10:48:26.222 13722 13722 V CatLifePet: animation frame displayed: state=IDLE, index=5
+07-21 10:48:26.402 13722 13722 V CatLifePet: animation frame displayed: state=IDLE, index=6
+07-21 10:48:26.583 13722 13722 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-21 10:48:26.765 13722 13722 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-21 10:48:26.927 13722 13722 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-21 10:48:27.108 13722 13722 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-21 10:48:27.270 13722 13722 V CatLifePet: animation frame displayed: state=IDLE, index=5

@@ -1,0 +1,6 @@
+Completed:
+- Left edge: anchor=-78, target=-117, restored anchor=-78.
+- Non-edge: blocked with PEEK requires edge position.
+- Autonomous PEEK selected in the 2-minute sample and completed.
+
+Not completed: right edge, 10 rapid triggers, entry/hold/restore drag interruption, click, WATER, FOOD, REST, SLEEP, hide and service-stop interruption matrix.

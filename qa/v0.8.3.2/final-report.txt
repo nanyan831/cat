@@ -1,0 +1,49 @@
+CatLifePet v0.8.3.2 real YAWNING integration report
+Date: 2026-07-21
+
+RESULT=PASS
+
+ASSETS
+- Eight independent cat_yawning_01..08 PNG frames.
+- 512x512 RGBA with transparent corners and no opaque background.
+- Sequence: IDLE, sleepy anticipation, early opening, half opening, maximum yawn,
+  closing, late recovery, IDLE recovery.
+- Maximum bottom-anchor delta: 0px.
+- Maximum center-X delta: 0.5px.
+- Duplicate hashes: none.
+- Contact-sheet semantic review: PASS; action unmistakably reads as a yawn.
+
+INTEGRATION
+- Existing CatState.YAWNING reused.
+- Playback mode: ONCE.
+- Frame duration: 1690ms; state occupancy: 1760ms (70ms completion margin).
+- Legacy six-frame stretch fallback replaced by eight real yawn poses.
+- Debug card now identifies the real eight-frame yawn animation.
+- Generic asset validator/contact-sheet tooling now reads each animation's manifest.
+
+RUNTIME QA
+- Pixel 6 emulator 20-run preview: 20/20 finished, 20/20 returned to IDLE.
+- Early stops during clean preview: 0; exceptions: 0.
+- 80dp, 120dp, and 160dp playback: PASS.
+- Left and right peek-edge playback: PASS.
+- Click interruption: PASS (YAWNING -> HAPPY).
+- Drag interruption: PASS (YAWNING -> DRAGGING -> edge snap -> IDLE).
+- WATER, FOOD, REST, SLEEP interruption: PASS.
+- Temporary hide, service stop, and service restart: PASS.
+- Physical PCRM00 Android 12 playback: all 8 frames, completed once, exceptions 0.
+- Foreground service active on emulator and phone; final fatal/OOM/window errors: 0.
+
+BUILD
+- clean assembleDebug: PASS.
+- assembleRelease: PASS (unsigned).
+- lintDebug: PASS, 0 errors and 55 non-blocking warnings.
+- Debug APK: app/build/outputs/apk/debug/app-debug.apk (10218872 bytes).
+- Debug SHA-256: 3CC965A35BF86370DEBC55EB18F52F2BA0DE2233A6635BE64C2BCB9133948964.
+- Release APK: app/build/outputs/apk/release/app-release-unsigned.apk (8576854 bytes).
+
+ARTIFACTS
+- Approved frames: design-source/v0.8.3/yawning/approved.
+- Android frames: app/src/main/res/drawable-nodpi/cat_yawning_01..08.png.
+- Contact sheet: qa/v0.8.3.2/yawning-contact-sheet.png.
+- Phone live screenshot: qa/v0.8.3.2/yawning-phone-live.png.
+- Full validation and runtime logs are in qa/v0.8.3.2.

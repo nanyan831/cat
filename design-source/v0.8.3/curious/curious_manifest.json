@@ -1,0 +1,26 @@
+{
+  "animationName": "CURIOUS",
+  "state": "CURIOUS",
+  "mode": "ONCE",
+  "assetStatus": "READY",
+  "statusReason": "Validation, anchor checks, and contact-sheet semantic review passed",
+  "canvasSize": [512, 512],
+  "pixelFormat": "RGBA",
+  "background": "transparent",
+  "anchorReference": "app/src/main/res/drawable-nodpi/cat_idle_01.png",
+  "alphaThreshold": 8,
+  "targetFrameCount": 8,
+  "frames": [
+    "cat_curious_01.png",
+    "cat_curious_02.png",
+    "cat_curious_03.png",
+    "cat_curious_04.png",
+    "cat_curious_05.png",
+    "cat_curious_06.png",
+    "cat_curious_07.png",
+    "cat_curious_08.png"
+  ],
+  "durationsMs": [180, 160, 180, 200, 320, 220, 180, 180],
+  "plannedTotalDurationMs": 1620,
+  "intentionalDuplicateFrames": []
+}
