@@ -8,4 +8,9 @@
         <item name="android:colorAccent">@color/primary</item>
         <item name="android:windowActionModeOverlay">true</item>
     </style>
+
+    <style name="LaunchTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:windowDisablePreview">false</item>
+    </style>
 </resources>

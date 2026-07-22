@@ -13,7 +13,9 @@ class PetBubbleView(context: Context) : TextView(context) {
         gravity = Gravity.CENTER
         textSize = 14f
         setTextColor(0xFF4A3128.toInt())
-        maxLines = 2
+        maxLines = 3
+        includeFontPadding = false
+        minHeight = ScreenUtils.dp(context, 48)
         visibility = View.GONE
         elevation = ScreenUtils.dp(context, 6).toFloat()
     }

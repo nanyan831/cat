@@ -1,5 +1,16 @@
 # CatLifePet Design Assets
 
+## v1.0 release contract
+
+- Runtime pet artwork stays in `app/src/main/res/drawable-nodpi/` as 512 x 512 RGBA PNG files.
+- Every animation frame must keep at least 8 px of transparent canvas on every side.
+- Frames in one animation may move, but their bottom anchor may drift by no more than 8 px.
+- `PetAssetContractTest` checks dimensions, alpha-safe bounds, frame count, and bottom anchors during the unit-test build.
+- `cat_idle.png` is also the source artwork inside the launcher and splash wrappers. Do not replace launcher XML files with a full-bleed bitmap.
+- `ic_notification_cat.xml` is a monochrome Android status-bar icon and must remain a solid white silhouette.
+- Adaptive launcher resources include a safe foreground inset and Android 13 monochrome layer.
+- Validate 80dp, 120dp, and 160dp pets on both screen edges after changing any artwork.
+
 当前桌宠状态使用以下 PNG：
 
 - `cat_idle.png`

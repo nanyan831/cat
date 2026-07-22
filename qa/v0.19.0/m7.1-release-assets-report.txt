@@ -1,0 +1,35 @@
+CatLifePet M7.1 release asset qualification
+Date: 2026-07-22
+
+Pet artwork audit
+- 90 cat PNG resources inspected.
+- All files are 512 x 512, 8-bit RGBA, and transparent at all canvas corners.
+- Every asset keeps at least 8 px of transparent margin.
+- Every animation sequence keeps its bottom anchor within 8 px.
+- CatPetView continues to use one transparent FIT_CENTER ImageView for every state.
+
+Release resources
+- Added a legacy launcher layer-list for API 23-25.
+- Added safe-zone adaptive foreground resources for API 26+.
+- Added monochrome adaptive launcher layers for API 33+ themed icons.
+- Added a dedicated solid-white notification small icon.
+- Added platform splash resources for Android 12+ and a pre-Android-12 window background.
+- MainActivity uses LaunchTheme and returns to the inherited application styling.
+
+Visual checks
+- Cold-start splash captured on the Pixel emulator: warm background, centered cat, no canvas crop.
+- WATER bubble captured at 80dp, 120dp, and 160dp.
+- Left and right edge placement keeps the bubble toward screen center.
+- 160dp left edge uses x=-105 px and right edge uses the symmetric 25 percent peek offset.
+- Three-line bubble capacity, 48dp minimum height, and disabled font padding keep text stable.
+
+Regression checks
+- Android unit tests: 20 passed, 0 failed.
+- Resource contract tests: 2 passed, 0 failed.
+- Debug APK: assembled successfully.
+- Release APK: assembled successfully.
+- Android lint: 0 errors.
+- Pixel API 37 instrumentation: 13 passed.
+- PCRM00 API 31 instrumentation: 13 passed; ColorOS overlay authorization remains a manual permission step.
+
+Result: PASS

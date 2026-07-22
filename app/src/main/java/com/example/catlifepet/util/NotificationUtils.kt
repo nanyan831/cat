@@ -44,7 +44,7 @@ object NotificationUtils {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
         return NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.cat_idle)
+            .setSmallIcon(R.drawable.ic_notification_cat)
             .setContentTitle("CatLifePet 正在陪伴你")
             .setContentText("点击回到设置页，或关闭小猫桌宠")
             .setContentIntent(pendingIntent)
@@ -74,7 +74,7 @@ object NotificationUtils {
         context.getSystemService(NotificationManager::class.java).notify(
             2000 + type.ordinal,
             NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.cat_idle)
+                .setSmallIcon(R.drawable.ic_notification_cat)
                 .setContentTitle("CatLifePet 生活提醒")
                 .setContentText(message)
                 .setContentIntent(pendingIntent)

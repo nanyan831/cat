@@ -18,7 +18,7 @@ Last updated: 2026-07-22
 - [x] M5.2 Add safety, quotas, and graceful degradation - moderation/crisis routing, persistent quota, burst limits, circuit breaker, fallback, audit, concurrency, and dual-device checks passed on 2026-07-22.
 - [x] M6.1 Make reminder scheduling deterministic - unique one-shot chains, setting resync, cross-midnight/DST policy, stale mute rollover, system-event receiver, and dual-device WorkManager checks passed on 2026-07-22.
 - [x] M6.2 Harden overlay service lifecycle - persisted hide restoration, duplicate-view guards, explicit special-use FGS startup, notification-denied behavior, process death, full regression, and dual-device checks passed on 2026-07-22.
-- [ ] M7.1 Replace final visual and release resources.
+- [x] M7.1 Replace final visual and release resources - 90 pet PNGs passed canvas/alpha/anchor contracts; launcher, monochrome, notification, and splash resources plus three-size edge/bubble checks passed on 2026-07-22.
 - [ ] M7.2 Complete account, privacy, and accessibility UI.
 - [ ] M8.1 Automated regression suite.
 - [ ] M8.2 Device endurance and compatibility qualification.
