@@ -2,19 +2,20 @@ package com.example.catlifepet.reminder
 
 import android.content.Context
 import android.util.Log
-import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.example.catlifepet.data.SettingsRepository
 import java.time.Duration
-import java.time.LocalDateTime
-import java.time.LocalTime
+import java.time.Clock
+import java.time.ZonedDateTime
 import java.util.concurrent.TimeUnit
 
-class ReminderManager(context: Context) {
+class ReminderManager(
+    context: Context,
+    private val clock: Clock = Clock.systemDefaultZone()
+) {
     private val appContext = context.applicationContext
     private val workManager = WorkManager.getInstance(appContext)
     private val settingsRepository = SettingsRepository(appContext)
@@ -29,51 +30,19 @@ class ReminderManager(context: Context) {
     }
 
     fun scheduleWaterReminder() {
-        if (settingsRepository.getSettings().debugReminderEnabled) {
-            scheduleOneShot(ReminderType.WATER, Duration.ofMinutes(1))
-            return
-        }
-        val request = PeriodicWorkRequestBuilder<ReminderWorker>(2, TimeUnit.HOURS)
-            .setInputData(workDataOf(ReminderWorker.KEY_TYPE to ReminderType.WATER.name))
-            .build()
-        workManager.enqueueUniquePeriodicWork(
-            workName(ReminderType.WATER),
-            ExistingPeriodicWorkPolicy.UPDATE,
-            request
-        )
+        scheduleOneShot(ReminderType.WATER, nextDelay(ReminderType.WATER))
     }
 
     fun scheduleFoodReminder() {
-        val delay = if (settingsRepository.getSettings().debugReminderEnabled) {
-            Duration.ofMinutes(3)
-        } else {
-            nextDelayForMeal()
-        }
-        scheduleOneShot(ReminderType.FOOD, delay)
+        scheduleOneShot(ReminderType.FOOD, nextDelay(ReminderType.FOOD))
     }
 
     fun scheduleRestReminder() {
-        if (settingsRepository.getSettings().debugReminderEnabled) {
-            scheduleOneShot(ReminderType.REST, Duration.ofMinutes(2))
-            return
-        }
-        val request = PeriodicWorkRequestBuilder<ReminderWorker>(60, TimeUnit.MINUTES)
-            .setInputData(workDataOf(ReminderWorker.KEY_TYPE to ReminderType.REST.name))
-            .build()
-        workManager.enqueueUniquePeriodicWork(
-            workName(ReminderType.REST),
-            ExistingPeriodicWorkPolicy.UPDATE,
-            request
-        )
+        scheduleOneShot(ReminderType.REST, nextDelay(ReminderType.REST))
     }
 
     fun scheduleSleepReminder() {
-        val delay = if (settingsRepository.getSettings().debugReminderEnabled) {
-            Duration.ofMinutes(5)
-        } else {
-            delayUntil(LocalTime.of(23, 30))
-        }
-        scheduleOneShot(ReminderType.SLEEP, delay)
+        scheduleOneShot(ReminderType.SLEEP, nextDelay(ReminderType.SLEEP))
     }
 
     fun cancelReminder(type: ReminderType) {
@@ -81,19 +50,23 @@ class ReminderManager(context: Context) {
     }
 
     internal fun rescheduleAfterTrigger(type: ReminderType) {
-        if (settingsRepository.getSettings().debugReminderEnabled) {
-            when (type) {
-                ReminderType.WATER -> scheduleWaterReminder()
-                ReminderType.REST -> scheduleRestReminder()
-                ReminderType.FOOD -> scheduleFoodReminder()
-                ReminderType.SLEEP -> scheduleSleepReminder()
-            }
+        val settings = settingsRepository.getSettings()
+        val enabled = when (type) {
+            ReminderType.WATER -> settings.waterReminderEnabled
+            ReminderType.FOOD -> settings.foodReminderEnabled
+            ReminderType.REST -> settings.restReminderEnabled
+            ReminderType.SLEEP -> settings.sleepReminderEnabled
+        }
+        if (!enabled) {
+            cancelReminder(type)
+            Log.d(TAG, "提醒已关闭，不再续排: type=$type")
             return
         }
         when (type) {
+            ReminderType.WATER -> scheduleWaterReminder()
+            ReminderType.REST -> scheduleRestReminder()
             ReminderType.FOOD -> scheduleFoodReminder()
             ReminderType.SLEEP -> scheduleSleepReminder()
-            ReminderType.WATER, ReminderType.REST -> Unit
         }
     }
 
@@ -110,27 +83,14 @@ class ReminderManager(context: Context) {
         )
     }
 
-    private fun nextDelayForMeal(): Duration {
-        val now = LocalTime.now()
-        return when {
-            now.isBefore(LocalTime.NOON) -> delayUntil(LocalTime.NOON)
-            now.isBefore(LocalTime.of(18, 0)) -> delayUntil(LocalTime.of(18, 0))
-            else -> delayUntil(LocalTime.NOON)
-        }
-    }
+    private fun nextDelay(type: ReminderType): Duration = ReminderScheduleCalculator.delayFor(
+        type,
+        settingsRepository.getSettings(),
+        ZonedDateTime.now(clock)
+    )
 
-    private fun delayUntil(targetTime: LocalTime): Duration {
-        val now = LocalDateTime.now()
-        var target = now.withHour(targetTime.hour).withMinute(targetTime.minute).withSecond(0).withNano(0)
-        if (!target.isAfter(now)) {
-            target = target.plusDays(1)
-        }
-        return Duration.between(now, target)
-    }
-
-    private fun workName(type: ReminderType): String = "cat_life_pet_reminder_${type.name.lowercase()}"
-
-    private companion object {
-        const val TAG = "CatLifePet"
+    companion object {
+        private const val TAG = "CatLifePet"
+        fun workName(type: ReminderType): String = "cat_life_pet_reminder_${type.name.lowercase()}"
     }
 }

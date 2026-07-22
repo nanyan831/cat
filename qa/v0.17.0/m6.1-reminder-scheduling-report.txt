@@ -1,0 +1,35 @@
+CatLifePet M6.1 Deterministic Reminder Scheduling QA Report
+Date: 2026-07-22
+
+Scope
+- All four reminder types now use one unique one-time WorkManager chain each.
+- A worker schedules its next occurrence only after the current occurrence finishes.
+- Repeated setting synchronization replaces, rather than duplicates, active work.
+- Disabled reminders cancel their unique work and a racing old worker cannot revive it.
+- BOOT_COMPLETED, MY_PACKAGE_REPLACED, TIME_SET, and TIMEZONE_CHANGED resync schedules.
+- Food and sleep use current local wall-clock time; water and rest use elapsed intervals.
+- Stale mute-today state is cleared after the local date changes.
+
+Policy checks
+- Cross-midnight DND 23:30-07:30 includes 23:30 and excludes 07:30.
+- WATER, FOOD, and REST are suppressed by current-day mute or DND.
+- SLEEP remains available by explicit product policy.
+- Meal scheduling selects 12:00 then 18:00, rolling to next-day 12:00 after 18:00.
+- DST/timezone calculations preserve target local wall-clock values.
+- Debug delays remain WATER 1m, REST 2m, FOOD 3m, SLEEP 5m.
+
+Automated checks
+- Android JVM suite: 18 tests, 0 failures.
+- Reminder policy adds 4 tests covering cross-midnight boundaries, next-day rollover,
+  timezone/DST wall-clock behavior, and debug intervals.
+- lintDebug: 0 errors, 56 existing compatibility/API warnings.
+- assembleDebug and assembleDebugAndroidTest: passed.
+
+Device checks
+- Pixel emulator: repeated sync/disable WorkManager test 1/1 passed in 0.331 seconds.
+- OPPO PCRM00 Android 12: same test 1/1 passed in 0.355 seconds.
+- Each enabled type had exactly one active Work after two syncs; WATER had zero after
+  disabling while the other three remained exactly one.
+- Latest debug APK remains installed on both devices.
+
+Result: PASS
