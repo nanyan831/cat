@@ -1,0 +1,26 @@
+{
+  "animationName": "CUDDLE",
+  "state": "CUDDLE",
+  "mode": "ONCE",
+  "assetStatus": "READY",
+  "statusReason": "Validation, anchor checks, and contact-sheet semantic review passed",
+  "canvasSize": [512, 512],
+  "pixelFormat": "RGBA",
+  "background": "transparent",
+  "anchorReference": "app/src/main/res/drawable-nodpi/cat_idle_01.png",
+  "alphaThreshold": 8,
+  "targetFrameCount": 8,
+  "frames": [
+    "cat_cuddle_01.png",
+    "cat_cuddle_02.png",
+    "cat_cuddle_03.png",
+    "cat_cuddle_04.png",
+    "cat_cuddle_05.png",
+    "cat_cuddle_06.png",
+    "cat_cuddle_07.png",
+    "cat_cuddle_08.png"
+  ],
+  "durationsMs": [180, 170, 190, 220, 330, 230, 180, 180],
+  "plannedTotalDurationMs": 1680,
+  "intentionalDuplicateFrames": []
+}

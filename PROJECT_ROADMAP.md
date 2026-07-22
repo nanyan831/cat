@@ -5,7 +5,7 @@ Last updated: 2026-07-22
 ## Execution Status
 
 - [x] M0.1 Roadmap and repository baseline - build passed on 2026-07-22.
-- [ ] M1.1 Produce and validate CUDDLE assets.
+- [x] M1.1 Produce and validate CUDDLE assets - strict alpha/anchor checks and contact-sheet review passed on 2026-07-22.
 - [ ] M1.2 Integrate CUDDLE runtime behavior.
 - [ ] M2.1 Scaffold the Ktor service.
 - [ ] M2.2 Add PostgreSQL and migrations.
