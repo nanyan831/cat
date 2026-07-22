@@ -1,0 +1,28 @@
+CatLifePet M2.1 server foundation report
+Date: 2026-07-22
+
+IMPLEMENTATION
+- Added independent :server Kotlin/JVM module using Ktor 3.0.3 and JDK 17.
+- Added Netty EngineMain configuration for development, test, and production environments.
+- Added JSON content negotiation, X-Request-ID validation/generation/echo, sanitized request logging,
+  structured 404/500 errors, and GET /health.
+- Production startup requires an HTTPS public URL plus database, JWT, and OpenAI environment variables.
+- SensitiveSettings.toString() is always redacted and server errors never include exception messages.
+
+AUTOMATED CHECKS
+- gradlew.bat :server:test: PASS
+- Tests: 10, failures: 0, errors: 0.
+- Covered health response, supplied/generated request IDs, structured 404 and 500 errors,
+  environment parsing, development defaults, production fail-fast, HTTPS enforcement,
+  secret redaction, and query/control-character log sanitization.
+- gradlew.bat :server:test :app:assembleDebug: PASS.
+
+PROCESS CHECKS
+- Development Netty process started on port 18080.
+- GET /health returned HTTP 200 and echoed manual-health-123 in header and body.
+- CATLIFEPET_ENV=production without required variables exited with code 1 before binding.
+- Production error output contained variable names only; no secret values were present.
+- Test Netty process was stopped and port 18080 listener count returned to zero.
+
+RESULT
+- M2.1 PASS.

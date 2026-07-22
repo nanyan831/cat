@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "CatLifePet"
 include(":app")
+include(":server")

@@ -1,0 +1,11 @@
+{
+  "statusCode": 200,
+  "requestIdHeader": "manual-health-123",
+  "body": {
+    "status": "ok",
+    "service": "catlifepet-server",
+    "version": "0.10.0-SNAPSHOT",
+    "environment": "development",
+    "requestId": "manual-health-123"
+  }
+}

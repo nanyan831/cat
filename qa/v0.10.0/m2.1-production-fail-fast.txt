@@ -1,0 +1,12 @@
+CatLifePet M2.1 production fail-fast check
+Date: 2026-07-22
+
+Command:
+CATLIFEPET_ENV=production gradlew.bat :server:run
+
+Result:
+- Exit code: 1
+- Server did not bind a port.
+- Error listed only missing variable names:
+  CATLIFEPET_PUBLIC_BASE_URL, DATABASE_URL, CATLIFEPET_JWT_SECRET, OPENAI_API_KEY
+- No configured secret value appeared in the error output.
