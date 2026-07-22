@@ -52,7 +52,7 @@ internal fun Application.configureAuthRoutes(authService: AuthService) {
     }
 }
 
-private suspend fun ApplicationCall.requireIdentity(authService: AuthService): AuthenticatedUser {
+internal suspend fun ApplicationCall.requireIdentity(authService: AuthService): AuthenticatedUser {
     val principal = principal<JWTPrincipal>() ?: throw invalidAccessToken()
     val userId = principal.payload.subject?.toUuidOrNull() ?: throw invalidAccessToken()
     val sessionId = principal.payload.getClaim(JwtService.SESSION_ID_CLAIM)

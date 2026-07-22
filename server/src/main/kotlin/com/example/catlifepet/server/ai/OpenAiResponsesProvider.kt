@@ -7,13 +7,17 @@ import io.ktor.client.plugins.HttpRequestTimeoutException
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.post
+import io.ktor.client.request.preparePost
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.bodyAsText
+import io.ktor.client.statement.bodyAsChannel
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import io.ktor.http.isSuccess
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
@@ -25,6 +29,7 @@ import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.put
+import io.ktor.utils.io.readUTF8Line
 import java.io.IOException
 import java.net.SocketTimeoutException
 
@@ -74,11 +79,62 @@ class OpenAiResponsesProvider internal constructor(
         }
     }
 
+    override fun stream(request: AiRequest): Flow<AiStreamEvent> = flow {
+        try {
+            client.preparePost("${settings.openAiBaseUrl}/responses") {
+                bearerAuth(apiKey)
+                contentType(ContentType.Application.Json)
+                setBody(requestBody(request, stream = true).toString())
+            }.execute { response ->
+                if (!response.status.isSuccess()) throw mapHttpFailure(response.status)
+                val channel = response.bodyAsChannel()
+                var completed = false
+                while (!channel.isClosedForRead) {
+                    val line = channel.readUTF8Line() ?: break
+                    if (!line.startsWith("data:")) continue
+                    val payload = line.removePrefix("data:").trim()
+                    if (payload.isEmpty() || payload == "[DONE]") continue
+                    val event = Json.parseToJsonElement(payload).jsonObject
+                    when (event.string("type")) {
+                        "response.output_text.delta" -> {
+                            event.string("delta")?.takeIf(String::isNotEmpty)?.let {
+                                emit(AiStreamEvent.Delta(it))
+                            }
+                        }
+                        "response.completed" -> {
+                            val result = parseResponse(event["response"]?.toString() ?: payload)
+                            emit(AiStreamEvent.Completed(result))
+                            completed = true
+                        }
+                        "response.failed", "error" -> {
+                            throw AiProviderException("ai_provider_error", true)
+                        }
+                    }
+                }
+                if (!completed) throw AiProviderException("ai_stream_incomplete", true)
+            }
+        } catch (error: CancellationException) {
+            throw error
+        } catch (error: AiException) {
+            throw error
+        } catch (error: HttpRequestTimeoutException) {
+            throw AiTimeoutException()
+        } catch (error: SocketTimeoutException) {
+            throw AiTimeoutException()
+        } catch (error: IOException) {
+            throw AiProviderException("ai_provider_unavailable", true)
+        } catch (error: SerializationException) {
+            throw AiProviderException("ai_invalid_response", true)
+        } catch (error: IllegalArgumentException) {
+            throw AiProviderException("ai_invalid_response", true)
+        }
+    }
+
     override fun close() {
         if (ownsClient) client.close()
     }
 
-    private fun requestBody(request: AiRequest): JsonObject = buildJsonObject {
+    private fun requestBody(request: AiRequest, stream: Boolean = false): JsonObject = buildJsonObject {
         put("model", settings.model)
         put("instructions", request.instructions)
         put("input", buildJsonArray {
@@ -92,6 +148,7 @@ class OpenAiResponsesProvider internal constructor(
         put("max_output_tokens", settings.maximumOutputTokens)
         put("store", settings.storeResponses)
         put("safety_identifier", request.safetyIdentifier)
+        if (stream) put("stream", true)
     }
 
     private fun parseResponse(body: String): AiResult {

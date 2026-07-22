@@ -1,7 +1,16 @@
 package com.example.catlifepet.server.ai
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+
 interface AiProvider : AutoCloseable {
     suspend fun generate(request: AiRequest): AiResult
+
+    fun stream(request: AiRequest): Flow<AiStreamEvent> = flow {
+        val result = generate(request)
+        emit(AiStreamEvent.Delta(result.text))
+        emit(AiStreamEvent.Completed(result))
+    }
 
     override fun close() = Unit
 }

@@ -296,6 +296,54 @@ internal class JdbcConversationRepository : ConversationRepository {
     override fun findById(connection: Connection, id: UUID): ConversationRecord? {
         return connection.queryOne("SELECT * FROM conversations WHERE id = ?", id, ::mapConversation)
     }
+
+    override fun findActiveOwnedById(
+        connection: Connection,
+        id: UUID,
+        userId: UUID,
+        forUpdate: Boolean
+    ): ConversationRecord? {
+        val lock = if (forUpdate) " FOR UPDATE" else ""
+        return connection.prepareStatement(
+            "SELECT * FROM conversations WHERE id = ? AND user_id = ? AND deleted_at IS NULL$lock"
+        ).use { statement ->
+            statement.setObject(1, id)
+            statement.setObject(2, userId)
+            statement.executeQuery().use { result -> if (result.next()) mapConversation(result) else null }
+        }
+    }
+
+    override fun listActiveForUser(connection: Connection, userId: UUID): List<ConversationRecord> {
+        return connection.prepareStatement(
+            "SELECT * FROM conversations WHERE user_id = ? AND deleted_at IS NULL ORDER BY updated_at DESC, id"
+        ).use { statement ->
+            statement.setObject(1, userId)
+            statement.executeQuery().use { result -> buildList { while (result.next()) add(mapConversation(result)) } }
+        }
+    }
+
+    override fun touch(connection: Connection, id: UUID, userId: UUID, updatedAt: Instant): Boolean {
+        return connection.prepareStatement(
+            "UPDATE conversations SET updated_at = ? WHERE id = ? AND user_id = ? AND deleted_at IS NULL"
+        ).use { statement ->
+            statement.setInstant(1, updatedAt)
+            statement.setObject(2, id)
+            statement.setObject(3, userId)
+            statement.executeUpdate() == 1
+        }
+    }
+
+    override fun softDelete(connection: Connection, id: UUID, userId: UUID, deletedAt: Instant): Boolean {
+        return connection.prepareStatement(
+            "UPDATE conversations SET deleted_at = ?, updated_at = ? WHERE id = ? AND user_id = ? AND deleted_at IS NULL"
+        ).use { statement ->
+            statement.setInstant(1, deletedAt)
+            statement.setInstant(2, deletedAt)
+            statement.setObject(3, id)
+            statement.setObject(4, userId)
+            statement.executeUpdate() == 1
+        }
+    }
 }
 
 internal class JdbcMessageRepository : MessageRepository {
@@ -303,32 +351,152 @@ internal class JdbcMessageRepository : MessageRepository {
         connection.prepareStatement(
             """
             INSERT INTO messages (
-                id, conversation_id, role, content, status, client_message_id,
-                model, input_tokens, output_tokens, created_at, updated_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                id, conversation_id, sequence_number, role, content, status,
+                client_message_id, reply_to_message_id, model, input_tokens,
+                output_tokens, created_at, updated_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """.trimIndent()
         ).use { statement ->
             statement.setObject(1, message.id)
             statement.setObject(2, message.conversationId)
-            statement.setString(3, message.role.wireName)
-            statement.setString(4, message.content)
-            statement.setString(5, message.status.wireName)
-            statement.setObject(6, message.clientMessageId)
-            statement.setString(7, message.model)
-            statement.setInt(8, message.inputTokens)
-            statement.setInt(9, message.outputTokens)
-            statement.setInstant(10, message.createdAt)
-            statement.setInstant(11, message.updatedAt)
+            statement.setLong(3, message.sequenceNumber)
+            statement.setString(4, message.role.wireName)
+            statement.setString(5, message.content)
+            statement.setString(6, message.status.wireName)
+            statement.setObject(7, message.clientMessageId)
+            statement.setObject(8, message.replyToMessageId)
+            statement.setString(9, message.model)
+            statement.setInt(10, message.inputTokens)
+            statement.setInt(11, message.outputTokens)
+            statement.setInstant(12, message.createdAt)
+            statement.setInstant(13, message.updatedAt)
             statement.executeUpdate()
         }
     }
 
+    override fun findById(connection: Connection, id: UUID): MessageRecord? {
+        return connection.queryOne("SELECT * FROM messages WHERE id = ?", id, ::mapMessage)
+    }
+
     override fun listForConversation(connection: Connection, conversationId: UUID): List<MessageRecord> {
         return connection.prepareStatement(
-            "SELECT * FROM messages WHERE conversation_id = ? ORDER BY created_at, id"
+            "SELECT * FROM messages WHERE conversation_id = ? ORDER BY sequence_number"
         ).use { statement ->
             statement.setObject(1, conversationId)
             statement.executeQuery().use { result -> buildList { while (result.next()) add(mapMessage(result)) } }
+        }
+    }
+
+    override fun listCompletedForContext(
+        connection: Connection,
+        conversationId: UUID,
+        limit: Int
+    ): List<MessageRecord> {
+        require(limit > 0)
+        return connection.prepareStatement(
+            """
+            SELECT * FROM (
+                SELECT * FROM messages
+                WHERE conversation_id = ? AND status = 'completed' AND role IN ('user', 'assistant')
+                ORDER BY sequence_number DESC
+                LIMIT ?
+            ) recent
+            ORDER BY sequence_number
+            """.trimIndent()
+        ).use { statement ->
+            statement.setObject(1, conversationId)
+            statement.setInt(2, limit)
+            statement.executeQuery().use { result -> buildList { while (result.next()) add(mapMessage(result)) } }
+        }
+    }
+
+    override fun findByClientMessageId(
+        connection: Connection,
+        conversationId: UUID,
+        clientMessageId: UUID
+    ): MessageRecord? {
+        return connection.prepareStatement(
+            "SELECT * FROM messages WHERE conversation_id = ? AND client_message_id = ?"
+        ).use { statement ->
+            statement.setObject(1, conversationId)
+            statement.setObject(2, clientMessageId)
+            statement.executeQuery().use { result -> if (result.next()) mapMessage(result) else null }
+        }
+    }
+
+    override fun findReplyTo(connection: Connection, userMessageId: UUID): MessageRecord? {
+        return connection.queryOne(
+            "SELECT * FROM messages WHERE reply_to_message_id = ?",
+            userMessageId,
+            ::mapMessage
+        )
+    }
+
+    override fun nextSequenceNumber(connection: Connection, conversationId: UUID): Long {
+        return connection.prepareStatement(
+            "SELECT COALESCE(MAX(sequence_number), 0) + 1 FROM messages WHERE conversation_id = ?"
+        ).use { statement ->
+            statement.setObject(1, conversationId)
+            statement.executeQuery().use { result -> check(result.next()); result.getLong(1) }
+        }
+    }
+
+    override fun restart(connection: Connection, id: UUID, updatedAt: Instant): Boolean {
+        return connection.prepareStatement(
+            """
+            UPDATE messages
+            SET content = '', status = 'streaming', model = NULL,
+                input_tokens = 0, output_tokens = 0, updated_at = ?
+            WHERE id = ? AND status IN ('failed', 'cancelled')
+            """.trimIndent()
+        ).use { statement ->
+            statement.setInstant(1, updatedAt)
+            statement.setObject(2, id)
+            statement.executeUpdate() == 1
+        }
+    }
+
+    override fun completeIfStreaming(
+        connection: Connection,
+        id: UUID,
+        content: String,
+        model: String,
+        inputTokens: Int,
+        outputTokens: Int,
+        updatedAt: Instant
+    ): Boolean {
+        return connection.prepareStatement(
+            """
+            UPDATE messages
+            SET content = ?, status = 'completed', model = ?, input_tokens = ?,
+                output_tokens = ?, updated_at = ?
+            WHERE id = ? AND status = 'streaming'
+            """.trimIndent()
+        ).use { statement ->
+            statement.setString(1, content)
+            statement.setString(2, model)
+            statement.setInt(3, inputTokens)
+            statement.setInt(4, outputTokens)
+            statement.setInstant(5, updatedAt)
+            statement.setObject(6, id)
+            statement.executeUpdate() == 1
+        }
+    }
+
+    override fun finishIfStreaming(
+        connection: Connection,
+        id: UUID,
+        status: MessageStatus,
+        updatedAt: Instant
+    ): Boolean {
+        require(status == MessageStatus.FAILED || status == MessageStatus.CANCELLED)
+        return connection.prepareStatement(
+            "UPDATE messages SET status = ?, updated_at = ? WHERE id = ? AND status = 'streaming'"
+        ).use { statement ->
+            statement.setString(1, status.wireName)
+            statement.setInstant(2, updatedAt)
+            statement.setObject(3, id)
+            statement.executeUpdate() == 1
         }
     }
 }
@@ -466,10 +634,12 @@ private fun mapConversation(result: ResultSet) = ConversationRecord(
 private fun mapMessage(result: ResultSet) = MessageRecord(
     id = result.getObject("id", UUID::class.java),
     conversationId = result.getObject("conversation_id", UUID::class.java),
+    sequenceNumber = result.getLong("sequence_number"),
     role = MessageRole.entries.single { it.wireName == result.getString("role") },
     content = result.getString("content"),
     status = MessageStatus.entries.single { it.wireName == result.getString("status") },
     clientMessageId = result.getObject("client_message_id", UUID::class.java),
+    replyToMessageId = result.getObject("reply_to_message_id", UUID::class.java),
     model = result.getString("model"),
     inputTokens = result.getInt("input_tokens"),
     outputTokens = result.getInt("output_tokens"),

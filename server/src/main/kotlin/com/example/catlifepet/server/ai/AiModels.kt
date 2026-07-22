@@ -29,6 +29,11 @@ data class AiResult(
     val usage: AiUsage?
 )
 
+sealed interface AiStreamEvent {
+    data class Delta(val text: String) : AiStreamEvent
+    data class Completed(val result: AiResult) : AiStreamEvent
+}
+
 sealed class AiException(
     val code: String,
     val retryable: Boolean,

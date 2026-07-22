@@ -28,10 +28,10 @@ internal data class AuthRuntimeOverrides(
 internal fun Application.configureAuthentication(
     settings: ServerSettings,
     overrides: AuthRuntimeOverrides
-) {
+): AuthService? {
     val context = databaseContext ?: run {
         environment.log.info("Authentication routes disabled because no database is configured")
-        return
+        return null
     }
     val jwtSecret = checkNotNull(settings.sensitive.jwtSecret)
     val tokenPepper = checkNotNull(settings.sensitive.tokenPepper)
@@ -84,6 +84,7 @@ internal fun Application.configureAuthentication(
     }
 
     configureAuthRoutes(authService)
+    return authService
 }
 
 internal const val AUTH_PROVIDER = "catlifepet-access-token"

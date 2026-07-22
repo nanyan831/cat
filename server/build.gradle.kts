@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.example.catlifepet"
-version = "0.10.0-SNAPSHOT"
+version = "0.13.0-SNAPSHOT"
 
 val ktorVersion = "3.0.3"
 val flywayVersion = "10.22.0"

@@ -44,7 +44,7 @@ data class ServerSettings(
             return ServerSettings(
                 environment = environment,
                 serviceName = "catlifepet-server",
-                version = "0.12.0-SNAPSHOT",
+                version = "0.13.0-SNAPSHOT",
                 publicBaseUrl = configuredBaseUrl ?: DEFAULT_BASE_URL,
                 auth = AuthSettings(
                     issuer = config.optionalString("catlifepet.jwtIssuer") ?: "catlifepet-server",

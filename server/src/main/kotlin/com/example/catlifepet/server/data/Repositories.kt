@@ -48,11 +48,31 @@ interface RefreshSessionRepository {
 interface ConversationRepository {
     fun insert(connection: Connection, conversation: ConversationRecord)
     fun findById(connection: Connection, id: UUID): ConversationRecord?
+    fun findActiveOwnedById(connection: Connection, id: UUID, userId: UUID, forUpdate: Boolean = false): ConversationRecord?
+    fun listActiveForUser(connection: Connection, userId: UUID): List<ConversationRecord>
+    fun touch(connection: Connection, id: UUID, userId: UUID, updatedAt: Instant): Boolean
+    fun softDelete(connection: Connection, id: UUID, userId: UUID, deletedAt: Instant): Boolean
 }
 
 interface MessageRepository {
     fun insert(connection: Connection, message: MessageRecord)
+    fun findById(connection: Connection, id: UUID): MessageRecord?
     fun listForConversation(connection: Connection, conversationId: UUID): List<MessageRecord>
+    fun listCompletedForContext(connection: Connection, conversationId: UUID, limit: Int): List<MessageRecord>
+    fun findByClientMessageId(connection: Connection, conversationId: UUID, clientMessageId: UUID): MessageRecord?
+    fun findReplyTo(connection: Connection, userMessageId: UUID): MessageRecord?
+    fun nextSequenceNumber(connection: Connection, conversationId: UUID): Long
+    fun restart(connection: Connection, id: UUID, updatedAt: Instant): Boolean
+    fun completeIfStreaming(
+        connection: Connection,
+        id: UUID,
+        content: String,
+        model: String,
+        inputTokens: Int,
+        outputTokens: Int,
+        updatedAt: Instant
+    ): Boolean
+    fun finishIfStreaming(connection: Connection, id: UUID, status: MessageStatus, updatedAt: Instant): Boolean
 }
 
 interface MemoryRepository {

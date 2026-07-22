@@ -1,0 +1,32 @@
+CatLifePet M4.2 Conversations and SSE QA Report
+Date: 2026-07-22
+
+Scope
+- Authenticated conversation create, list, history, stream, and soft-delete endpoints.
+- Stable per-conversation message sequence numbers.
+- One assistant reply row per user message through reply_to_message_id.
+- OpenAI Responses API SSE parsing and provider-neutral streaming events.
+- Client-message idempotency, failed/cancelled retry, and completed reply replay.
+
+Persistence and security checks
+- Cross-account history and deletion return the same 404 as a missing conversation.
+- Reusing a completed clientMessageId does not invoke the provider or add rows.
+- Failed replies retry in the original assistant row.
+- Final completion uses a status compare-and-set; a second finalization is rejected.
+- A cancelled downstream collector cancels provider work and stores cancelled status.
+- PostgreSQL was stopped and restarted with the same data directory; conversation
+  history remained intact and Flyway reported zero pending migrations.
+
+Automated checks
+- Full server suite: 45 tests, 0 failures, 0 errors, 1 skipped paid OpenAI smoke test.
+- SSE checks: ordered deltas/completion, timeout error, retry, replay, and OpenAI event parsing passed.
+- Android authentication unit suite: 5 tests, 0 failures.
+- Android assembleDebug: passed.
+- git diff --check: passed (only repository line-ending notices).
+
+External provider check
+- The optional paid OpenAI smoke test remained skipped because OPENAI_API_KEY and
+  CATLIFEPET_RUN_OPENAI_SMOKE were not configured.
+- OpenAI streaming request shape is covered with Ktor MockEngine, including stream=true.
+
+Result: PASS

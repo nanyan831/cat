@@ -67,10 +67,12 @@ enum class MessageStatus(val wireName: String) {
 data class MessageRecord(
     val id: UUID,
     val conversationId: UUID,
+    val sequenceNumber: Long,
     val role: MessageRole,
     val content: String,
     val status: MessageStatus,
     val clientMessageId: UUID?,
+    val replyToMessageId: UUID?,
     val model: String?,
     val inputTokens: Int,
     val outputTokens: Int,

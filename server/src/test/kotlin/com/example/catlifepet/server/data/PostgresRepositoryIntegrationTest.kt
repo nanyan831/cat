@@ -50,7 +50,7 @@ class PostgresRepositoryIntegrationTest {
     @Test
     @Order(1)
     fun `fresh migrations apply once and repeat idempotently`() {
-        assertEquals(3, database.migrate())
+        assertEquals(4, database.migrate())
         assertEquals(0, database.migrate())
 
         val tables = database.transaction { connection ->
@@ -129,10 +129,12 @@ class PostgresRepositoryIntegrationTest {
         val userMessage = MessageRecord(
             id = UUID.randomUUID(),
             conversationId = conversation.id,
+            sequenceNumber = 1,
             role = MessageRole.USER,
             content = "Today was busy.",
             status = MessageStatus.COMPLETED,
             clientMessageId = UUID.randomUUID(),
+            replyToMessageId = null,
             model = null,
             inputTokens = 0,
             outputTokens = 0,
@@ -142,10 +144,12 @@ class PostgresRepositoryIntegrationTest {
         val assistantMessage = MessageRecord(
             id = UUID.randomUUID(),
             conversationId = conversation.id,
+            sequenceNumber = 2,
             role = MessageRole.ASSISTANT,
             content = "Let us take it slowly.",
             status = MessageStatus.COMPLETED,
             clientMessageId = null,
+            replyToMessageId = userMessage.id,
             model = "test-model",
             inputTokens = 12,
             outputTokens = 8,

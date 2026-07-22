@@ -2,6 +2,9 @@ package com.example.catlifepet.server.ai
 
 import com.example.catlifepet.server.config.AiSettings
 import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withTimeout
 
 class AiGateway(
@@ -13,6 +16,17 @@ class AiGateway(
         return try {
             withTimeout(settings.requestTimeout.toMillis()) {
                 provider.generate(request)
+            }
+        } catch (error: TimeoutCancellationException) {
+            throw AiTimeoutException()
+        }
+    }
+
+    fun stream(request: AiRequest): Flow<AiStreamEvent> = flow {
+        validate(request)
+        try {
+            withTimeout(settings.requestTimeout.toMillis()) {
+                provider.stream(request).collect { emit(it) }
             }
         } catch (error: TimeoutCancellationException) {
             throw AiTimeoutException()

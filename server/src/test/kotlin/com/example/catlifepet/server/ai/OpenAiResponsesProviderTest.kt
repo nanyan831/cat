@@ -10,6 +10,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.content.TextContent
 import io.ktor.http.headersOf
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.flow.toList
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.int
@@ -26,6 +27,38 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class OpenAiResponsesProviderTest {
+    @Test
+    fun `provider streams ordered deltas and completion`() = runBlocking {
+        var requestJson = ""
+        val completedResponse = Json.parseToJsonElement(successResponse()).toString()
+        val engine = MockEngine { request ->
+            requestJson = (request.body as TextContent).text
+            respond(
+                content = buildString {
+                    appendLine("event: response.output_text.delta")
+                    appendLine("data: {\"type\":\"response.output_text.delta\",\"delta\":\"我在\"}")
+                    appendLine()
+                    appendLine("event: response.output_text.delta")
+                    appendLine("data: {\"type\":\"response.output_text.delta\",\"delta\":\"听。\"}")
+                    appendLine()
+                    appendLine("event: response.completed")
+                    appendLine("data: {\"type\":\"response.completed\",\"response\":$completedResponse}")
+                    appendLine()
+                    appendLine("data: [DONE]")
+                    appendLine()
+                },
+                status = HttpStatusCode.OK,
+                headers = headersOf(HttpHeaders.ContentType, "text/event-stream")
+            )
+        }
+
+        val events = provider(HttpClient(engine)).stream(validRequest()).toList()
+
+        assertTrue(Json.parseToJsonElement(requestJson).jsonObject["stream"]!!.jsonPrimitive.boolean)
+        assertEquals(listOf("我在", "听。"), events.filterIsInstance<AiStreamEvent.Delta>().map { it.text })
+        assertEquals("我在听。", events.filterIsInstance<AiStreamEvent.Completed>().single().result.text)
+    }
+
     @Test
     fun `provider sends bounded private request and parses text usage`() = runBlocking {
         var authorization: String? = null

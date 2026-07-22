@@ -73,6 +73,28 @@ printed in logs. Production sends them through authenticated SMTP and requires:
 Access tokens expire after 15 minutes. Refresh tokens expire after 30 days, rotate on
 every use, and revoke the entire token family when an already-rotated token is replayed.
 
+## Conversations and streaming
+
+All conversation endpoints require a valid access token:
+
+```text
+POST   /v1/conversations
+GET    /v1/conversations
+GET    /v1/conversations/{id}/messages
+POST   /v1/conversations/{id}/messages/stream
+DELETE /v1/conversations/{id}
+```
+
+The streaming endpoint accepts `content` and a client-generated UUID in
+`clientMessageId`. Responses use `text/event-stream` and emit ordered `delta`,
+`completed`, or `error` events. Retrying the same client ID replays an already completed
+reply or resumes a failed/cancelled turn without inserting duplicate message rows.
+
+Conversation ownership is checked on every read, write, and delete. Missing and
+cross-account conversations both return `404`. The server cancels model generation when
+the client disconnects, stores final replies with a compare-and-set update, and orders
+history by a per-conversation sequence number.
+
 ## AI Gateway
 
 The server owns all model credentials. Never add `OPENAI_API_KEY` to Android Gradle
