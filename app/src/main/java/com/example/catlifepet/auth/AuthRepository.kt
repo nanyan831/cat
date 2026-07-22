@@ -96,12 +96,18 @@ class AuthRepository(
         sessionStore.clear()
     }
 
-    private suspend fun ensureAccessToken(): AuthOutcome<Unit> {
-        if (!tokenProvider.accessToken.isNullOrBlank()) return AuthOutcome.Success(Unit)
-        return when (val restored = restoreSession()) {
+    suspend fun ensureAuthenticated(forceRefresh: Boolean = false): AuthOutcome<Unit> {
+        if (!forceRefresh && !tokenProvider.accessToken.isNullOrBlank()) return AuthOutcome.Success(Unit)
+        val refreshToken = sessionStore.readRefreshToken()
+            ?: return AuthOutcome.Failure("logged_out", "No saved session.", httpStatus = 401)
+        return when (val restored = refresh(refreshToken)) {
             is AuthOutcome.Failure -> restored
             is AuthOutcome.Success -> AuthOutcome.Success(Unit)
         }
+    }
+
+    private suspend fun ensureAccessToken(): AuthOutcome<Unit> {
+        return ensureAuthenticated()
     }
 
     private suspend fun refresh(refreshToken: String): AuthOutcome<UserProfile> {

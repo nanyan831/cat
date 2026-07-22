@@ -38,19 +38,23 @@ class AccessTokenInterceptor(
 }
 
 object AuthApiFactory {
-    fun create(
-        baseUrl: String,
-        tokenProvider: AccessTokenProvider,
-        gson: Gson = Gson(),
-        client: OkHttpClient? = null
-    ): AuthApi {
-        val httpClient = client ?: OkHttpClient.Builder()
+    fun createClient(tokenProvider: AccessTokenProvider): OkHttpClient {
+        return OkHttpClient.Builder()
             .addInterceptor(AccessTokenInterceptor(tokenProvider))
             .connectTimeout(10, TimeUnit.SECONDS)
             .readTimeout(20, TimeUnit.SECONDS)
             .writeTimeout(20, TimeUnit.SECONDS)
             .retryOnConnectionFailure(true)
             .build()
+    }
+
+    fun create(
+        baseUrl: String,
+        tokenProvider: AccessTokenProvider,
+        gson: Gson = Gson(),
+        client: OkHttpClient? = null
+    ): AuthApi {
+        val httpClient = client ?: createClient(tokenProvider)
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(httpClient)

@@ -4,22 +4,31 @@ import android.content.Context
 import android.os.Build
 import com.example.catlifepet.BuildConfig
 import com.google.gson.Gson
+import okhttp3.OkHttpClient
 
 object AuthGraph {
     @Volatile
-    private var repository: AuthRepository? = null
+    private var dependencies: Dependencies? = null
 
     fun repository(context: Context): AuthRepository {
-        return repository ?: synchronized(this) {
-            repository ?: createRepository(context.applicationContext).also { repository = it }
+        return dependencies(context).repository
+    }
+
+    internal fun httpClient(context: Context): OkHttpClient = dependencies(context).httpClient
+    internal fun gson(context: Context): Gson = dependencies(context).gson
+
+    private fun dependencies(context: Context): Dependencies {
+        return dependencies ?: synchronized(this) {
+            dependencies ?: createDependencies(context.applicationContext).also { dependencies = it }
         }
     }
 
-    private fun createRepository(context: Context): AuthRepository {
+    private fun createDependencies(context: Context): Dependencies {
         val gson = Gson()
         val tokenProvider = AccessTokenProvider()
-        return AuthRepository(
-            api = AuthApiFactory.create(BuildConfig.API_BASE_URL, tokenProvider, gson),
+        val httpClient = AuthApiFactory.createClient(tokenProvider)
+        val repository = AuthRepository(
+            api = AuthApiFactory.create(BuildConfig.API_BASE_URL, tokenProvider, gson, httpClient),
             sessionStore = AndroidKeystoreSessionStore(context),
             tokenProvider = tokenProvider,
             deviceLabel = listOf(Build.MANUFACTURER, Build.MODEL)
@@ -28,5 +37,12 @@ object AuthGraph {
                 .take(160),
             gson = gson
         )
+        return Dependencies(repository, httpClient, gson)
     }
+
+    private data class Dependencies(
+        val repository: AuthRepository,
+        val httpClient: OkHttpClient,
+        val gson: Gson
+    )
 }

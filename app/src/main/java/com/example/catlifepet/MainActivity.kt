@@ -33,6 +33,7 @@ import androidx.core.content.ContextCompat
 import com.example.catlifepet.data.SettingsRepository
 import com.example.catlifepet.auth.AuthActivity
 import com.example.catlifepet.auth.AuthGraph
+import com.example.catlifepet.chat.ChatActivity
 import com.example.catlifepet.floating.CatFloatingService
 import com.example.catlifepet.floating.CatState
 import com.example.catlifepet.floating.GrowthUnlockManager
@@ -236,6 +237,10 @@ class MainActivity : Activity() {
         chip(chips, "♥ ${relationshipName()}")
         root.addView(chips, match(dp(12)))
 
+        root.addView(cardRow("✦", "和小猫聊聊", "登录后可以继续聊天并保存记录", "聊聊") {
+            startActivity(Intent(this, ChatActivity::class.java))
+        }, match(dp(12)))
+
         root.addView(section("我们的关系"), wrap())
         root.addView(cardRow("♥", relationshipName(), relationshipDescription(), null), match(dp(12)))
         root.addView(section("桌宠状态"), wrap())
@@ -408,7 +413,7 @@ class MainActivity : Activity() {
         root.addView(text("CatLifePet", 20f, TEXT_PRIMARY, true).apply { gravity = Gravity.CENTER }, match(dp(4)))
         root.addView(text("一只陪伴你生活的桌面小猫", 14f, TEXT_SECONDARY, false).apply { gravity = Gravity.CENTER }, match(dp(20)))
         root.addView(infoCard("关于 CatLifePet", "CatLifePet 希望用一只安静的小猫，陪你度过每天的生活。\n它会在你需要的时候提醒喝水、吃饭、休息和睡觉，也会在屏幕旁边安静陪着你。"), match(dp(12)))
-        root.addView(infoCard("当前能力", "• 悬浮陪伴与拖动贴边\n• 本地生活提醒与勿扰设置\n• Energy、Mood、Affection 与陪伴成长\n• 所有数据保存在本机，不需要登录或联网"), match(dp(12)))
+        root.addView(infoCard("当前能力", "• 悬浮陪伴与拖动贴边\n• 本地生活提醒与勿扰设置\n• Energy、Mood、Affection 与陪伴成长\n• 登录后使用 AI 对话与云端聊天记录\n• 桌宠和提醒仍可完全离线使用"), match(dp(12)))
         root.addView(infoCard("版本", packageVersion()), match(dp(12)))
         root.addView(text("© 2026 CatLifePet", 12f, TEXT_SECONDARY, false).apply { gravity = Gravity.CENTER }, match(dp(12)))
     }

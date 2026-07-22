@@ -1,0 +1,54 @@
+CatLifePet M4.3 Android Streaming Chat QA Report
+Date: 2026-07-22
+
+Scope
+- Native ChatActivity and RecyclerView message list; no Compose migration.
+- Home entry named "和小猫聊聊"; floating-pet click behavior remains unchanged.
+- Conversation list, new/select/delete, server history, streaming reply, stop, and retry.
+- Loading, empty, offline, failed, and expired-session states.
+- Room cache for conversations, server messages, and pending user sends.
+- Shared encrypted login session with one forced refresh and retry after HTTP 401.
+
+Persistence and interruption checks
+- User text is written to Room before network transmission.
+- Failed and stopped sends retain the original clientMessageId for idempotent retry.
+- Activity recreation does not submit or display duplicate messages.
+- Closing and reopening the Room database preserves failed pending text.
+- SSE response-body interruption produces a retryable failure instead of hanging.
+- Cancelling generation closes the OkHttp call and leaves a retryable pending message.
+
+Toolchain decision
+- Room 2.7.2 is pinned because it targets Kotlin 2.0, matching the project's Kotlin
+  2.0.21 compiler. Room 2.8.4 is built with a newer Kotlin toolchain and was rejected
+  after a repeat-build schema compatibility failure.
+- Room schema version 1 is exported under app/schemas and checked into Git.
+
+Automated checks
+- Android JVM unit suite: 12 tests, 0 failures.
+- Chat tests cover ViewModel fake SSE, recreation, stop, interruption, repository retry,
+  pending-row preservation, SSE event order, and response-body disconnect.
+- Server suite: 45 tests, 0 failures, 1 skipped paid OpenAI smoke test.
+- lintDebug: 0 errors; 58 warnings, including pre-existing compatibility warnings and
+  intentional Room-version availability notices.
+- assembleDebug: passed.
+- Clean KSP build and immediate repeat KSP build: passed.
+
+Device checks
+- Pixel 6 emulator: 7 non-network instrumentation tests passed; 2 gated smoke tests skipped.
+- OPPO PCRM00 Android 12: 7 non-network instrumentation tests passed; 2 gated smoke tests skipped.
+- Pixel emulator real Ktor/PostgreSQL/fake-AI chat smoke: 1/1 passed in 3.496 seconds.
+- OPPO PCRM00 real Ktor/PostgreSQL/fake-AI chat smoke: 1/1 passed in 1.073 seconds.
+- Device smoke covers code login, conversation creation, HTTP SSE, Room history, and
+  overlay-service coexistence when overlay permission is available.
+- OPPO required its normal "computer unknown source" confirmation for updated APKs;
+  both final target and test APKs installed successfully afterward.
+
+Visual check
+- Logged-out Pixel screenshot: qa/v0.14.0/pixel-chat-logged-out.png
+- No clipping or overlap was observed at the tested Pixel portrait viewport.
+
+External AI check
+- Device tests use DeterministicFakeAiProvider, so they do not incur model cost.
+- The paid OpenAI smoke test remains explicitly gated by environment variables.
+
+Result: PASS
