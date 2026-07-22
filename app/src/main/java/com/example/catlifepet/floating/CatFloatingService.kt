@@ -2,12 +2,15 @@ package com.example.catlifepet.floating
 
 import android.app.Service
 import android.app.ActivityManager
+import android.content.pm.ServiceInfo
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import android.util.Log
 import androidx.core.content.ContextCompat
+import androidx.core.app.ServiceCompat
 import com.example.catlifepet.permission.OverlayPermissionHelper
+import com.example.catlifepet.data.SettingsRepository
 import com.example.catlifepet.reminder.ReminderManager
 import com.example.catlifepet.reminder.ReminderType
 import com.example.catlifepet.util.NotificationUtils
@@ -19,9 +22,15 @@ class CatFloatingService : Service() {
         super.onCreate()
         Log.d(TAG, "服务启动 onCreate")
         controller = PetWindowController(this)
-        startForeground(
+        ServiceCompat.startForeground(
+            this,
             NotificationUtils.NOTIFICATION_ID,
-            NotificationUtils.buildForegroundNotification(this)
+            NotificationUtils.buildForegroundNotification(this),
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
+            } else {
+                0
+            }
         )
     }
 
@@ -38,7 +47,10 @@ class CatFloatingService : Service() {
                 }
             }
 
-            ACTION_STOP -> stopSelf()
+            ACTION_STOP -> {
+                SettingsRepository(this).clearTemporaryHide()
+                stopSelf()
+            }
 
             ACTION_REMINDER -> {
                 val type = intent?.getStringExtra(EXTRA_REMINDER_TYPE)
@@ -68,7 +80,13 @@ class CatFloatingService : Service() {
         Log.d(TAG, "服务停止 onDestroy")
         controller?.hide()
         controller = null
+        ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE)
         super.onDestroy()
+    }
+
+    override fun onTimeout(startId: Int, fgsType: Int) {
+        Log.w(TAG, "foreground service timeout: startId=$startId type=$fgsType")
+        stopSelf(startId)
     }
 
     override fun onBind(intent: Intent?): IBinder? = null
@@ -157,7 +175,8 @@ class CatFloatingService : Service() {
 
         fun start(context: Context) {
             val intent = Intent(context, CatFloatingService::class.java).setAction(ACTION_START)
-            ContextCompat.startForegroundService(context, intent)
+            runCatching { ContextCompat.startForegroundService(context, intent) }
+                .onFailure { Log.w(TAG, "startForegroundService blocked", it) }
         }
 
         fun stop(context: Context) {

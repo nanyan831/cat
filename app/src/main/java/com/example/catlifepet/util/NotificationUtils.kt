@@ -7,7 +7,12 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.Manifest
+import android.content.pm.PackageManager
+import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import com.example.catlifepet.MainActivity
 import com.example.catlifepet.R
 import com.example.catlifepet.reminder.ReminderType
@@ -49,6 +54,10 @@ object NotificationUtils {
     }
 
     fun showReminderFallback(context: Context, type: ReminderType) {
+        if (!canPostNotifications(context)) {
+            Log.w(TAG, "notification permission unavailable; fallback reminder skipped: $type")
+            return
+        }
         ensureChannel(context)
         val pendingIntent = PendingIntent.getActivity(
             context,
@@ -74,4 +83,14 @@ object NotificationUtils {
                 .build()
         )
     }
+
+    fun canPostNotifications(context: Context): Boolean {
+        val runtimePermissionGranted = Build.VERSION.SDK_INT < 33 || ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.POST_NOTIFICATIONS
+        ) == PackageManager.PERMISSION_GRANTED
+        return runtimePermissionGranted && NotificationManagerCompat.from(context).areNotificationsEnabled()
+    }
+
+    private const val TAG = "CatLifePet"
 }

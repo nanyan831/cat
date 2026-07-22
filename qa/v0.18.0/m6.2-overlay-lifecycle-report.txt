@@ -1,0 +1,38 @@
+CatLifePet M6.2 overlay lifecycle qualification
+Date: 2026-07-22
+
+Implementation
+- Temporary-hide deadline is persisted and re-read whenever the window is shown.
+- A recreated process schedules the remaining hide duration instead of showing early.
+- Successful add/remove operations update lifecycle diagnostics; duplicate show calls remain no-ops.
+- Failed WindowManager.addView calls release the candidate view and keep controller state clean.
+- Explicit user stop clears the temporary-hide deadline.
+- Android 14+ foreground startup declares and passes SPECIAL_USE through ServiceCompat.
+- Android 15+ foreground-service timeout stops the service cleanly.
+- Notification fallback checks runtime permission and notification-manager state.
+- Debug-only OverlayDebugActivity enables repeatable process-death testing without exporting the production service.
+
+Automated checks
+- Android unit tests: 18 passed, 0 failed.
+- Server regression tests: 54 passed, 0 failed.
+- Android lint: 0 errors (56 informational/warning findings remain unchanged).
+- Pixel API 37 instrumentation: 13 passed.
+- PCRM00 API 31 instrumentation: 13 passed; the overlay-specific test was assumption-skipped because ColorOS requires manual overlay authorization.
+- Foreground-service manifest/notification contract tests passed on both devices.
+
+Lifecycle checks
+- Ten repeated starts produced one active overlay and a maximum count of one.
+- Five stop/start cycles produced no duplicate overlay.
+- Process 26164 was killed while the pet was temporarily hidden.
+- Android restarted the START_STICKY service as process 26290.
+- The recreated service honored the persisted deadline for 23.5 seconds.
+- Deadline expiry logged one restore and one addView.
+- POST_NOTIFICATIONS was revoked on API 37: service started, restored, and added the overlay with zero fatal exceptions.
+- The service remained registered after the emulator screen was turned off.
+
+Environment coverage
+- Pixel_6 emulator: API 37 (newer than the Android 14/15 compatibility target).
+- OPPO PCRM00: API 31 / Android 12.
+- Only API 37 phone and API 36 Wear system images are installed locally. Android 8/14/15 phone images remain part of M8.2 compatibility qualification.
+
+Result: PASS

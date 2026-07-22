@@ -48,10 +48,16 @@ class PetWindowController(private val context: Context) {
     private var curiousGeneration = 0L
 
     fun show() {
-        if (temporarilyHidden) {
-            Log.d(TAG, "show skipped: pet is temporarily hidden")
+        val hiddenUntil = settingsRepository.getTemporaryHideUntil()
+        val remainingHideMillis = hiddenUntil - System.currentTimeMillis()
+        if (remainingHideMillis > 0L) {
+            temporarilyHidden = true
+            scheduleTemporaryRestore(remainingHideMillis)
+            Log.d(TAG, "show skipped: pet is temporarily hidden for ${remainingHideMillis}ms")
             return
         }
+        if (hiddenUntil > 0L) settingsRepository.clearTemporaryHide()
+        temporarilyHidden = false
         if (catPetView != null) {
             Log.d(TAG, "addView skipped: pet already showing")
             return
@@ -116,10 +122,19 @@ class PetWindowController(private val context: Context) {
             }
         )
 
+        view.setCatOnLeft(params.x <= (ScreenUtils.screenWidth(context) - windowWidth) / 2)
+        try {
+            windowManager.addView(view, params)
+        } catch (error: RuntimeException) {
+            view.release()
+            layoutParams = null
+            catPetView = null
+            Log.e(TAG, "addView failed", error)
+            return
+        }
         layoutParams = params
         catPetView = view
-        view.setCatOnLeft(params.x <= (ScreenUtils.screenWidth(context) - windowWidth) / 2)
-        windowManager.addView(view, params)
+        OverlayLifecycleDiagnostics.onViewAdded()
         Log.d(TAG, "addView: x=${params.x}, y=${params.y}, width=$windowWidth, height=$windowHeight")
         petStatusManager.onPetVisible()
         behaviorManager.start()
@@ -160,18 +175,24 @@ class PetWindowController(private val context: Context) {
     }
 
     fun hideTemporarily(durationMs: Long) {
-        if (temporarilyHidden) return
+        val hiddenUntil = System.currentTimeMillis() + durationMs
+        settingsRepository.saveTemporaryHideUntil(hiddenUntil)
         temporarilyHidden = true
         cancelCurious()
         cancelPeek(restoreAnchor = false)
         removeCurrentView()
         Log.d(TAG, "pet hidden temporarily")
+        scheduleTemporaryRestore(durationMs)
+    }
+
+    private fun scheduleTemporaryRestore(delayMillis: Long) {
         handler.removeCallbacksAndMessages(TEMP_HIDE_TOKEN)
         handler.postAtTime({
+            settingsRepository.clearTemporaryHide()
             temporarilyHidden = false
             Log.d(TAG, "pet restored after temporary hide")
             show()
-        }, TEMP_HIDE_TOKEN, android.os.SystemClock.uptimeMillis() + durationMs)
+        }, TEMP_HIDE_TOKEN, android.os.SystemClock.uptimeMillis() + delayMillis.coerceAtLeast(1L))
     }
 
     private fun removeCurrentView() {
@@ -189,6 +210,7 @@ class PetWindowController(private val context: Context) {
         view.release()
         catPetView = null
         layoutParams = null
+        OverlayLifecycleDiagnostics.onViewRemoved()
     }
 
     fun showReminder(type: ReminderType) {
