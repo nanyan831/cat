@@ -47,6 +47,8 @@ enum class CatState(
     YAWNING("", 1_760L),
     // The frames total 1,620 ms; keep a small completion margin before returning to IDLE.
     CURIOUS("", 1_690L),
+    // The frames total 1,680 ms; keep a small completion margin before returning to IDLE.
+    CUDDLE("再靠近一点点吧。", 1_750L),
     // The frames total 1,880 ms; keep a small completion margin before returning to IDLE.
     LICKING("", 1_950L)
 }

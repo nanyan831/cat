@@ -312,8 +312,8 @@ class PetWindowController(private val context: Context) {
         cancelPeek(restoreAnchor = true)
         microBehaviorManager.cancel("debug CUDDLE")
         val mood = petStatusManager.getMoodLevel()
-        catPetView?.showCompanionMessage(DialogueManager.randomCuddleMessage(mood))
-        Log.d(TAG, "CUDDLE triggered (debug, no stat changes)")
+        catPetView?.showCuddleMessage(DialogueManager.randomCuddleMessage(mood))
+        Log.d(TAG, "CUDDLE triggered (debug, no stat changes, edge-independent frames)")
     }
 
     private fun moveBy(dx: Int, dy: Int) {
@@ -345,15 +345,16 @@ class PetWindowController(private val context: Context) {
         petStatusManager.tryGainDailyInteractionAffection()
         syncGrowth()
         val features = growthUnlockManager.unlockedFeatures().toSet()
-        val message = DialogueManager.randomClickMessage(
+        val decision = DialogueManager.randomClickDecision(
             petStatusManager.getMoodLevel(),
             petStatusManager.getAffectionLevel(),
             features,
             allowCuddle = true
         )
-        catPetView?.showCompanionMessage(
-            message
-        )
+        when (decision.state) {
+            CatState.CUDDLE -> catPetView?.showCuddleMessage(decision.message)
+            else -> catPetView?.showCompanionMessage(decision.message)
+        }
         schedulePendingFeedback()
     }
 

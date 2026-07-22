@@ -165,6 +165,19 @@ class CatAnimationManager(private val imageView: ImageView) {
             ),
             playbackMode = PlaybackMode.ONCE
         ),
+        CatState.CUDDLE to StateAnimation(
+            frames = listOf(
+                AnimationFrame(R.drawable.cat_cuddle_01, 180L),
+                AnimationFrame(R.drawable.cat_cuddle_02, 170L),
+                AnimationFrame(R.drawable.cat_cuddle_03, 190L),
+                AnimationFrame(R.drawable.cat_cuddle_04, 220L),
+                AnimationFrame(R.drawable.cat_cuddle_05, 330L),
+                AnimationFrame(R.drawable.cat_cuddle_06, 230L),
+                AnimationFrame(R.drawable.cat_cuddle_07, 180L),
+                AnimationFrame(R.drawable.cat_cuddle_08, 180L)
+            ),
+            playbackMode = PlaybackMode.ONCE
+        ),
         CatState.LICKING to StateAnimation(
             frames = listOf(
                 AnimationFrame(R.drawable.cat_licking_01, 160L),
@@ -235,6 +248,7 @@ class CatAnimationManager(private val imageView: ImageView) {
             CatState.BLINKING -> R.drawable.cat_idle
             CatState.YAWNING -> R.drawable.cat_stretching
             CatState.CURIOUS -> R.drawable.cat_idle
+            CatState.CUDDLE -> R.drawable.cat_idle
             CatState.LICKING -> R.drawable.cat_idle
         }
     }

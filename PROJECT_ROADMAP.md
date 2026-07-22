@@ -6,7 +6,7 @@ Last updated: 2026-07-22
 
 - [x] M0.1 Roadmap and repository baseline - build passed on 2026-07-22.
 - [x] M1.1 Produce and validate CUDDLE assets - strict alpha/anchor checks and contact-sheet review passed on 2026-07-22.
-- [ ] M1.2 Integrate CUDDLE runtime behavior.
+- [x] M1.2 Integrate CUDDLE runtime behavior - build, lint, Pixel 6 matrix, and PCRM00 device run passed on 2026-07-22.
 - [ ] M2.1 Scaffold the Ktor service.
 - [ ] M2.2 Add PostgreSQL and migrations.
 - [ ] M3.1 Implement passwordless email authentication.
@@ -53,7 +53,7 @@ The current Android application already provides:
 
 Known unfinished product work:
 
-- CUDDLE still falls back to HAPPY.
+- CUDDLE has validated eight-frame assets, relationship dialogue, and safe IDLE return.
 - Temporary hide and reminder scheduling require production lifecycle hardening.
 - No server, account, AI chat, cloud history, or cloud memory exists yet.
 - Final icon, notification icon, splash, privacy copy, signing, and release bundle remain.

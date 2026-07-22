@@ -1,0 +1,606 @@
+﻿--------- beginning of main
+07-22 04:46:32.211 17266 17266 V CatLifePet: animation frame displayed: state=SLEEPING, index=1
+07-22 04:46:32.403 17266 17266 D CatLifePet: relationship debug action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:32.415 17266 17266 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:32.415 17266 17266 D CatLifePet: received com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:32.416 17266 17266 D CatLifePet: addView skipped: pet already showing
+07-22 04:46:32.416 17266 17266 D CatLifePet: 小猫状态切换: SLEEPING -> IDLE
+07-22 04:46:32.416 17266 17266 D CatLifePet: animation stopped: state=SLEEPING
+07-22 04:46:32.416 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-22 04:46:32.417 17266 17266 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-22 04:46:32.417 17266 17266 D CatLifePet: behavior cancelled: debug CUDDLE
+07-22 04:46:32.417 17266 17266 D CatLifePet: schedule next behavior: 11916ms
+07-22 04:46:32.417 17266 17266 D CatLifePet: micro behavior cancelled: debug CUDDLE
+07-22 04:46:32.426 17266 17266 D CatLifePet: CUDDLE dialogue selected: mood=NORMAL, message=喵呜，再靠近一点点好吗～
+07-22 04:46:32.426 17266 17266 D CatLifePet: 小猫状态切换: IDLE -> CUDDLE
+07-22 04:46:32.426 17266 17266 D CatLifePet: animation stopped: state=IDLE
+07-22 04:46:32.490 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=1
+07-22 04:46:32.490 17266 17266 D CatLifePet: cat visual state: CUDDLE, mode=ONCE
+07-22 04:46:32.492 17266 17266 D CatLifePet: CUDDLE message shown; edge=left
+07-22 04:46:32.492 17266 17266 D CatLifePet: CUDDLE triggered (debug, no stat changes, edge-independent frames)
+07-22 04:46:32.693 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=2
+07-22 04:46:32.865 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=3
+07-22 04:46:33.059 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=4
+07-22 04:46:33.280 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=5
+07-22 04:46:33.611 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=6
+07-22 04:46:33.843 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=7
+07-22 04:46:34.025 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=8
+07-22 04:46:34.206 17266 17266 D CatLifePet: animation finished and holding last frame: state=CUDDLE
+07-22 04:46:34.242 17266 17266 D CatLifePet: 小猫状态切换: CUDDLE -> IDLE
+07-22 04:46:34.244 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-22 04:46:34.244 17266 17266 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-22 04:46:34.427 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-22 04:46:34.589 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-22 04:46:34.773 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-22 04:46:34.936 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=5
+07-22 04:46:35.119 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=6
+07-22 04:46:35.300 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-22 04:46:35.483 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-22 04:46:35.653 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-22 04:46:35.848 17266 17266 D CatLifePet: relationship debug action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:35.856 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-22 04:46:35.869 17266 17266 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:35.869 17266 17266 D CatLifePet: received com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:35.869 17266 17266 D CatLifePet: addView skipped: pet already showing
+07-22 04:46:35.870 17266 17266 D CatLifePet: behavior cancelled: debug CUDDLE
+07-22 04:46:35.870 17266 17266 D CatLifePet: schedule next behavior: 14202ms
+07-22 04:46:35.870 17266 17266 D CatLifePet: micro behavior cancelled: debug CUDDLE
+07-22 04:46:35.870 17266 17266 D CatLifePet: CUDDLE dialogue selected: mood=NORMAL, message=再陪我一小会儿吧。
+07-22 04:46:35.870 17266 17266 D CatLifePet: 小猫状态切换: IDLE -> CUDDLE
+07-22 04:46:35.870 17266 17266 D CatLifePet: animation stopped: state=IDLE
+07-22 04:46:35.872 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=1
+07-22 04:46:35.872 17266 17266 D CatLifePet: cat visual state: CUDDLE, mode=ONCE
+07-22 04:46:35.879 17266 17266 D CatLifePet: CUDDLE message shown; edge=left
+07-22 04:46:35.880 17266 17266 D CatLifePet: CUDDLE triggered (debug, no stat changes, edge-independent frames)
+07-22 04:46:36.082 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=2
+07-22 04:46:36.257 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=3
+07-22 04:46:36.447 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=4
+07-22 04:46:36.671 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=5
+07-22 04:46:37.005 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=6
+07-22 04:46:37.237 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=7
+07-22 04:46:37.420 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=8
+07-22 04:46:37.602 17266 17266 D CatLifePet: animation finished and holding last frame: state=CUDDLE
+07-22 04:46:37.630 17266 17266 D CatLifePet: 小猫状态切换: CUDDLE -> IDLE
+07-22 04:46:37.631 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-22 04:46:37.631 17266 17266 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-22 04:46:37.813 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-22 04:46:37.882 17266 17266 D CatLifePet: 小猫状态切换: IDLE -> BLINKING
+07-22 04:46:37.882 17266 17266 D CatLifePet: animation stopped: state=IDLE
+07-22 04:46:37.882 17266 17266 V CatLifePet: animation frame displayed: state=BLINKING, index=1
+07-22 04:46:37.882 17266 17266 D CatLifePet: cat visual state: BLINKING, mode=ONCE
+07-22 04:46:37.883 17266 17266 D CatLifePet: micro behavior triggered: BLINKING
+07-22 04:46:37.964 17266 17266 V CatLifePet: animation frame displayed: state=BLINKING, index=2
+07-22 04:46:38.035 17266 17266 V CatLifePet: animation frame displayed: state=BLINKING, index=3
+07-22 04:46:38.127 17266 17266 V CatLifePet: animation frame displayed: state=BLINKING, index=4
+07-22 04:46:38.197 17266 17266 D CatLifePet: relationship debug action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:38.209 17266 17266 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:38.209 17266 17266 D CatLifePet: received com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:38.209 17266 17266 D CatLifePet: addView skipped: pet already showing
+07-22 04:46:38.209 17266 17266 D CatLifePet: behavior cancelled: debug CUDDLE
+07-22 04:46:38.209 17266 17266 D CatLifePet: schedule next behavior: 8063ms
+07-22 04:46:38.209 17266 17266 D CatLifePet: 小猫状态切换: BLINKING -> IDLE
+07-22 04:46:38.209 17266 17266 D CatLifePet: animation stopped: state=BLINKING
+07-22 04:46:38.209 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-22 04:46:38.209 17266 17266 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-22 04:46:38.209 17266 17266 D CatLifePet: micro behavior cancelled: debug CUDDLE
+07-22 04:46:38.209 17266 17266 D CatLifePet: CUDDLE dialogue selected: mood=NORMAL, message=今天也很喜欢和你待在一起。
+07-22 04:46:38.210 17266 17266 D CatLifePet: 小猫状态切换: IDLE -> CUDDLE
+07-22 04:46:38.210 17266 17266 D CatLifePet: animation stopped: state=IDLE
+07-22 04:46:38.210 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=1
+07-22 04:46:38.210 17266 17266 D CatLifePet: cat visual state: CUDDLE, mode=ONCE
+07-22 04:46:38.216 17266 17266 D CatLifePet: CUDDLE message shown; edge=left
+07-22 04:46:38.217 17266 17266 D CatLifePet: CUDDLE triggered (debug, no stat changes, edge-independent frames)
+07-22 04:46:38.412 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=2
+07-22 04:46:38.585 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=3
+07-22 04:46:38.778 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=4
+07-22 04:46:38.999 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=5
+07-22 04:46:39.332 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=6
+07-22 04:46:39.564 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=7
+07-22 04:46:39.746 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=8
+07-22 04:46:39.927 17266 17266 D CatLifePet: animation finished and holding last frame: state=CUDDLE
+07-22 04:46:39.967 17266 17266 D CatLifePet: 小猫状态切换: CUDDLE -> IDLE
+07-22 04:46:39.968 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-22 04:46:39.969 17266 17266 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-22 04:46:40.151 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-22 04:46:40.312 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-22 04:46:40.494 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-22 04:46:40.547 17266 17266 D CatLifePet: relationship debug action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:40.567 17266 17266 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:40.567 17266 17266 D CatLifePet: received com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:40.567 17266 17266 D CatLifePet: addView skipped: pet already showing
+07-22 04:46:40.567 17266 17266 D CatLifePet: behavior cancelled: debug CUDDLE
+07-22 04:46:40.568 17266 17266 D CatLifePet: schedule next behavior: 14054ms
+07-22 04:46:40.568 17266 17266 D CatLifePet: micro behavior cancelled: debug CUDDLE
+07-22 04:46:40.568 17266 17266 D CatLifePet: CUDDLE dialogue selected: mood=NORMAL, message=被你发现我在等你啦～
+07-22 04:46:40.568 17266 17266 D CatLifePet: 小猫状态切换: IDLE -> CUDDLE
+07-22 04:46:40.568 17266 17266 D CatLifePet: animation stopped: state=IDLE
+07-22 04:46:40.569 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=1
+07-22 04:46:40.570 17266 17266 D CatLifePet: cat visual state: CUDDLE, mode=ONCE
+07-22 04:46:40.574 17266 17266 D CatLifePet: CUDDLE message shown; edge=left
+07-22 04:46:40.574 17266 17266 D CatLifePet: CUDDLE triggered (debug, no stat changes, edge-independent frames)
+07-22 04:46:40.786 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=2
+07-22 04:46:40.958 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=3
+07-22 04:46:41.150 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=4
+07-22 04:46:41.372 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=5
+07-22 04:46:41.704 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=6
+07-22 04:46:41.936 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=7
+07-22 04:46:42.117 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=8
+07-22 04:46:42.298 17266 17266 D CatLifePet: animation finished and holding last frame: state=CUDDLE
+07-22 04:46:42.326 17266 17266 D CatLifePet: 小猫状态切换: CUDDLE -> IDLE
+07-22 04:46:42.326 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-22 04:46:42.326 17266 17266 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-22 04:46:42.509 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-22 04:46:42.670 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-22 04:46:42.854 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-22 04:46:42.897 17266 17266 D CatLifePet: relationship debug action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:42.911 17266 17266 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:42.911 17266 17266 D CatLifePet: received com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:42.911 17266 17266 D CatLifePet: addView skipped: pet already showing
+07-22 04:46:42.911 17266 17266 D CatLifePet: behavior cancelled: debug CUDDLE
+07-22 04:46:42.911 17266 17266 D CatLifePet: schedule next behavior: 14358ms
+07-22 04:46:42.911 17266 17266 D CatLifePet: micro behavior cancelled: debug CUDDLE
+07-22 04:46:42.911 17266 17266 D CatLifePet: CUDDLE dialogue selected: mood=NORMAL, message=再陪我一小会儿吧。
+07-22 04:46:42.911 17266 17266 D CatLifePet: 小猫状态切换: IDLE -> CUDDLE
+07-22 04:46:42.911 17266 17266 D CatLifePet: animation stopped: state=IDLE
+07-22 04:46:42.911 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=1
+07-22 04:46:42.912 17266 17266 D CatLifePet: cat visual state: CUDDLE, mode=ONCE
+07-22 04:46:42.912 17266 17266 D CatLifePet: CUDDLE message shown; edge=left
+07-22 04:46:42.912 17266 17266 D CatLifePet: CUDDLE triggered (debug, no stat changes, edge-independent frames)
+07-22 04:46:43.098 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=2
+07-22 04:46:43.270 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=3
+07-22 04:46:43.463 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=4
+07-22 04:46:43.684 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=5
+07-22 04:46:44.018 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=6
+07-22 04:46:44.250 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=7
+07-22 04:46:44.434 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=8
+07-22 04:46:44.615 17266 17266 D CatLifePet: animation finished and holding last frame: state=CUDDLE
+07-22 04:46:44.663 17266 17266 D CatLifePet: 小猫状态切换: CUDDLE -> IDLE
+07-22 04:46:44.664 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-22 04:46:44.664 17266 17266 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-22 04:46:44.846 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-22 04:46:45.009 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-22 04:46:45.192 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-22 04:46:45.282 17266 17266 D CatLifePet: relationship debug action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:45.293 17266 17266 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:45.293 17266 17266 D CatLifePet: received com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:45.293 17266 17266 D CatLifePet: addView skipped: pet already showing
+07-22 04:46:45.294 17266 17266 D CatLifePet: behavior cancelled: debug CUDDLE
+07-22 04:46:45.294 17266 17266 D CatLifePet: schedule next behavior: 7725ms
+07-22 04:46:45.294 17266 17266 D CatLifePet: micro behavior cancelled: debug CUDDLE
+07-22 04:46:45.295 17266 17266 D CatLifePet: CUDDLE dialogue selected: mood=NORMAL, message=喵呜，再靠近一点点好吗～
+07-22 04:46:45.295 17266 17266 D CatLifePet: 小猫状态切换: IDLE -> CUDDLE
+07-22 04:46:45.295 17266 17266 D CatLifePet: animation stopped: state=IDLE
+07-22 04:46:45.296 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=1
+07-22 04:46:45.297 17266 17266 D CatLifePet: cat visual state: CUDDLE, mode=ONCE
+07-22 04:46:45.299 17266 17266 D CatLifePet: CUDDLE message shown; edge=left
+07-22 04:46:45.299 17266 17266 D CatLifePet: CUDDLE triggered (debug, no stat changes, edge-independent frames)
+07-22 04:46:45.478 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=2
+07-22 04:46:45.650 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=3
+07-22 04:46:45.846 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=4
+07-22 04:46:46.069 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=5
+07-22 04:46:46.401 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=6
+07-22 04:46:46.632 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=7
+07-22 04:46:46.814 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=8
+07-22 04:46:46.997 17266 17266 D CatLifePet: animation finished and holding last frame: state=CUDDLE
+07-22 04:46:47.050 17266 17266 D CatLifePet: 小猫状态切换: CUDDLE -> IDLE
+07-22 04:46:47.051 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-22 04:46:47.051 17266 17266 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-22 04:46:47.232 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-22 04:46:47.395 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-22 04:46:47.578 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-22 04:46:47.633 17266 17266 D CatLifePet: relationship debug action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:47.643 17266 17266 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:47.643 17266 17266 D CatLifePet: received com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:47.643 17266 17266 D CatLifePet: addView skipped: pet already showing
+07-22 04:46:47.643 17266 17266 D CatLifePet: behavior cancelled: debug CUDDLE
+07-22 04:46:47.643 17266 17266 D CatLifePet: schedule next behavior: 10710ms
+07-22 04:46:47.643 17266 17266 D CatLifePet: micro behavior cancelled: debug CUDDLE
+07-22 04:46:47.644 17266 17266 D CatLifePet: CUDDLE dialogue selected: mood=NORMAL, message=今天也很喜欢和你待在一起。
+07-22 04:46:47.644 17266 17266 D CatLifePet: 小猫状态切换: IDLE -> CUDDLE
+07-22 04:46:47.644 17266 17266 D CatLifePet: animation stopped: state=IDLE
+07-22 04:46:47.644 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=1
+07-22 04:46:47.644 17266 17266 D CatLifePet: cat visual state: CUDDLE, mode=ONCE
+07-22 04:46:47.645 17266 17266 D CatLifePet: CUDDLE message shown; edge=left
+07-22 04:46:47.645 17266 17266 D CatLifePet: CUDDLE triggered (debug, no stat changes, edge-independent frames)
+07-22 04:46:47.839 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=2
+07-22 04:46:48.011 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=3
+07-22 04:46:48.203 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=4
+07-22 04:46:48.425 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=5
+07-22 04:46:48.756 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=6
+07-22 04:46:48.990 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=7
+07-22 04:46:49.172 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=8
+07-22 04:46:49.353 17266 17266 D CatLifePet: animation finished and holding last frame: state=CUDDLE
+07-22 04:46:49.396 17266 17266 D CatLifePet: 小猫状态切换: CUDDLE -> IDLE
+07-22 04:46:49.397 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-22 04:46:49.397 17266 17266 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-22 04:46:49.581 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-22 04:46:49.744 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-22 04:46:49.925 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-22 04:46:49.999 17266 17266 D CatLifePet: relationship debug action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:50.009 17266 17266 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:50.009 17266 17266 D CatLifePet: received com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:50.009 17266 17266 D CatLifePet: addView skipped: pet already showing
+07-22 04:46:50.010 17266 17266 D CatLifePet: behavior cancelled: debug CUDDLE
+07-22 04:46:50.010 17266 17266 D CatLifePet: schedule next behavior: 11541ms
+07-22 04:46:50.010 17266 17266 D CatLifePet: micro behavior cancelled: debug CUDDLE
+07-22 04:46:50.010 17266 17266 D CatLifePet: CUDDLE dialogue selected: mood=NORMAL, message=被你发现我在等你啦～
+07-22 04:46:50.010 17266 17266 D CatLifePet: 小猫状态切换: IDLE -> CUDDLE
+07-22 04:46:50.010 17266 17266 D CatLifePet: animation stopped: state=IDLE
+07-22 04:46:50.010 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=1
+07-22 04:46:50.010 17266 17266 D CatLifePet: cat visual state: CUDDLE, mode=ONCE
+07-22 04:46:50.011 17266 17266 D CatLifePet: CUDDLE message shown; edge=left
+07-22 04:46:50.011 17266 17266 D CatLifePet: CUDDLE triggered (debug, no stat changes, edge-independent frames)
+07-22 04:46:50.209 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=2
+07-22 04:46:50.381 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=3
+07-22 04:46:50.573 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=4
+07-22 04:46:50.796 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=5
+07-22 04:46:51.128 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=6
+07-22 04:46:51.361 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=7
+07-22 04:46:51.542 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=8
+07-22 04:46:51.726 17266 17266 D CatLifePet: animation finished and holding last frame: state=CUDDLE
+07-22 04:46:51.762 17266 17266 D CatLifePet: 小猫状态切换: CUDDLE -> IDLE
+07-22 04:46:51.763 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-22 04:46:51.763 17266 17266 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-22 04:46:51.945 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-22 04:46:52.108 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-22 04:46:52.291 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-22 04:46:52.368 17266 17266 D CatLifePet: relationship debug action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:52.384 17266 17266 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:52.384 17266 17266 D CatLifePet: received com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:52.384 17266 17266 D CatLifePet: addView skipped: pet already showing
+07-22 04:46:52.385 17266 17266 D CatLifePet: behavior cancelled: debug CUDDLE
+07-22 04:46:52.385 17266 17266 D CatLifePet: schedule next behavior: 5083ms
+07-22 04:46:52.385 17266 17266 D CatLifePet: micro behavior cancelled: debug CUDDLE
+07-22 04:46:52.385 17266 17266 D CatLifePet: CUDDLE dialogue selected: mood=NORMAL, message=喵呜，再靠近一点点好吗～
+07-22 04:46:52.385 17266 17266 D CatLifePet: 小猫状态切换: IDLE -> CUDDLE
+07-22 04:46:52.385 17266 17266 D CatLifePet: animation stopped: state=IDLE
+07-22 04:46:52.385 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=1
+07-22 04:46:52.385 17266 17266 D CatLifePet: cat visual state: CUDDLE, mode=ONCE
+07-22 04:46:52.386 17266 17266 D CatLifePet: CUDDLE message shown; edge=left
+07-22 04:46:52.386 17266 17266 D CatLifePet: CUDDLE triggered (debug, no stat changes, edge-independent frames)
+07-22 04:46:52.575 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=2
+07-22 04:46:52.750 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=3
+07-22 04:46:52.941 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=4
+07-22 04:46:53.163 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=5
+07-22 04:46:53.494 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=6
+07-22 04:46:53.726 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=7
+07-22 04:46:53.908 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=8
+07-22 04:46:54.091 17266 17266 D CatLifePet: animation finished and holding last frame: state=CUDDLE
+07-22 04:46:54.137 17266 17266 D CatLifePet: 小猫状态切换: CUDDLE -> IDLE
+07-22 04:46:54.138 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-22 04:46:54.138 17266 17266 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-22 04:46:54.320 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-22 04:46:54.482 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-22 04:46:54.663 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-22 04:46:54.707 17266 17266 D CatLifePet: relationship debug action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:54.715 17266 17266 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:54.715 17266 17266 D CatLifePet: received com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:54.715 17266 17266 D CatLifePet: addView skipped: pet already showing
+07-22 04:46:54.715 17266 17266 D CatLifePet: behavior cancelled: debug CUDDLE
+07-22 04:46:54.715 17266 17266 D CatLifePet: schedule next behavior: 6175ms
+07-22 04:46:54.716 17266 17266 D CatLifePet: micro behavior cancelled: debug CUDDLE
+07-22 04:46:54.716 17266 17266 D CatLifePet: CUDDLE dialogue selected: mood=NORMAL, message=今天也很喜欢和你待在一起。
+07-22 04:46:54.716 17266 17266 D CatLifePet: 小猫状态切换: IDLE -> CUDDLE
+07-22 04:46:54.716 17266 17266 D CatLifePet: animation stopped: state=IDLE
+07-22 04:46:54.716 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=1
+07-22 04:46:54.716 17266 17266 D CatLifePet: cat visual state: CUDDLE, mode=ONCE
+07-22 04:46:54.717 17266 17266 D CatLifePet: CUDDLE message shown; edge=left
+07-22 04:46:54.717 17266 17266 D CatLifePet: CUDDLE triggered (debug, no stat changes, edge-independent frames)
+07-22 04:46:54.898 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=2
+07-22 04:46:55.069 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=3
+07-22 04:46:55.261 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=4
+07-22 04:46:55.483 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=5
+07-22 04:46:55.816 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=6
+07-22 04:46:56.048 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=7
+07-22 04:46:56.231 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=8
+07-22 04:46:56.412 17266 17266 D CatLifePet: animation finished and holding last frame: state=CUDDLE
+07-22 04:46:56.467 17266 17266 D CatLifePet: 小猫状态切换: CUDDLE -> IDLE
+07-22 04:46:56.468 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-22 04:46:56.468 17266 17266 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-22 04:46:56.650 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-22 04:46:56.813 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-22 04:46:56.994 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-22 04:46:57.048 17266 17266 D CatLifePet: relationship debug action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:57.059 17266 17266 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:57.059 17266 17266 D CatLifePet: received com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:57.059 17266 17266 D CatLifePet: addView skipped: pet already showing
+07-22 04:46:57.059 17266 17266 D CatLifePet: behavior cancelled: debug CUDDLE
+07-22 04:46:57.059 17266 17266 D CatLifePet: schedule next behavior: 14471ms
+07-22 04:46:57.059 17266 17266 D CatLifePet: micro behavior cancelled: debug CUDDLE
+07-22 04:46:57.059 17266 17266 D CatLifePet: CUDDLE dialogue selected: mood=NORMAL, message=今天也很喜欢和你待在一起。
+07-22 04:46:57.059 17266 17266 D CatLifePet: 小猫状态切换: IDLE -> CUDDLE
+07-22 04:46:57.060 17266 17266 D CatLifePet: animation stopped: state=IDLE
+07-22 04:46:57.060 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=1
+07-22 04:46:57.060 17266 17266 D CatLifePet: cat visual state: CUDDLE, mode=ONCE
+07-22 04:46:57.061 17266 17266 D CatLifePet: CUDDLE message shown; edge=left
+07-22 04:46:57.061 17266 17266 D CatLifePet: CUDDLE triggered (debug, no stat changes, edge-independent frames)
+07-22 04:46:57.242 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=2
+07-22 04:46:57.415 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=3
+07-22 04:46:57.607 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=4
+07-22 04:46:57.830 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=5
+07-22 04:46:58.161 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=6
+07-22 04:46:58.393 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=7
+07-22 04:46:58.575 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=8
+07-22 04:46:58.756 17266 17266 D CatLifePet: animation finished and holding last frame: state=CUDDLE
+07-22 04:46:58.812 17266 17266 D CatLifePet: 小猫状态切换: CUDDLE -> IDLE
+07-22 04:46:58.813 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-22 04:46:58.813 17266 17266 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-22 04:46:58.996 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-22 04:46:59.157 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-22 04:46:59.340 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-22 04:46:59.398 17266 17266 D CatLifePet: relationship debug action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:59.411 17266 17266 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:59.411 17266 17266 D CatLifePet: received com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:46:59.411 17266 17266 D CatLifePet: addView skipped: pet already showing
+07-22 04:46:59.411 17266 17266 D CatLifePet: behavior cancelled: debug CUDDLE
+07-22 04:46:59.411 17266 17266 D CatLifePet: schedule next behavior: 8739ms
+07-22 04:46:59.411 17266 17266 D CatLifePet: micro behavior cancelled: debug CUDDLE
+07-22 04:46:59.411 17266 17266 D CatLifePet: CUDDLE dialogue selected: mood=NORMAL, message=这样待在一起就很好。
+07-22 04:46:59.411 17266 17266 D CatLifePet: 小猫状态切换: IDLE -> CUDDLE
+07-22 04:46:59.411 17266 17266 D CatLifePet: animation stopped: state=IDLE
+07-22 04:46:59.412 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=1
+07-22 04:46:59.412 17266 17266 D CatLifePet: cat visual state: CUDDLE, mode=ONCE
+07-22 04:46:59.415 17266 17266 D CatLifePet: CUDDLE message shown; edge=left
+07-22 04:46:59.415 17266 17266 D CatLifePet: CUDDLE triggered (debug, no stat changes, edge-independent frames)
+07-22 04:46:59.593 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=2
+07-22 04:46:59.765 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=3
+07-22 04:46:59.957 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=4
+07-22 04:47:00.179 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=5
+07-22 04:47:00.512 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=6
+07-22 04:47:00.744 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=7
+07-22 04:47:00.927 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=8
+07-22 04:47:01.109 17266 17266 D CatLifePet: animation finished and holding last frame: state=CUDDLE
+07-22 04:47:01.168 17266 17266 D CatLifePet: 小猫状态切换: CUDDLE -> IDLE
+07-22 04:47:01.168 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-22 04:47:01.168 17266 17266 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-22 04:47:01.350 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-22 04:47:01.511 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-22 04:47:01.692 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-22 04:47:01.762 17266 17266 D CatLifePet: relationship debug action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:47:01.775 17266 17266 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:47:01.775 17266 17266 D CatLifePet: received com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:47:01.775 17266 17266 D CatLifePet: addView skipped: pet already showing
+07-22 04:47:01.775 17266 17266 D CatLifePet: behavior cancelled: debug CUDDLE
+07-22 04:47:01.775 17266 17266 D CatLifePet: schedule next behavior: 10758ms
+07-22 04:47:01.775 17266 17266 D CatLifePet: micro behavior cancelled: debug CUDDLE
+07-22 04:47:01.775 17266 17266 D CatLifePet: CUDDLE dialogue selected: mood=NORMAL, message=这样待在一起就很好。
+07-22 04:47:01.775 17266 17266 D CatLifePet: 小猫状态切换: IDLE -> CUDDLE
+07-22 04:47:01.775 17266 17266 D CatLifePet: animation stopped: state=IDLE
+07-22 04:47:01.776 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=1
+07-22 04:47:01.776 17266 17266 D CatLifePet: cat visual state: CUDDLE, mode=ONCE
+07-22 04:47:01.776 17266 17266 D CatLifePet: CUDDLE message shown; edge=left
+07-22 04:47:01.776 17266 17266 D CatLifePet: CUDDLE triggered (debug, no stat changes, edge-independent frames)
+07-22 04:47:01.979 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=2
+07-22 04:47:02.151 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=3
+07-22 04:47:02.344 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=4
+07-22 04:47:02.567 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=5
+07-22 04:47:02.899 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=6
+07-22 04:47:03.132 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=7
+07-22 04:47:03.314 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=8
+07-22 04:47:03.495 17266 17266 D CatLifePet: animation finished and holding last frame: state=CUDDLE
+07-22 04:47:03.528 17266 17266 D CatLifePet: 小猫状态切换: CUDDLE -> IDLE
+07-22 04:47:03.529 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-22 04:47:03.529 17266 17266 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-22 04:47:03.710 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-22 04:47:03.873 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-22 04:47:04.057 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-22 04:47:04.136 17266 17266 D CatLifePet: relationship debug action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:47:04.150 17266 17266 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:47:04.150 17266 17266 D CatLifePet: received com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:47:04.150 17266 17266 D CatLifePet: addView skipped: pet already showing
+07-22 04:47:04.150 17266 17266 D CatLifePet: behavior cancelled: debug CUDDLE
+07-22 04:47:04.150 17266 17266 D CatLifePet: schedule next behavior: 10646ms
+07-22 04:47:04.151 17266 17266 D CatLifePet: micro behavior cancelled: debug CUDDLE
+07-22 04:47:04.151 17266 17266 D CatLifePet: CUDDLE dialogue selected: mood=NORMAL, message=今天也很喜欢和你待在一起。
+07-22 04:47:04.151 17266 17266 D CatLifePet: 小猫状态切换: IDLE -> CUDDLE
+07-22 04:47:04.151 17266 17266 D CatLifePet: animation stopped: state=IDLE
+07-22 04:47:04.151 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=1
+07-22 04:47:04.151 17266 17266 D CatLifePet: cat visual state: CUDDLE, mode=ONCE
+07-22 04:47:04.152 17266 17266 D CatLifePet: CUDDLE message shown; edge=left
+07-22 04:47:04.152 17266 17266 D CatLifePet: CUDDLE triggered (debug, no stat changes, edge-independent frames)
+07-22 04:47:04.333 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=2
+07-22 04:47:04.505 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=3
+07-22 04:47:04.697 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=4
+07-22 04:47:04.919 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=5
+07-22 04:47:05.250 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=6
+07-22 04:47:05.482 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=7
+07-22 04:47:05.664 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=8
+07-22 04:47:05.844 17266 17266 D CatLifePet: animation finished and holding last frame: state=CUDDLE
+07-22 04:47:05.903 17266 17266 D CatLifePet: 小猫状态切换: CUDDLE -> IDLE
+07-22 04:47:05.904 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-22 04:47:05.904 17266 17266 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-22 04:47:06.087 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-22 04:47:06.249 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-22 04:47:06.344 17266 17266 D CatLifePet: 小猫状态切换: IDLE -> BLINKING
+07-22 04:47:06.344 17266 17266 D CatLifePet: animation stopped: state=IDLE
+07-22 04:47:06.344 17266 17266 V CatLifePet: animation frame displayed: state=BLINKING, index=1
+07-22 04:47:06.344 17266 17266 D CatLifePet: cat visual state: BLINKING, mode=ONCE
+07-22 04:47:06.344 17266 17266 D CatLifePet: micro behavior triggered: BLINKING
+07-22 04:47:06.426 17266 17266 V CatLifePet: animation frame displayed: state=BLINKING, index=2
+07-22 04:47:06.482 17266 17266 D CatLifePet: relationship debug action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:47:06.493 17266 17266 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:47:06.493 17266 17266 D CatLifePet: received com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:47:06.493 17266 17266 D CatLifePet: addView skipped: pet already showing
+07-22 04:47:06.493 17266 17266 D CatLifePet: behavior cancelled: debug CUDDLE
+07-22 04:47:06.493 17266 17266 D CatLifePet: schedule next behavior: 12797ms
+07-22 04:47:06.493 17266 17266 D CatLifePet: 小猫状态切换: BLINKING -> IDLE
+07-22 04:47:06.493 17266 17266 D CatLifePet: animation stopped: state=BLINKING
+07-22 04:47:06.493 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-22 04:47:06.493 17266 17266 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-22 04:47:06.494 17266 17266 D CatLifePet: micro behavior cancelled: debug CUDDLE
+07-22 04:47:06.494 17266 17266 D CatLifePet: CUDDLE dialogue selected: mood=NORMAL, message=喵呜，再靠近一点点好吗～
+07-22 04:47:06.494 17266 17266 D CatLifePet: 小猫状态切换: IDLE -> CUDDLE
+07-22 04:47:06.494 17266 17266 D CatLifePet: animation stopped: state=IDLE
+07-22 04:47:06.494 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=1
+07-22 04:47:06.494 17266 17266 D CatLifePet: cat visual state: CUDDLE, mode=ONCE
+07-22 04:47:06.494 17266 17266 D CatLifePet: CUDDLE message shown; edge=left
+07-22 04:47:06.494 17266 17266 D CatLifePet: CUDDLE triggered (debug, no stat changes, edge-independent frames)
+07-22 04:47:06.685 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=2
+07-22 04:47:06.857 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=3
+07-22 04:47:07.049 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=4
+07-22 04:47:07.270 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=5
+07-22 04:47:07.604 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=6
+07-22 04:47:07.836 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=7
+07-22 04:47:08.018 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=8
+07-22 04:47:08.201 17266 17266 D CatLifePet: animation finished and holding last frame: state=CUDDLE
+07-22 04:47:08.246 17266 17266 D CatLifePet: 小猫状态切换: CUDDLE -> IDLE
+07-22 04:47:08.247 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-22 04:47:08.247 17266 17266 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-22 04:47:08.428 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-22 04:47:08.590 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-22 04:47:08.772 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-22 04:47:08.834 17266 17266 D CatLifePet: relationship debug action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:47:08.841 17266 17266 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:47:08.842 17266 17266 D CatLifePet: received com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:47:08.842 17266 17266 D CatLifePet: addView skipped: pet already showing
+07-22 04:47:08.842 17266 17266 D CatLifePet: behavior cancelled: debug CUDDLE
+07-22 04:47:08.842 17266 17266 D CatLifePet: schedule next behavior: 6044ms
+07-22 04:47:08.842 17266 17266 D CatLifePet: micro behavior cancelled: debug CUDDLE
+07-22 04:47:08.842 17266 17266 D CatLifePet: CUDDLE dialogue selected: mood=NORMAL, message=再陪我一小会儿吧。
+07-22 04:47:08.842 17266 17266 D CatLifePet: 小猫状态切换: IDLE -> CUDDLE
+07-22 04:47:08.842 17266 17266 D CatLifePet: animation stopped: state=IDLE
+07-22 04:47:08.844 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=1
+07-22 04:47:08.844 17266 17266 D CatLifePet: cat visual state: CUDDLE, mode=ONCE
+07-22 04:47:08.844 17266 17266 D CatLifePet: CUDDLE message shown; edge=left
+07-22 04:47:08.845 17266 17266 D CatLifePet: CUDDLE triggered (debug, no stat changes, edge-independent frames)
+07-22 04:47:09.037 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=2
+07-22 04:47:09.209 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=3
+07-22 04:47:09.401 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=4
+07-22 04:47:09.623 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=5
+07-22 04:47:09.954 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=6
+07-22 04:47:10.186 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=7
+07-22 04:47:10.368 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=8
+07-22 04:47:10.550 17266 17266 D CatLifePet: animation finished and holding last frame: state=CUDDLE
+07-22 04:47:10.596 17266 17266 D CatLifePet: 小猫状态切换: CUDDLE -> IDLE
+07-22 04:47:10.597 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-22 04:47:10.597 17266 17266 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-22 04:47:10.778 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-22 04:47:10.941 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-22 04:47:11.124 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-22 04:47:11.198 17266 17266 D CatLifePet: relationship debug action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:47:11.217 17266 17266 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:47:11.217 17266 17266 D CatLifePet: received com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:47:11.217 17266 17266 D CatLifePet: addView skipped: pet already showing
+07-22 04:47:11.218 17266 17266 D CatLifePet: behavior cancelled: debug CUDDLE
+07-22 04:47:11.218 17266 17266 D CatLifePet: schedule next behavior: 7624ms
+07-22 04:47:11.218 17266 17266 D CatLifePet: micro behavior cancelled: debug CUDDLE
+07-22 04:47:11.218 17266 17266 D CatLifePet: CUDDLE dialogue selected: mood=NORMAL, message=再陪我一小会儿吧。
+07-22 04:47:11.218 17266 17266 D CatLifePet: 小猫状态切换: IDLE -> CUDDLE
+07-22 04:47:11.218 17266 17266 D CatLifePet: animation stopped: state=IDLE
+07-22 04:47:11.218 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=1
+07-22 04:47:11.218 17266 17266 D CatLifePet: cat visual state: CUDDLE, mode=ONCE
+07-22 04:47:11.219 17266 17266 D CatLifePet: CUDDLE message shown; edge=left
+07-22 04:47:11.219 17266 17266 D CatLifePet: CUDDLE triggered (debug, no stat changes, edge-independent frames)
+07-22 04:47:11.399 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=2
+07-22 04:47:11.570 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=3
+07-22 04:47:11.761 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=4
+07-22 04:47:11.984 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=5
+07-22 04:47:12.316 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=6
+07-22 04:47:12.548 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=7
+07-22 04:47:12.732 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=8
+07-22 04:47:12.914 17266 17266 D CatLifePet: animation finished and holding last frame: state=CUDDLE
+07-22 04:47:12.971 17266 17266 D CatLifePet: 小猫状态切换: CUDDLE -> IDLE
+07-22 04:47:12.973 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-22 04:47:12.973 17266 17266 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-22 04:47:13.154 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-22 04:47:13.317 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-22 04:47:13.498 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-22 04:47:13.566 17266 17266 D CatLifePet: relationship debug action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:47:13.576 17266 17266 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:47:13.576 17266 17266 D CatLifePet: received com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:47:13.577 17266 17266 D CatLifePet: addView skipped: pet already showing
+07-22 04:47:13.577 17266 17266 D CatLifePet: behavior cancelled: debug CUDDLE
+07-22 04:47:13.577 17266 17266 D CatLifePet: schedule next behavior: 14477ms
+07-22 04:47:13.577 17266 17266 D CatLifePet: micro behavior cancelled: debug CUDDLE
+07-22 04:47:13.577 17266 17266 D CatLifePet: CUDDLE dialogue selected: mood=NORMAL, message=今天也很喜欢和你待在一起。
+07-22 04:47:13.577 17266 17266 D CatLifePet: 小猫状态切换: IDLE -> CUDDLE
+07-22 04:47:13.577 17266 17266 D CatLifePet: animation stopped: state=IDLE
+07-22 04:47:13.578 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=1
+07-22 04:47:13.578 17266 17266 D CatLifePet: cat visual state: CUDDLE, mode=ONCE
+07-22 04:47:13.579 17266 17266 D CatLifePet: CUDDLE message shown; edge=left
+07-22 04:47:13.579 17266 17266 D CatLifePet: CUDDLE triggered (debug, no stat changes, edge-independent frames)
+07-22 04:47:13.766 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=2
+07-22 04:47:13.940 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=3
+07-22 04:47:14.134 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=4
+07-22 04:47:14.356 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=5
+07-22 04:47:14.688 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=6
+07-22 04:47:14.921 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=7
+07-22 04:47:15.102 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=8
+07-22 04:47:15.284 17266 17266 D CatLifePet: animation finished and holding last frame: state=CUDDLE
+07-22 04:47:15.331 17266 17266 D CatLifePet: 小猫状态切换: CUDDLE -> IDLE
+07-22 04:47:15.332 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-22 04:47:15.333 17266 17266 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-22 04:47:15.514 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-22 04:47:15.677 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-22 04:47:15.815 17266 17266 D CatLifePet: 小猫状态切换: IDLE -> BLINKING
+07-22 04:47:15.816 17266 17266 D CatLifePet: animation stopped: state=IDLE
+07-22 04:47:15.816 17266 17266 V CatLifePet: animation frame displayed: state=BLINKING, index=1
+07-22 04:47:15.816 17266 17266 D CatLifePet: cat visual state: BLINKING, mode=ONCE
+07-22 04:47:15.816 17266 17266 D CatLifePet: micro behavior triggered: BLINKING
+07-22 04:47:15.912 17266 17266 D CatLifePet: relationship debug action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:47:15.917 17266 17266 V CatLifePet: animation frame displayed: state=BLINKING, index=2
+07-22 04:47:15.935 17266 17266 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:47:15.936 17266 17266 D CatLifePet: received com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:47:15.936 17266 17266 D CatLifePet: addView skipped: pet already showing
+07-22 04:47:15.937 17266 17266 D CatLifePet: behavior cancelled: debug CUDDLE
+07-22 04:47:15.938 17266 17266 D CatLifePet: schedule next behavior: 13534ms
+07-22 04:47:15.938 17266 17266 D CatLifePet: 小猫状态切换: BLINKING -> IDLE
+07-22 04:47:15.938 17266 17266 D CatLifePet: animation stopped: state=BLINKING
+07-22 04:47:15.938 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-22 04:47:15.938 17266 17266 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-22 04:47:15.938 17266 17266 D CatLifePet: micro behavior cancelled: debug CUDDLE
+07-22 04:47:15.938 17266 17266 D CatLifePet: CUDDLE dialogue selected: mood=NORMAL, message=喵呜，再靠近一点点好吗～
+07-22 04:47:15.939 17266 17266 D CatLifePet: 小猫状态切换: IDLE -> CUDDLE
+07-22 04:47:15.939 17266 17266 D CatLifePet: animation stopped: state=IDLE
+07-22 04:47:15.939 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=1
+07-22 04:47:15.939 17266 17266 D CatLifePet: cat visual state: CUDDLE, mode=ONCE
+07-22 04:47:15.939 17266 17266 D CatLifePet: CUDDLE message shown; edge=left
+07-22 04:47:15.940 17266 17266 D CatLifePet: CUDDLE triggered (debug, no stat changes, edge-independent frames)
+07-22 04:47:16.119 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=2
+07-22 04:47:16.291 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=3
+07-22 04:47:16.483 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=4
+07-22 04:47:16.704 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=5
+07-22 04:47:17.036 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=6
+07-22 04:47:17.268 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=7
+07-22 04:47:17.450 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=8
+07-22 04:47:17.633 17266 17266 D CatLifePet: animation finished and holding last frame: state=CUDDLE
+07-22 04:47:17.691 17266 17266 D CatLifePet: 小猫状态切换: CUDDLE -> IDLE
+07-22 04:47:17.692 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-22 04:47:17.692 17266 17266 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-22 04:47:17.874 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-22 04:47:18.037 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=3
+07-22 04:47:18.218 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=4
+07-22 04:47:18.253 17266 17266 D CatLifePet: relationship debug action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:47:18.267 17266 17266 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:47:18.267 17266 17266 D CatLifePet: received com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:47:18.267 17266 17266 D CatLifePet: addView skipped: pet already showing
+07-22 04:47:18.267 17266 17266 D CatLifePet: behavior cancelled: debug CUDDLE
+07-22 04:47:18.267 17266 17266 D CatLifePet: schedule next behavior: 5061ms
+07-22 04:47:18.268 17266 17266 D CatLifePet: micro behavior cancelled: debug CUDDLE
+07-22 04:47:18.268 17266 17266 D CatLifePet: CUDDLE dialogue selected: mood=NORMAL, message=被你发现我在等你啦～
+07-22 04:47:18.268 17266 17266 D CatLifePet: 小猫状态切换: IDLE -> CUDDLE
+07-22 04:47:18.268 17266 17266 D CatLifePet: animation stopped: state=IDLE
+07-22 04:47:18.268 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=1
+07-22 04:47:18.268 17266 17266 D CatLifePet: cat visual state: CUDDLE, mode=ONCE
+07-22 04:47:18.269 17266 17266 D CatLifePet: CUDDLE message shown; edge=left
+07-22 04:47:18.269 17266 17266 D CatLifePet: CUDDLE triggered (debug, no stat changes, edge-independent frames)
+07-22 04:47:18.449 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=2
+07-22 04:47:18.621 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=3
+07-22 04:47:18.813 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=4
+07-22 04:47:19.035 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=5
+07-22 04:47:19.369 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=6
+07-22 04:47:19.600 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=7
+07-22 04:47:19.783 17266 17266 V CatLifePet: animation frame displayed: state=CUDDLE, index=8
+07-22 04:47:19.964 17266 17266 D CatLifePet: animation finished and holding last frame: state=CUDDLE
+07-22 04:47:20.021 17266 17266 D CatLifePet: 小猫状态切换: CUDDLE -> IDLE
+07-22 04:47:20.021 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=1
+07-22 04:47:20.021 17266 17266 D CatLifePet: cat visual state: IDLE, mode=LOOP
+07-22 04:47:20.203 17266 17266 V CatLifePet: animation frame displayed: state=IDLE, index=2
+07-22 04:47:20.338 17266 17266 D CatLifePet: 小猫状态切换: IDLE -> BLINKING
+07-22 04:47:20.338 17266 17266 D CatLifePet: animation stopped: state=IDLE
+07-22 04:47:20.339 17266 17266 V CatLifePet: animation frame displayed: state=BLINKING, index=1
+07-22 04:47:20.339 17266 17266 D CatLifePet: cat visual state: BLINKING, mode=ONCE
+07-22 04:47:20.339 17266 17266 D CatLifePet: micro behavior triggered: BLINKING
+07-22 04:47:20.420 17266 17266 V CatLifePet: animation frame displayed: state=BLINKING, index=2
+07-22 04:47:20.493 17266 17266 V CatLifePet: animation frame displayed: state=BLINKING, index=3
+07-22 04:47:20.586 17266 17266 V CatLifePet: animation frame displayed: state=BLINKING, index=4

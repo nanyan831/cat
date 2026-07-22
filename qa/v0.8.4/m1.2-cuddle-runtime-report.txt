@@ -1,0 +1,32 @@
+CatLifePet M1.2 CUDDLE runtime report
+Date: 2026-07-22
+
+BUILD
+- gradlew.bat clean assembleDebug assembleRelease lintDebug: PASS
+- The first clean attempt encountered a stale Gradle process holding app/build.
+  Gradle daemons were stopped normally and the complete command then passed.
+
+PIXEL 6 EMULATOR
+- CUDDLE preview loop: 20 triggered, 20 entered CUDDLE, 20 animation finishes, 0 fatal errors.
+- Product click path: 50 pet clicks produced 6 CUDDLE and 44 HAPPY decisions, 0 fatal errors.
+- Sizes reviewed: 80dp, 120dp, and 160dp.
+- Edges reviewed: left and right; the frontal animation is intentionally edge-independent.
+- Right-edge 160dp drag snapped to x=251 with 105px hidden, then CUDDLE returned to IDLE.
+- Click interruption: CUDDLE -> HAPPY -> IDLE.
+- Drag interruption: CUDDLE -> DRAGGING -> IDLE with edge snap.
+- Reminder interruption: CUDDLE -> STRETCHING -> SLEEPING.
+- Temporary-hide interruption: removeView and animation manager release completed.
+- Stop-service interruption: onDestroy, removeView, and animation manager release completed.
+- WindowLeaked/FATAL EXCEPTION count: 0.
+
+PCRM00 / OPPO DEVICE
+- Debug APK installed successfully with existing application data retained.
+- Overlay service added one view and skipped duplicate addView attempts.
+- One complete CUDDLE run displayed frames 1-8 and returned CUDDLE -> IDLE.
+- Screenshot review passed for transparent background, left-edge placement, and bubble layout.
+- WindowLeaked/FATAL EXCEPTION count: 0.
+- OEM security blocked shell-level AppOps changes and injected repeated overlay taps; existing user-granted
+  overlay permission and the in-app Debug action were used for the required complete device run.
+
+RESULT
+- M1.2 PASS. CUDDLE is a real runtime state and no longer uses the HAPPY fallback.

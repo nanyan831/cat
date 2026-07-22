@@ -1,0 +1,22 @@
+﻿--------- beginning of main
+07-22 04:55:51.934 17266 17266 D CatLifePet: relationship debug action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:55:52.009 17266 17266 D CatLifePet: onStartCommand action=com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:55:52.009 17266 17266 D CatLifePet: received com.example.catlifepet.action.DEBUG_CUDDLE
+07-22 04:55:52.009 17266 17266 D CatLifePet: addView skipped: pet already showing
+07-22 04:55:52.009 17266 17266 D CatLifePet: behavior cancelled: debug CUDDLE
+07-22 04:55:52.009 17266 17266 D CatLifePet: schedule next behavior: 11616ms
+07-22 04:55:52.009 17266 17266 D CatLifePet: micro behavior cancelled: debug CUDDLE
+07-22 04:55:52.009 17266 17266 D CatLifePet: CUDDLE dialogue selected: mood=NORMAL, message=再陪我一小会儿吧。
+07-22 04:55:52.009 17266 17266 D CatLifePet: 小猫状态切换: IDLE -> CUDDLE
+07-22 04:55:52.010 17266 17266 D CatLifePet: animation stopped: state=IDLE
+07-22 04:55:52.170 17266 17266 D CatLifePet: cat visual state: CUDDLE, mode=ONCE
+07-22 04:55:52.173 17266 17266 D CatLifePet: CUDDLE message shown; edge=left
+07-22 04:55:52.179 17266 17266 D CatLifePet: CUDDLE triggered (debug, no stat changes, edge-independent frames)
+07-22 04:55:53.441 17266 17266 D CatLifePet: onStartCommand action=com.example.catlifepet.action.STOP
+07-22 04:55:53.452 17266 17266 D CatLifePet: 服务停止 onDestroy
+07-22 04:55:53.452 17266 17266 D CatLifePet: micro behavior scheduling stopped
+07-22 04:55:53.452 17266 17266 D CatLifePet: behavior scheduling stopped
+07-22 04:55:53.452 17266 17266 D CatLifePet: micro behavior scheduling stopped
+07-22 04:55:53.453 17266 17266 D CatLifePet: Affection companionship session stopped
+07-22 04:55:53.453 17266 17266 D CatLifePet: removeView
+07-22 04:55:53.453 17266 17266 D CatLifePet: cat animation manager released

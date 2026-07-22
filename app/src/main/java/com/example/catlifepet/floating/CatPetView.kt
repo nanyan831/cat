@@ -97,6 +97,15 @@ class CatPetView(
         scheduleStateTransition(CatState.HAPPY, CatState.IDLE, CatState.HAPPY.defaultDurationMs)
     }
 
+    fun showCuddleMessage(message: String) {
+        activeReminderConfirmation = null
+        activeReminderType = null
+        setCatState(CatState.CUDDLE)
+        showBubble(message)
+        scheduleStateTransition(CatState.CUDDLE, CatState.IDLE, CatState.CUDDLE.defaultDurationMs)
+        Log.d(TAG, "CUDDLE message shown; edge=${if (catOnLeft) "left" else "right"}")
+    }
+
     /** Shows relationship dialogue without replacing the behavior animation currently playing. */
     fun showPassiveMessage(message: String) {
         activeReminderConfirmation = null

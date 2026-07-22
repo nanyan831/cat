@@ -442,11 +442,11 @@ class MainActivity : Activity() {
         listOf(
             CatFloatingService.ACTION_DEBUG_CURIOUS to "好奇关注动画",
             CatFloatingService.ACTION_DEBUG_PEEK to "贴边偷看",
-            CatFloatingService.ACTION_DEBUG_CUDDLE to "亲近互动（HAPPY 回退）"
+            CatFloatingService.ACTION_DEBUG_CUDDLE to "亲近互动"
         ).forEach { (action, label) ->
             val description = when (action) {
                 CatFloatingService.ACTION_DEBUG_CURIOUS -> "8 帧真实抬耳倾头动作；测试关注文案与状态回退"
-                CatFloatingService.ACTION_DEBUG_CUDDLE -> "CUDDLE 素材未就绪；测试当前 HAPPY 状态回退"
+                CatFloatingService.ACTION_DEBUG_CUDDLE -> "播放亲近动作与专属文案"
                 else -> "使用当前 HighestUnlockedLevel；偷看需要先贴边"
             }
             root.addView(cardRow("♡", "测试$label", description, "测试") {

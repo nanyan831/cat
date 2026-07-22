@@ -215,16 +215,21 @@ object DialogueManager {
         return message
     }
 
-    fun randomClickMessage(
+    data class ClickDecision(
+        val message: String,
+        val state: CatState
+    )
+
+    fun randomClickDecision(
         moodLevel: PetStatusManager.MoodLevel,
         affectionLevel: PetStatusManager.AffectionLevel,
         unlockedFeatures: Set<GrowthUnlockManager.UnlockFeature>,
         allowCuddle: Boolean = false
-    ): String {
+    ): ClickDecision {
         val roll = Random.nextInt(100)
         if (allowCuddle && GrowthUnlockManager.UnlockFeature.CUDDLE_BEHAVIOR in unlockedFeatures && roll < 10) {
             Log.d(TAG, "CUDDLE triggered from unified click decision")
-            return randomCuddleMessage(moodLevel)
+            return ClickDecision(randomCuddleMessage(moodLevel), CatState.CUDDLE)
         }
         val isCalm = moodLevel == PetStatusManager.MoodLevel.LOW ||
             moodLevel == PetStatusManager.MoodLevel.SAD
@@ -245,14 +250,23 @@ object DialogueManager {
             else -> null
         }
         if (growthPool == null) {
-            return randomCompanionMessage(moodLevel, affectionLevel)
+            return ClickDecision(randomCompanionMessage(moodLevel, affectionLevel), CatState.HAPPY)
         }
         val message = growthPool[Random.nextInt(growthPool.size)]
         Log.d(
             TAG,
             "成长互动文案: mood=$moodLevel affection=$affectionLevel roll=$roll message=$message"
         )
-        return message
+        return ClickDecision(message, CatState.HAPPY)
+    }
+
+    fun randomClickMessage(
+        moodLevel: PetStatusManager.MoodLevel,
+        affectionLevel: PetStatusManager.AffectionLevel,
+        unlockedFeatures: Set<GrowthUnlockManager.UnlockFeature>,
+        allowCuddle: Boolean = false
+    ): String {
+        return randomClickDecision(moodLevel, affectionLevel, unlockedFeatures, allowCuddle).message
     }
 
     fun randomCuriousMessage(

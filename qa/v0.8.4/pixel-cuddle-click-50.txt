@@ -1,0 +1,529 @@
+﻿--------- beginning of main
+07-22 05:00:22.820 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:22.820 17266 17266 D CatLifePet: schedule next behavior: 12025ms
+07-22 05:00:22.820 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:22.820 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:22.821 17266 17266 D CatLifePet: Energy 78 -> 77 reason=USER_INTERACTION
+07-22 05:00:22.821 17266 17266 D CatLifePet: Mood 66 -> 67 reason=USER_INTERACTION
+07-22 05:00:22.822 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:22.822 17266 17266 D CatLifePet: 成长互动文案: mood=NORMAL affection=BONDED roll=15 message=又是一起生活的一天～
+07-22 05:00:22.822 17266 17266 D CatLifePet: 小猫状态切换: IDLE -> HAPPY
+07-22 05:00:22.822 17266 17266 D CatLifePet: animation stopped: state=IDLE
+07-22 05:00:22.854 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:23.146 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:23.147 17266 17266 D CatLifePet: schedule next behavior: 9037ms
+07-22 05:00:23.147 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:23.147 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:23.147 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:23.147 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:23.147 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:23.147 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=false, message=记得吃饭哦。
+07-22 05:00:23.147 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:23.148 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:23.436 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:23.437 17266 17266 D CatLifePet: schedule next behavior: 8428ms
+07-22 05:00:23.437 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:23.438 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:23.439 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:23.439 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:23.439 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:23.440 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=true, message=只要一起慢慢生活就很好啦。
+07-22 05:00:23.440 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:23.441 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:23.779 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:23.779 17266 17266 D CatLifePet: schedule next behavior: 7908ms
+07-22 05:00:23.779 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:23.779 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:23.780 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:23.780 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:23.780 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:23.780 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=false, message=摸摸我嘛～
+07-22 05:00:23.780 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:23.781 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:24.081 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:24.081 17266 17266 D CatLifePet: schedule next behavior: 8794ms
+07-22 05:00:24.081 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:24.082 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:24.083 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:24.083 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:24.083 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:24.083 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=true, message=嘿嘿，我们已经是很好的伙伴啦。
+07-22 05:00:24.084 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:24.085 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:24.377 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:24.377 17266 17266 D CatLifePet: schedule next behavior: 14083ms
+07-22 05:00:24.378 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:24.378 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:24.378 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:24.378 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:24.378 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:24.378 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=true, message=只要一起慢慢生活就很好啦。
+07-22 05:00:24.378 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:24.380 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:24.679 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:24.680 17266 17266 D CatLifePet: schedule next behavior: 7402ms
+07-22 05:00:24.680 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:24.681 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:24.682 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:24.682 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:24.683 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:24.683 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=false, message=喝点水会舒服一点哦。
+07-22 05:00:24.684 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:24.685 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:24.982 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:24.982 17266 17266 D CatLifePet: schedule next behavior: 9401ms
+07-22 05:00:24.982 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:24.982 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:24.982 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:24.982 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:24.982 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:24.982 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=false, message=今天也要好好照顾自己。
+07-22 05:00:24.982 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:24.983 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:25.282 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:25.284 17266 17266 D CatLifePet: schedule next behavior: 12910ms
+07-22 05:00:25.284 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:25.284 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:25.285 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:25.285 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:25.285 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:25.286 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=false, message=我在呢。
+07-22 05:00:25.286 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:25.288 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:25.583 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:25.583 17266 17266 D CatLifePet: schedule next behavior: 12994ms
+07-22 05:00:25.583 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:25.583 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:25.585 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:25.585 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:25.585 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:25.585 17266 17266 D CatLifePet: 成长互动文案: mood=NORMAL affection=BONDED roll=29 message=嘿嘿，一看到你就觉得很安心。
+07-22 05:00:25.585 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:25.586 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:25.874 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:25.874 17266 17266 D CatLifePet: schedule next behavior: 13137ms
+07-22 05:00:25.875 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:25.875 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:25.875 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:25.875 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:25.875 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:25.875 17266 17266 D CatLifePet: CUDDLE triggered from unified click decision
+07-22 05:00:25.875 17266 17266 D CatLifePet: CUDDLE dialogue selected: mood=NORMAL, message=喵呜，再靠近一点点好吗～
+07-22 05:00:25.875 17266 17266 D CatLifePet: 小猫状态切换: HAPPY -> CUDDLE
+07-22 05:00:25.875 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:25.921 17266 17266 D CatLifePet: cat visual state: CUDDLE, mode=ONCE
+07-22 05:00:25.922 17266 17266 D CatLifePet: CUDDLE message shown; edge=left
+07-22 05:00:26.209 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:26.209 17266 17266 D CatLifePet: schedule next behavior: 9090ms
+07-22 05:00:26.209 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:26.210 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:26.210 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:26.210 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:26.210 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:26.210 17266 17266 D CatLifePet: 成长互动文案: mood=NORMAL affection=BONDED roll=33 message=又来摸我啦～
+07-22 05:00:26.210 17266 17266 D CatLifePet: 小猫状态切换: CUDDLE -> HAPPY
+07-22 05:00:26.210 17266 17266 D CatLifePet: animation stopped: state=CUDDLE
+07-22 05:00:26.211 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:26.494 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:26.494 17266 17266 D CatLifePet: schedule next behavior: 9793ms
+07-22 05:00:26.494 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:26.494 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:26.495 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:26.495 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:26.495 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:26.495 17266 17266 D CatLifePet: 成长互动文案: mood=NORMAL affection=BONDED roll=34 message=又来摸我啦～
+07-22 05:00:26.495 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:26.496 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:26.786 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:26.787 17266 17266 D CatLifePet: schedule next behavior: 5505ms
+07-22 05:00:26.787 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:26.787 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:26.788 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:26.788 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:26.788 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:26.788 17266 17266 D CatLifePet: 成长互动文案: mood=NORMAL affection=BONDED roll=17 message=又是一起生活的一天～
+07-22 05:00:26.788 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:26.789 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:27.069 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:27.070 17266 17266 D CatLifePet: schedule next behavior: 7263ms
+07-22 05:00:27.071 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:27.071 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:27.072 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:27.072 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:27.073 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:27.074 17266 17266 D CatLifePet: CUDDLE triggered from unified click decision
+07-22 05:00:27.074 17266 17266 D CatLifePet: CUDDLE dialogue selected: mood=NORMAL, message=被你发现我在等你啦～
+07-22 05:00:27.074 17266 17266 D CatLifePet: 小猫状态切换: HAPPY -> CUDDLE
+07-22 05:00:27.075 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:27.076 17266 17266 D CatLifePet: cat visual state: CUDDLE, mode=ONCE
+07-22 05:00:27.077 17266 17266 D CatLifePet: CUDDLE message shown; edge=left
+07-22 05:00:27.365 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:27.365 17266 17266 D CatLifePet: schedule next behavior: 8564ms
+07-22 05:00:27.365 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:27.365 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:27.366 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:27.366 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:27.366 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:27.366 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=false, message=记得吃饭哦。
+07-22 05:00:27.366 17266 17266 D CatLifePet: 小猫状态切换: CUDDLE -> HAPPY
+07-22 05:00:27.366 17266 17266 D CatLifePet: animation stopped: state=CUDDLE
+07-22 05:00:27.368 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:27.644 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:27.644 17266 17266 D CatLifePet: schedule next behavior: 6029ms
+07-22 05:00:27.644 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:27.645 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:27.645 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:27.645 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:27.645 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:27.646 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=true, message=又是和你一起的一天～
+07-22 05:00:27.646 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:27.646 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:27.926 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:27.926 17266 17266 D CatLifePet: schedule next behavior: 6367ms
+07-22 05:00:27.926 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:27.926 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:27.927 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:27.927 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:27.927 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:27.927 17266 17266 D CatLifePet: 成长互动文案: mood=NORMAL affection=BONDED roll=22 message=今天也陪你一会儿。
+07-22 05:00:27.927 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:27.928 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:28.221 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:28.222 17266 17266 D CatLifePet: schedule next behavior: 12863ms
+07-22 05:00:28.222 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:28.222 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:28.222 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:28.223 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:28.223 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:28.223 17266 17266 D CatLifePet: CUDDLE triggered from unified click decision
+07-22 05:00:28.223 17266 17266 D CatLifePet: CUDDLE dialogue selected: mood=NORMAL, message=再陪我一小会儿吧。
+07-22 05:00:28.223 17266 17266 D CatLifePet: 小猫状态切换: HAPPY -> CUDDLE
+07-22 05:00:28.224 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:28.225 17266 17266 D CatLifePet: cat visual state: CUDDLE, mode=ONCE
+07-22 05:00:28.225 17266 17266 D CatLifePet: CUDDLE message shown; edge=left
+07-22 05:00:28.515 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:28.516 17266 17266 D CatLifePet: schedule next behavior: 11050ms
+07-22 05:00:28.516 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:28.516 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:28.517 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:28.517 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:28.517 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:28.517 17266 17266 D CatLifePet: 成长互动文案: mood=NORMAL affection=BONDED roll=25 message=嘿嘿，一看到你就觉得很安心。
+07-22 05:00:28.517 17266 17266 D CatLifePet: 小猫状态切换: CUDDLE -> HAPPY
+07-22 05:00:28.517 17266 17266 D CatLifePet: animation stopped: state=CUDDLE
+07-22 05:00:28.517 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:28.794 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:28.794 17266 17266 D CatLifePet: schedule next behavior: 13985ms
+07-22 05:00:28.795 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:28.795 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:28.796 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:28.796 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:28.797 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:28.797 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=true, message=又是和你一起的一天～
+07-22 05:00:28.797 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:28.797 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:29.072 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:29.073 17266 17266 D CatLifePet: schedule next behavior: 14510ms
+07-22 05:00:29.073 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:29.073 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:29.074 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:29.074 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:29.074 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:29.075 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=false, message=摸摸我嘛～
+07-22 05:00:29.075 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:29.075 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:29.363 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:29.364 17266 17266 D CatLifePet: schedule next behavior: 13320ms
+07-22 05:00:29.364 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:29.365 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:29.365 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:29.366 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:29.366 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:29.367 17266 17266 D CatLifePet: CUDDLE triggered from unified click decision
+07-22 05:00:29.367 17266 17266 D CatLifePet: CUDDLE dialogue selected: mood=NORMAL, message=今天也很喜欢和你待在一起。
+07-22 05:00:29.367 17266 17266 D CatLifePet: 小猫状态切换: HAPPY -> CUDDLE
+07-22 05:00:29.367 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:29.367 17266 17266 D CatLifePet: cat visual state: CUDDLE, mode=ONCE
+07-22 05:00:29.368 17266 17266 D CatLifePet: CUDDLE message shown; edge=left
+07-22 05:00:29.654 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:29.655 17266 17266 D CatLifePet: schedule next behavior: 7644ms
+07-22 05:00:29.655 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:29.656 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:29.656 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:29.656 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:29.656 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:29.657 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=false, message=我在呢。
+07-22 05:00:29.657 17266 17266 D CatLifePet: 小猫状态切换: CUDDLE -> HAPPY
+07-22 05:00:29.657 17266 17266 D CatLifePet: animation stopped: state=CUDDLE
+07-22 05:00:29.658 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:29.954 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:29.954 17266 17266 D CatLifePet: schedule next behavior: 12190ms
+07-22 05:00:29.954 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:29.954 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:29.954 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:29.955 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:29.955 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:29.955 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=true, message=只要一起慢慢生活就很好啦。
+07-22 05:00:29.955 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:29.956 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:30.248 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:30.248 17266 17266 D CatLifePet: schedule next behavior: 10292ms
+07-22 05:00:30.249 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:30.249 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:30.249 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:30.249 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:30.250 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:30.250 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=false, message=别太累啦，我陪你。
+07-22 05:00:30.250 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:30.251 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:30.546 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:30.547 17266 17266 D CatLifePet: schedule next behavior: 7556ms
+07-22 05:00:30.547 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:30.547 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:30.547 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:30.547 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:30.547 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:30.548 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=false, message=慢慢来，也没关系。
+07-22 05:00:30.549 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:30.551 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:30.845 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:30.845 17266 17266 D CatLifePet: schedule next behavior: 11621ms
+07-22 05:00:30.845 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:30.845 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:30.846 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:30.846 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:30.846 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:30.846 17266 17266 D CatLifePet: 成长互动文案: mood=NORMAL affection=BONDED roll=13 message=我们已经认识很久啦。
+07-22 05:00:30.846 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:30.847 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:31.140 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:31.141 17266 17266 D CatLifePet: schedule next behavior: 11315ms
+07-22 05:00:31.141 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:31.141 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:31.141 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:31.141 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:31.141 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:31.141 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=false, message=慢慢来，也没关系。
+07-22 05:00:31.141 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:31.142 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:31.431 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:31.431 17266 17266 D CatLifePet: schedule next behavior: 6137ms
+07-22 05:00:31.432 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:31.432 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:31.432 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:31.433 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:31.434 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:31.434 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=false, message=今天过得怎么样？
+07-22 05:00:31.435 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:31.435 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:31.707 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:31.707 17266 17266 D CatLifePet: schedule next behavior: 13541ms
+07-22 05:00:31.707 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:31.707 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:31.708 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:31.708 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:31.709 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:31.709 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=false, message=我在呢。
+07-22 05:00:31.709 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:31.710 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:31.995 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:31.996 17266 17266 D CatLifePet: schedule next behavior: 5105ms
+07-22 05:00:31.996 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:31.996 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:31.997 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:31.997 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:31.998 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:31.998 17266 17266 D CatLifePet: 成长互动文案: mood=NORMAL affection=BONDED roll=20 message=今天也陪你一会儿。
+07-22 05:00:31.998 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:32.000 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:32.290 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:32.291 17266 17266 D CatLifePet: schedule next behavior: 11280ms
+07-22 05:00:32.291 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:32.291 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:32.291 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:32.291 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:32.292 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:32.292 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=false, message=坐久了可以伸个懒腰。
+07-22 05:00:32.292 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:32.293 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:32.584 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:32.584 17266 17266 D CatLifePet: schedule next behavior: 6361ms
+07-22 05:00:32.585 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:32.585 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:32.585 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:32.586 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:32.586 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:32.586 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=false, message=今天也要好好照顾自己。
+07-22 05:00:32.586 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:32.588 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:32.861 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:32.861 17266 17266 D CatLifePet: schedule next behavior: 14882ms
+07-22 05:00:32.861 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:32.861 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:32.862 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:32.862 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:32.862 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:32.863 17266 17266 D CatLifePet: 成长互动文案: mood=NORMAL affection=BONDED roll=18 message=我们已经认识很久啦。
+07-22 05:00:32.863 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:32.864 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:33.163 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:33.163 17266 17266 D CatLifePet: schedule next behavior: 5295ms
+07-22 05:00:33.163 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:33.163 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:33.164 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:33.164 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:33.164 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:33.165 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=false, message=坐久了可以伸个懒腰。
+07-22 05:00:33.165 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:33.166 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:33.443 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:33.443 17266 17266 D CatLifePet: schedule next behavior: 11945ms
+07-22 05:00:33.443 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:33.443 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:33.444 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:33.444 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:33.444 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:33.444 17266 17266 D CatLifePet: 成长互动文案: mood=NORMAL affection=BONDED roll=31 message=嘿嘿，一看到你就觉得很安心。
+07-22 05:00:33.444 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:33.445 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:33.730 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:33.730 17266 17266 D CatLifePet: schedule next behavior: 9421ms
+07-22 05:00:33.730 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:33.730 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:33.730 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:33.730 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:33.730 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:33.730 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=false, message=喝点水会舒服一点哦。
+07-22 05:00:33.730 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:33.733 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:34.022 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:34.022 17266 17266 D CatLifePet: schedule next behavior: 13368ms
+07-22 05:00:34.022 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:34.022 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:34.023 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:34.023 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:34.023 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:34.023 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=false, message=慢慢来，也没关系。
+07-22 05:00:34.024 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:34.026 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:34.300 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:34.300 17266 17266 D CatLifePet: schedule next behavior: 7644ms
+07-22 05:00:34.300 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:34.301 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:34.301 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:34.301 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:34.301 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:34.302 17266 17266 D CatLifePet: CUDDLE triggered from unified click decision
+07-22 05:00:34.302 17266 17266 D CatLifePet: CUDDLE dialogue selected: mood=NORMAL, message=喵呜，再靠近一点点好吗～
+07-22 05:00:34.302 17266 17266 D CatLifePet: 小猫状态切换: HAPPY -> CUDDLE
+07-22 05:00:34.302 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:34.348 17266 17266 D CatLifePet: cat visual state: CUDDLE, mode=ONCE
+07-22 05:00:34.349 17266 17266 D CatLifePet: CUDDLE message shown; edge=left
+07-22 05:00:34.634 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:34.635 17266 17266 D CatLifePet: schedule next behavior: 5881ms
+07-22 05:00:34.635 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:34.635 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:34.635 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:34.635 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:34.636 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:34.636 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=false, message=记得吃饭哦。
+07-22 05:00:34.636 17266 17266 D CatLifePet: 小猫状态切换: CUDDLE -> HAPPY
+07-22 05:00:34.636 17266 17266 D CatLifePet: animation stopped: state=CUDDLE
+07-22 05:00:34.637 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:34.932 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:34.932 17266 17266 D CatLifePet: schedule next behavior: 9859ms
+07-22 05:00:34.932 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:34.932 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:34.933 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:34.934 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:34.934 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:34.935 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=true, message=今天也继续陪着你。
+07-22 05:00:34.935 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:34.935 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:35.227 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:35.227 17266 17266 D CatLifePet: schedule next behavior: 14454ms
+07-22 05:00:35.227 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:35.228 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:35.228 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:35.228 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:35.228 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:35.228 17266 17266 D CatLifePet: CUDDLE triggered from unified click decision
+07-22 05:00:35.228 17266 17266 D CatLifePet: CUDDLE dialogue selected: mood=NORMAL, message=这样待在一起就很好。
+07-22 05:00:35.228 17266 17266 D CatLifePet: 小猫状态切换: HAPPY -> CUDDLE
+07-22 05:00:35.228 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:35.229 17266 17266 D CatLifePet: cat visual state: CUDDLE, mode=ONCE
+07-22 05:00:35.230 17266 17266 D CatLifePet: CUDDLE message shown; edge=left
+07-22 05:00:35.516 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:35.516 17266 17266 D CatLifePet: schedule next behavior: 13716ms
+07-22 05:00:35.516 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:35.517 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:35.517 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:35.517 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:35.517 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:35.517 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=false, message=今天过得怎么样？
+07-22 05:00:35.517 17266 17266 D CatLifePet: 小猫状态切换: CUDDLE -> HAPPY
+07-22 05:00:35.517 17266 17266 D CatLifePet: animation stopped: state=CUDDLE
+07-22 05:00:35.518 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:35.795 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:35.795 17266 17266 D CatLifePet: schedule next behavior: 10876ms
+07-22 05:00:35.795 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:35.795 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:35.795 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:35.795 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:35.795 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:35.796 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=false, message=今天也要好好照顾自己。
+07-22 05:00:35.796 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:35.797 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:36.081 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:36.081 17266 17266 D CatLifePet: schedule next behavior: 11561ms
+07-22 05:00:36.081 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:36.081 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:36.081 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:36.082 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:36.082 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:36.083 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=false, message=摸摸我嘛～
+07-22 05:00:36.083 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:36.083 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:36.357 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:36.357 17266 17266 D CatLifePet: schedule next behavior: 9423ms
+07-22 05:00:36.357 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:36.357 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:36.357 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:36.358 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:36.358 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:36.358 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=false, message=别太累啦，我陪你。
+07-22 05:00:36.358 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:36.358 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:36.642 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:36.643 17266 17266 D CatLifePet: schedule next behavior: 5299ms
+07-22 05:00:36.643 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:36.643 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:36.643 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:36.643 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:36.643 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:36.645 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=false, message=摸摸我嘛～
+07-22 05:00:36.645 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:36.646 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:36.939 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:36.939 17266 17266 D CatLifePet: schedule next behavior: 5743ms
+07-22 05:00:36.939 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:36.939 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:36.939 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:36.939 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:36.939 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:36.940 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=false, message=喝点水会舒服一点哦。
+07-22 05:00:36.940 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:36.940 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:37.221 17266 17266 D CatLifePet: behavior cancelled: user interaction
+07-22 05:00:37.223 17266 17266 D CatLifePet: schedule next behavior: 7471ms
+07-22 05:00:37.223 17266 17266 D CatLifePet: micro behavior cancelled: user interaction: CLICK
+07-22 05:00:37.223 17266 17266 D CatLifePet: micro behavior cancelled: pet click
+07-22 05:00:37.224 17266 17266 D CatLifePet: click energy change skipped: cooldown active
+07-22 05:00:37.224 17266 17266 D CatLifePet: click mood change skipped: cooldown active
+07-22 05:00:37.224 17266 17266 D CatLifePet: Affection gain skipped: source=DAILY_FIRST_INTERACTION affection=81 daily=2/5
+07-22 05:00:37.224 17266 17266 D CatLifePet: 陪伴文案选择: moodLevel=NORMAL, affectionLevel=BONDED, affectionSpecial=false, message=喝点水会舒服一点哦。
+07-22 05:00:37.224 17266 17266 D CatLifePet: animation stopped: state=HAPPY
+07-22 05:00:37.225 17266 17266 D CatLifePet: cat visual state: HAPPY, mode=ONCE
+07-22 05:00:38.118 17266 17266 D CatLifePet: animation finished and holding last frame: state=HAPPY
+07-22 05:00:38.425 17266 17266 D CatLifePet: 小猫状态切换: HAPPY -> IDLE
+07-22 05:00:38.458 17266 17266 D CatLifePet: cat visual state: IDLE, mode=LOOP
