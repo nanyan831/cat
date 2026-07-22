@@ -2,9 +2,7 @@ package com.example.catlifepet.server.chat
 
 import com.example.catlifepet.server.ai.AiException
 import com.example.catlifepet.server.ai.AiGateway
-import com.example.catlifepet.server.ai.AiMessage
 import com.example.catlifepet.server.ai.AiRequest
-import com.example.catlifepet.server.ai.AiRole
 import com.example.catlifepet.server.ai.AiStreamEvent
 import com.example.catlifepet.server.data.ConversationRecord
 import com.example.catlifepet.server.data.DatabaseFactory
@@ -61,6 +59,10 @@ internal class ChatService(
         if (!deleted) notFound()
     }
 
+    suspend fun deleteAllConversations(userId: UUID) = io {
+        database.transaction { repositories.conversations.softDeleteAll(it, userId, clock.instant()) }
+    }
+
     suspend fun prepareTurn(
         userId: UUID,
         conversationId: UUID,
@@ -113,8 +115,14 @@ internal class ChatService(
                 check(repositories.conversations.touch(connection, conversationId, userId, now))
             }
 
-            val context = repositories.messages.listCompletedForContext(connection, conversation.id, CONTEXT_MESSAGES)
-            PreparedTurn(userId, conversation, userMessage, assistantMessage, context, replay)
+            val context = repositories.messages.listCompletedForContext(
+                connection,
+                conversation.id,
+                PromptContextBuilder.MAX_RECENT_MESSAGES
+            )
+            val memories = repositories.memories.listActiveForUser(connection, userId)
+            val promptContext = PromptContextBuilder.build(conversation.summary, memories, context)
+            PreparedTurn(userId, conversation, userMessage, assistantMessage, promptContext, replay)
         }
     }
 
@@ -126,15 +134,8 @@ internal class ChatService(
         }
 
         val request = AiRequest(
-            instructions = COMPANION_INSTRUCTIONS,
-            messages = turn.context.mapNotNull { message ->
-                val role = when (message.role) {
-                    MessageRole.USER -> AiRole.USER
-                    MessageRole.ASSISTANT -> AiRole.ASSISTANT
-                    else -> return@mapNotNull null
-                }
-                AiMessage(role, message.content)
-            },
+            instructions = turn.promptContext.instructions,
+            messages = turn.promptContext.messages,
             safetyIdentifier = safetyIdentifier(turn.userId)
         )
         var completed = false
@@ -177,7 +178,18 @@ internal class ChatService(
             val saved = repositories.messages.completeIfStreaming(
                 connection, turn.assistantMessage.id, content, model, input, output, clock.instant()
             )
-            if (saved) repositories.conversations.touch(connection, turn.conversation.id, turn.userId, clock.instant())
+            if (saved) {
+                val summary = ConversationSummaryBuilder.build(
+                    repositories.messages.listForConversation(connection, turn.conversation.id)
+                )
+                repositories.conversations.updateSummary(
+                    connection,
+                    turn.conversation.id,
+                    turn.userId,
+                    summary,
+                    clock.instant()
+                )
+            }
             saved
         }
     }
@@ -222,15 +234,12 @@ internal class ChatService(
         val conversation: ConversationRecord,
         val userMessage: MessageRecord,
         val assistantMessage: MessageRecord,
-        val context: List<MessageRecord>,
+        val promptContext: PromptContext,
         val replay: Boolean
     )
 
     private companion object {
         const val MAX_TITLE_LENGTH = 160
         const val MAX_MESSAGE_LENGTH = 4_000
-        const val CONTEXT_MESSAGES = 20
-        const val COMPANION_INSTRUCTIONS =
-            "You are the user's gentle CatLifePet companion. Reply warmly and concisely in the user's language."
     }
 }

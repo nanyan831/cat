@@ -1,0 +1,45 @@
+CatLifePet M5.1 Controlled Companion Memory QA Report
+Date: 2026-07-22
+
+Scope
+- Explicit-only cloud memory kinds: nickname, preferred_address, routine, preference.
+- Authenticated list, create, delete-one, and delete-all memory endpoints.
+- Delete-all cloud conversation endpoint and Android data-management control.
+- Android native MemoryActivity with add, list, delete, clear, loading, failure, and
+  expired-session states.
+- Prompt context contains only a bounded summary, selected active memories, and recent
+  completed messages.
+
+Privacy and prompt controls
+- Chat text is not automatically promoted to durable memory.
+- Memory creation requires an explicit authenticated request from the user.
+- Cross-account source conversations and memory deletion are rejected as not found.
+- Prompt memory order is deterministic and deleted rows are excluded immediately.
+- Instructions are capped at 4,000 characters; recent message content is capped at
+  12,000 characters and 20 messages; at most eight memories are selected.
+- Conversation summaries are deterministic transcript snippets capped at 1,800
+  characters and exclude the latest 20 messages already sent as recent context.
+
+Automated checks
+- Server suite: 48 tests, 0 failures, 1 skipped paid OpenAI smoke test.
+- Android JVM suite: 13 tests, 0 failures.
+- Memory ownership, cross-account deletion, delete-to-prompt behavior, stable ordering,
+  context bounds, Android HTTP paths, and explicit-memory UI are covered.
+- lintDebug: 0 errors, 56 warnings from existing compatibility/API notices.
+- assembleDebug and assembleDebugAndroidTest: passed.
+
+Device checks
+- Pixel emulator non-network instrumentation: 9 tests passed.
+- OPPO PCRM00 Android 12 non-network instrumentation: 9 tests passed.
+- Combined real chat and memory regression: 9 tests passed on each device.
+- Final MemoryActivity UI regression: 1/1 passed on each device.
+- Final real Ktor/PostgreSQL memory create/list/clear smoke:
+  Pixel 1/1 passed in 4.330 seconds; OPPO 1/1 passed in 1.091 seconds.
+- Latest debug target and test APKs installed successfully on both devices.
+
+Visual check
+- Pixel portrait screenshot: qa/v0.15.0-memory-screen.png (local diagnostic).
+- No clipping or overlap was observed. Expired sessions now disable memory editing and
+  expose a clear login action.
+
+Result: PASS

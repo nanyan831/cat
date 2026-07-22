@@ -34,6 +34,7 @@ import com.example.catlifepet.data.SettingsRepository
 import com.example.catlifepet.auth.AuthActivity
 import com.example.catlifepet.auth.AuthGraph
 import com.example.catlifepet.chat.ChatActivity
+import com.example.catlifepet.memory.MemoryActivity
 import com.example.catlifepet.floating.CatFloatingService
 import com.example.catlifepet.floating.CatState
 import com.example.catlifepet.floating.GrowthUnlockManager
@@ -351,6 +352,9 @@ class MainActivity : Activity() {
             ?: if (authRepository.hasStoredSession()) "已保存登录状态" else "登录后使用 AI 对话与云端记录"
         root.addView(cardRow("☁", "账号与云同步", accountSubtitle, "›") {
             startActivity(Intent(this, AuthActivity::class.java))
+        }, match(dp(12)))
+        root.addView(cardRow("✦", "陪伴记忆与聊天数据", "查看、删除记忆或清空云端聊天", "›") {
+            startActivity(Intent(this, MemoryActivity::class.java))
         }, match(dp(12)))
         settingsEntry(root, "🐱", "桌宠设置", "悬浮窗、行为、外观等", Screen.PET_SETTINGS)
         settingsEntry(root, "◔", "勿扰设置", "免打扰时段与提醒规则", Screen.DND_SETTINGS)

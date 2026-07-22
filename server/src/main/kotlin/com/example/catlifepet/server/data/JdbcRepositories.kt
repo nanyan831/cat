@@ -333,6 +333,24 @@ internal class JdbcConversationRepository : ConversationRepository {
         }
     }
 
+    override fun updateSummary(
+        connection: Connection,
+        id: UUID,
+        userId: UUID,
+        summary: String?,
+        updatedAt: Instant
+    ): Boolean {
+        return connection.prepareStatement(
+            "UPDATE conversations SET summary = ?, updated_at = ? WHERE id = ? AND user_id = ? AND deleted_at IS NULL"
+        ).use { statement ->
+            statement.setString(1, summary)
+            statement.setInstant(2, updatedAt)
+            statement.setObject(3, id)
+            statement.setObject(4, userId)
+            statement.executeUpdate() == 1
+        }
+    }
+
     override fun softDelete(connection: Connection, id: UUID, userId: UUID, deletedAt: Instant): Boolean {
         return connection.prepareStatement(
             "UPDATE conversations SET deleted_at = ?, updated_at = ? WHERE id = ? AND user_id = ? AND deleted_at IS NULL"
@@ -342,6 +360,17 @@ internal class JdbcConversationRepository : ConversationRepository {
             statement.setObject(3, id)
             statement.setObject(4, userId)
             statement.executeUpdate() == 1
+        }
+    }
+
+    override fun softDeleteAll(connection: Connection, userId: UUID, deletedAt: Instant): Int {
+        return connection.prepareStatement(
+            "UPDATE conversations SET deleted_at = ?, updated_at = ? WHERE user_id = ? AND deleted_at IS NULL"
+        ).use { statement ->
+            statement.setInstant(1, deletedAt)
+            statement.setInstant(2, deletedAt)
+            statement.setObject(3, userId)
+            statement.executeUpdate()
         }
     }
 }
@@ -530,6 +559,39 @@ internal class JdbcMemoryRepository : MemoryRepository {
         ).use { statement ->
             statement.setObject(1, userId)
             statement.executeQuery().use { result -> buildList { while (result.next()) add(mapMemory(result)) } }
+        }
+    }
+
+    override fun findActiveOwnedById(connection: Connection, id: UUID, userId: UUID): MemoryRecord? {
+        return connection.prepareStatement(
+            "SELECT * FROM memories WHERE id = ? AND user_id = ? AND deleted_at IS NULL"
+        ).use { statement ->
+            statement.setObject(1, id)
+            statement.setObject(2, userId)
+            statement.executeQuery().use { result -> if (result.next()) mapMemory(result) else null }
+        }
+    }
+
+    override fun softDelete(connection: Connection, id: UUID, userId: UUID, deletedAt: Instant): Boolean {
+        return connection.prepareStatement(
+            "UPDATE memories SET deleted_at = ?, updated_at = ? WHERE id = ? AND user_id = ? AND deleted_at IS NULL"
+        ).use { statement ->
+            statement.setInstant(1, deletedAt)
+            statement.setInstant(2, deletedAt)
+            statement.setObject(3, id)
+            statement.setObject(4, userId)
+            statement.executeUpdate() == 1
+        }
+    }
+
+    override fun softDeleteAll(connection: Connection, userId: UUID, deletedAt: Instant): Int {
+        return connection.prepareStatement(
+            "UPDATE memories SET deleted_at = ?, updated_at = ? WHERE user_id = ? AND deleted_at IS NULL"
+        ).use { statement ->
+            statement.setInstant(1, deletedAt)
+            statement.setInstant(2, deletedAt)
+            statement.setObject(3, userId)
+            statement.executeUpdate()
         }
     }
 }

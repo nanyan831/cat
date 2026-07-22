@@ -51,7 +51,9 @@ interface ConversationRepository {
     fun findActiveOwnedById(connection: Connection, id: UUID, userId: UUID, forUpdate: Boolean = false): ConversationRecord?
     fun listActiveForUser(connection: Connection, userId: UUID): List<ConversationRecord>
     fun touch(connection: Connection, id: UUID, userId: UUID, updatedAt: Instant): Boolean
+    fun updateSummary(connection: Connection, id: UUID, userId: UUID, summary: String?, updatedAt: Instant): Boolean
     fun softDelete(connection: Connection, id: UUID, userId: UUID, deletedAt: Instant): Boolean
+    fun softDeleteAll(connection: Connection, userId: UUID, deletedAt: Instant): Int
 }
 
 interface MessageRepository {
@@ -78,6 +80,9 @@ interface MessageRepository {
 interface MemoryRepository {
     fun insert(connection: Connection, memory: MemoryRecord)
     fun listActiveForUser(connection: Connection, userId: UUID): List<MemoryRecord>
+    fun findActiveOwnedById(connection: Connection, id: UUID, userId: UUID): MemoryRecord?
+    fun softDelete(connection: Connection, id: UUID, userId: UUID, deletedAt: Instant): Boolean
+    fun softDeleteAll(connection: Connection, userId: UUID, deletedAt: Instant): Int
 }
 
 interface DailyUsageRepository {

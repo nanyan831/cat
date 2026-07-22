@@ -38,6 +38,11 @@ internal fun Application.configureChatRoutes(authService: AuthService, chatServi
                     val identity = call.requireIdentity(authService)
                     call.respond(chatService.listConversations(identity.user.id))
                 }
+                delete {
+                    val identity = call.requireIdentity(authService)
+                    chatService.deleteAllConversations(identity.user.id)
+                    call.respond(HttpStatusCode.NoContent)
+                }
                 route("/{conversationId}") {
                     get("/messages") {
                         val identity = call.requireIdentity(authService)

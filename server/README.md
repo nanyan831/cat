@@ -80,6 +80,7 @@ All conversation endpoints require a valid access token:
 ```text
 POST   /v1/conversations
 GET    /v1/conversations
+DELETE /v1/conversations
 GET    /v1/conversations/{id}/messages
 POST   /v1/conversations/{id}/messages/stream
 DELETE /v1/conversations/{id}
@@ -94,6 +95,23 @@ Conversation ownership is checked on every read, write, and delete. Missing and
 cross-account conversations both return `404`. The server cancels model generation when
 the client disconnects, stores final replies with a compare-and-set update, and orders
 history by a per-conversation sequence number.
+
+## User-controlled companion memory
+
+Memory is created only from an explicit user action. The server does not persist inferred
+sensitive facts from chat messages. All endpoints require a valid access token:
+
+```text
+POST   /v1/memories
+GET    /v1/memories
+DELETE /v1/memories
+DELETE /v1/memories/{id}
+```
+
+Allowed kinds are `nickname`, `preferred_address`, `routine`, and `preference`.
+Cross-account reads or deletes return `404`. Prompt construction includes at most 20
+recent messages, a bounded conversation summary, and up to eight active memories in a
+deterministic order. Deleting a memory excludes it from the next model request.
 
 ## AI Gateway
 

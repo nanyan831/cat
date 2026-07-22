@@ -19,6 +19,9 @@ import com.example.catlifepet.server.config.AuthSettings
 import com.example.catlifepet.server.config.DatabaseSettings
 import com.example.catlifepet.server.config.ServerSettings
 import com.example.catlifepet.server.module
+import com.example.catlifepet.server.memory.CreateMemoryRequest
+import com.example.catlifepet.server.memory.MemoryListResponse
+import com.example.catlifepet.server.memory.MemoryResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -46,8 +49,10 @@ import org.junit.jupiter.api.TestInstance
 import java.time.Duration
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.CopyOnWriteArrayList
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
@@ -165,6 +170,60 @@ class ChatIntegrationTest {
         assertEquals("failed", history.last().status)
     }
 
+    @Test
+    fun `memory is owner controlled and deletion removes it from later prompts`() = testApplication {
+        val provider = ScriptedProvider()
+        val sender = TestEmailSender()
+        application { module(settings(), AuthRuntimeOverrides(sender), AiRuntimeOverrides(provider)) }
+        val client = jsonClient()
+        val owner = client.login(sender, "memory-owner")
+        val stranger = client.login(sender, "memory-stranger")
+        val conversation = client.createConversation(owner.accessToken, null)
+
+        val memory = client.post("/v1/memories") {
+            bearerAuth(owner.accessToken)
+            contentType(ContentType.Application.Json)
+            setBody(CreateMemoryRequest("nickname", "请叫我小雨"))
+        }.body<MemoryResponse>()
+        assertEquals(1, client.get("/v1/memories") {
+            bearerAuth(owner.accessToken)
+        }.body<MemoryListResponse>().memories.size)
+        assertEquals(HttpStatusCode.NotFound, client.delete("/v1/memories/${memory.id}") {
+            bearerAuth(stranger.accessToken)
+        }.status)
+
+        client.stream(owner.accessToken, conversation.id, "你好", UUID.randomUUID().toString()).bodyAsText()
+        assertTrue(provider.requests.last().instructions.contains("请叫我小雨"))
+        assertEquals(HttpStatusCode.NoContent, client.delete("/v1/memories/${memory.id}") {
+            bearerAuth(owner.accessToken)
+        }.status)
+        client.stream(owner.accessToken, conversation.id, "还记得吗", UUID.randomUUID().toString()).bodyAsText()
+        assertFalse(provider.requests.last().instructions.contains("请叫我小雨"))
+        assertEquals(0, client.get("/v1/memories") {
+            bearerAuth(owner.accessToken)
+        }.body<MemoryListResponse>().memories.size)
+
+        repeat(2) { index ->
+            client.post("/v1/memories") {
+                bearerAuth(owner.accessToken)
+                contentType(ContentType.Application.Json)
+                setBody(CreateMemoryRequest("preference", "偏好 $index"))
+            }
+        }
+        assertEquals(HttpStatusCode.NoContent, client.delete("/v1/memories") {
+            bearerAuth(owner.accessToken)
+        }.status)
+        assertEquals(0, client.get("/v1/memories") {
+            bearerAuth(owner.accessToken)
+        }.body<MemoryListResponse>().memories.size)
+        assertEquals(HttpStatusCode.NoContent, client.delete("/v1/conversations") {
+            bearerAuth(owner.accessToken)
+        }.status)
+        assertEquals(0, client.get("/v1/conversations") {
+            bearerAuth(owner.accessToken)
+        }.body<ConversationListResponse>().conversations.size)
+    }
+
     private fun settings(ai: AiSettings = AiSettings()) = ServerSettings.forTest(
         database = databaseSettings,
         authSettings = AuthSettings(maximumIpRequestsPerWindow = 100),
@@ -214,10 +273,12 @@ private class ScriptedProvider(
     private val delayMillis: Long = 0
 ) : AiProvider {
     val calls = AtomicInteger()
+    val requests = CopyOnWriteArrayList<AiRequest>()
 
     override suspend fun generate(request: AiRequest): AiResult = result(request.messages)
 
     override fun stream(request: AiRequest): Flow<AiStreamEvent> = flow {
+        requests += request
         val call = calls.incrementAndGet()
         if (call <= failuresBeforeSuccess) throw AiProviderException("ai_provider_unavailable", true)
         if (delayMillis > 0) delay(delayMillis)

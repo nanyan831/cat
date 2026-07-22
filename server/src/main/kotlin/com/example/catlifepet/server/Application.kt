@@ -7,6 +7,7 @@ import com.example.catlifepet.server.ai.AiRuntimeOverrides
 import com.example.catlifepet.server.ai.configureAi
 import com.example.catlifepet.server.data.configureDatabase
 import com.example.catlifepet.server.chat.configureChat
+import com.example.catlifepet.server.memory.configureMemory
 import com.example.catlifepet.server.http.configureHttp
 import io.ktor.server.application.Application
 import io.ktor.server.netty.EngineMain
@@ -26,5 +27,8 @@ internal fun Application.module(
     configureAi(settings, aiOverrides)
     configureHttp(settings)
     val authService = configureAuthentication(settings, authOverrides)
-    if (authService != null) configureChat(authService)
+    if (authService != null) {
+        configureChat(authService)
+        configureMemory(authService)
+    }
 }

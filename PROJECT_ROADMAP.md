@@ -14,7 +14,7 @@ Last updated: 2026-07-22
 - [x] M4.1 Add the server AI gateway - fake contract, OpenAI request/error mapping, timeout/cancellation, no-key startup, and secret scans passed on 2026-07-22.
 - [x] M4.2 Add conversations and SSE streaming - ownership, ordering, retry, timeout, disconnect cancellation, single-finalization, and real PostgreSQL restart checks passed on 2026-07-22.
 - [x] M4.3 Add Android chat UI - fake SSE, Room reopen, rotation, interruption/retry, lint, Pixel 6, and PCRM00 end-to-end checks passed on 2026-07-22.
-- [ ] M5.1 Add controlled companion memory.
+- [x] M5.1 Add controlled companion memory - explicit-only memory CRUD, bounded prompt context, summary, deletion, lint, Pixel emulator, and PCRM00 checks passed on 2026-07-22.
 - [ ] M5.2 Add safety, quotas, and graceful degradation.
 - [ ] M6.1 Make reminder scheduling deterministic.
 - [ ] M6.2 Harden overlay service lifecycle.
