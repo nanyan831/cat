@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.ActivityManager
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.Drawable
@@ -30,6 +31,8 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.catlifepet.data.SettingsRepository
+import com.example.catlifepet.auth.AuthActivity
+import com.example.catlifepet.auth.AuthGraph
 import com.example.catlifepet.floating.CatFloatingService
 import com.example.catlifepet.floating.CatState
 import com.example.catlifepet.floating.GrowthUnlockManager
@@ -338,6 +341,12 @@ class MainActivity : Activity() {
 
     private fun settingsPage(root: LinearLayout) {
         centeredTitle(root, "设置", "把小猫调整成适合你的样子。")
+        val authRepository = AuthGraph.repository(this)
+        val accountSubtitle = authRepository.currentUser?.email
+            ?: if (authRepository.hasStoredSession()) "已保存登录状态" else "登录后使用 AI 对话与云端记录"
+        root.addView(cardRow("☁", "账号与云同步", accountSubtitle, "›") {
+            startActivity(Intent(this, AuthActivity::class.java))
+        }, match(dp(12)))
         settingsEntry(root, "🐱", "桌宠设置", "悬浮窗、行为、外观等", Screen.PET_SETTINGS)
         settingsEntry(root, "◔", "勿扰设置", "免打扰时段与提醒规则", Screen.DND_SETTINGS)
         settingsEntry(root, "ⓘ", "权限与运行状态", "查看权限和服务状态", Screen.PERMISSION)

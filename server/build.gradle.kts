@@ -45,3 +45,11 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 }
+
+tasks.register<JavaExec>("runDeviceAuthServer") {
+    group = "verification"
+    description = "Starts a local auth server and embedded PostgreSQL for device smoke tests."
+    dependsOn(tasks.testClasses)
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("com.example.catlifepet.server.DevelopmentAuthServerKt")
+}

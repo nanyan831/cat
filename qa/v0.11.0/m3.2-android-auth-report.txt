@@ -1,0 +1,39 @@
+CatLifePet M3.2 Android Authentication QA Report
+Date: 2026-07-22
+
+Scope
+- AuthActivity request-code, verify-code, restore, retry, profile, logout, and account deletion states.
+- Retrofit/OkHttp API client with in-memory access token and one-time 401 refresh retry.
+- Refresh token encrypted with Android Keystore AES-256-GCM.
+- Debug-only local HTTP endpoint and HTTPS-only release endpoint configuration.
+- Local pet and reminder features remain available without login.
+
+Automated checks
+- Server regression: 25 tests, 0 failures, 0 errors.
+- Android repository unit tests: 5 tests, 0 failures.
+- MockWebServer coverage: successful login, 401 refresh rotation, network failure,
+  invalid code, and logout cleanup.
+- Android lintDebug: 0 errors, 52 pre-existing warnings; no authentication-storage warning.
+- Android assembleDebug and assembleDebugAndroidTest: passed.
+- Debug APK secret scan: no JWT secret, token pepper, OpenAI key marker, or sk-* key found.
+
+Device checks
+- Pixel_6 emulator, Android 17: login page visual review passed.
+- OPPO PCRM00, Android 12: login page visual review passed.
+- Both devices: encrypted refresh-token round trip and cleanup passed.
+- Both devices: logged-out UI and offline local-feature notice passed.
+- Both devices: real Ktor + embedded PostgreSQL request-code, verify, encrypted session,
+  and logout smoke test passed through adb reverse.
+- Latest Debug APK installed successfully on both devices after final storage change.
+
+Development test support
+- `gradlew.bat :server:runDeviceAuthServer` starts an embedded PostgreSQL-backed auth server.
+- The test-only server uses verification code 424242 and writes email bodies under
+  the ignored server/build/device-test-mailbox directory.
+- Device smoke test runs only when instrumentation argument deviceAuthSmoke=true is supplied.
+
+Evidence
+- qa/v0.11.0/m3.2-emulator-5554-auth.png
+- qa/v0.11.0/m3.2-c03f36c-auth.png
+
+Result: PASS
