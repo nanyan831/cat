@@ -41,6 +41,36 @@ internal class JdbcUserRepository : UserRepository {
             ::mapUser
         )
     }
+
+    override fun updateProfile(
+        connection: Connection,
+        id: UUID,
+        displayName: String?,
+        timeZone: String,
+        updatedAt: Instant
+    ): UserRecord? {
+        return connection.prepareStatement(
+            """
+            UPDATE users
+            SET display_name = ?, time_zone = ?, updated_at = ?
+            WHERE id = ? AND deleted_at IS NULL
+            RETURNING *
+            """.trimIndent()
+        ).use { statement ->
+            statement.setString(1, displayName)
+            statement.setString(2, timeZone)
+            statement.setInstant(3, updatedAt)
+            statement.setObject(4, id)
+            statement.executeQuery().use { result -> if (result.next()) mapUser(result) else null }
+        }
+    }
+
+    override fun delete(connection: Connection, id: UUID): Boolean {
+        return connection.prepareStatement("DELETE FROM users WHERE id = ?").use { statement ->
+            statement.setObject(1, id)
+            statement.executeUpdate() == 1
+        }
+    }
 }
 
 internal class JdbcLoginCodeRepository : LoginCodeRepository {
@@ -67,6 +97,80 @@ internal class JdbcLoginCodeRepository : LoginCodeRepository {
 
     override fun findById(connection: Connection, id: UUID): LoginCodeRecord? {
         return connection.queryOne("SELECT * FROM login_codes WHERE id = ?", id, ::mapLoginCode)
+    }
+
+    override fun findLatestActiveForUpdate(
+        connection: Connection,
+        normalizedEmail: String,
+        now: Instant
+    ): LoginCodeRecord? {
+        return connection.prepareStatement(
+            """
+            SELECT * FROM login_codes
+            WHERE email_normalized = ? AND consumed_at IS NULL AND expires_at > ?
+            ORDER BY created_at DESC
+            LIMIT 1
+            FOR UPDATE
+            """.trimIndent()
+        ).use { statement ->
+            statement.setString(1, normalizedEmail)
+            statement.setInstant(2, now)
+            statement.executeQuery().use { result -> if (result.next()) mapLoginCode(result) else null }
+        }
+    }
+
+    override fun countCreatedSinceByEmail(
+        connection: Connection,
+        normalizedEmail: String,
+        since: Instant
+    ): Int {
+        return connection.count(
+            "SELECT COUNT(*) FROM login_codes WHERE email_normalized = ? AND created_at >= ?",
+            normalizedEmail,
+            since
+        )
+    }
+
+    override fun countCreatedSinceByIpHash(
+        connection: Connection,
+        requestIpHash: ByteArray,
+        since: Instant
+    ): Int {
+        return connection.prepareStatement(
+            "SELECT COUNT(*) FROM login_codes WHERE request_ip_hash = ? AND created_at >= ?"
+        ).use { statement ->
+            statement.setBytes(1, requestIpHash)
+            statement.setInstant(2, since)
+            statement.executeQuery().use { result -> check(result.next()); result.getInt(1) }
+        }
+    }
+
+    override fun invalidateActiveForEmail(
+        connection: Connection,
+        normalizedEmail: String,
+        consumedAt: Instant
+    ): Int {
+        return connection.prepareStatement(
+            "UPDATE login_codes SET consumed_at = ? WHERE email_normalized = ? AND consumed_at IS NULL"
+        ).use { statement ->
+            statement.setInstant(1, consumedAt)
+            statement.setString(2, normalizedEmail)
+            statement.executeUpdate()
+        }
+    }
+
+    override fun lockRequestKeys(
+        connection: Connection,
+        normalizedEmail: String,
+        requestIpHash: ByteArray
+    ) {
+        connection.prepareStatement(
+            "SELECT pg_advisory_xact_lock(hashtext(?)), pg_advisory_xact_lock(hashtext(?))"
+        ).use { statement ->
+            statement.setString(1, "email:$normalizedEmail")
+            statement.setString(2, "ip:${requestIpHash.toHexString()}")
+            statement.executeQuery().use { result -> check(result.next()) }
+        }
     }
 
     override fun markConsumed(connection: Connection, id: UUID, consumedAt: Instant): Boolean {
@@ -120,6 +224,22 @@ internal class JdbcRefreshSessionRepository : RefreshSessionRepository {
         }
     }
 
+    override fun findByTokenHashForUpdate(
+        connection: Connection,
+        tokenHash: ByteArray
+    ): RefreshSessionRecord? {
+        return connection.prepareStatement(
+            "SELECT * FROM refresh_sessions WHERE token_hash = ? FOR UPDATE"
+        ).use { statement ->
+            statement.setBytes(1, tokenHash)
+            statement.executeQuery().use { result -> if (result.next()) mapRefreshSession(result) else null }
+        }
+    }
+
+    override fun findById(connection: Connection, id: UUID): RefreshSessionRecord? {
+        return connection.queryOne("SELECT * FROM refresh_sessions WHERE id = ?", id, ::mapRefreshSession)
+    }
+
     override fun revoke(connection: Connection, id: UUID, revokedAt: Instant, replacedBy: UUID?): Boolean {
         return connection.prepareStatement(
             "UPDATE refresh_sessions SET revoked_at = ?, replaced_by = ?, last_used_at = ? WHERE id = ? AND revoked_at IS NULL"
@@ -129,6 +249,26 @@ internal class JdbcRefreshSessionRepository : RefreshSessionRepository {
             statement.setInstant(3, revokedAt)
             statement.setObject(4, id)
             statement.executeUpdate() == 1
+        }
+    }
+
+    override fun revokeFamily(connection: Connection, familyId: UUID, revokedAt: Instant): Int {
+        return connection.prepareStatement(
+            "UPDATE refresh_sessions SET revoked_at = ? WHERE family_id = ? AND revoked_at IS NULL"
+        ).use { statement ->
+            statement.setInstant(1, revokedAt)
+            statement.setObject(2, familyId)
+            statement.executeUpdate()
+        }
+    }
+
+    override fun revokeAllForUser(connection: Connection, userId: UUID, revokedAt: Instant): Int {
+        return connection.prepareStatement(
+            "UPDATE refresh_sessions SET revoked_at = ? WHERE user_id = ? AND revoked_at IS NULL"
+        ).use { statement ->
+            statement.setInstant(1, revokedAt)
+            statement.setObject(2, userId)
+            statement.executeUpdate()
         }
     }
 }
@@ -369,6 +509,16 @@ private fun <T> Connection.queryOne(
         statement.executeQuery().use { result -> if (result.next()) mapper(result) else null }
     }
 }
+
+private fun Connection.count(sql: String, text: String, instant: Instant): Int {
+    return prepareStatement(sql).use { statement ->
+        statement.setString(1, text)
+        statement.setInstant(2, instant)
+        statement.executeQuery().use { result -> check(result.next()); result.getInt(1) }
+    }
+}
+
+private fun ByteArray.toHexString(): String = joinToString(separator = "") { byte -> "%02x".format(byte) }
 
 private fun java.sql.PreparedStatement.setInstant(index: Int, value: Instant) {
     setObject(index, value.atOffset(ZoneOffset.UTC))

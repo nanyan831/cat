@@ -10,6 +10,8 @@ import io.ktor.server.plugins.callid.CallId
 import io.ktor.server.plugins.callid.callId
 import io.ktor.server.plugins.callid.callIdMdc
 import io.ktor.server.plugins.calllogging.CallLogging
+import io.ktor.server.plugins.BadRequestException
+import io.ktor.server.plugins.ContentTransformationException
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.plugins.statuspages.StatusPages
 import io.ktor.server.request.httpMethod
@@ -54,6 +56,18 @@ internal fun Application.configureHttp(settings: ServerSettings) {
     }
 
     install(StatusPages) {
+        exception<ContentTransformationException> { call, _ ->
+            call.respond(
+                HttpStatusCode.BadRequest,
+                ApiErrorEnvelope(ApiError("invalid_request", "The request body is invalid."), call.requestId())
+            )
+        }
+        exception<BadRequestException> { call, _ ->
+            call.respond(
+                HttpStatusCode.BadRequest,
+                ApiErrorEnvelope(ApiError("invalid_request", "The request body is invalid."), call.requestId())
+            )
+        }
         exception<ApiException> { call, cause ->
             call.respond(
                 cause.status,

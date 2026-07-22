@@ -1,0 +1,26 @@
+CatLifePet M3.1 authentication report
+Date: 2026-07-22
+
+IMPLEMENTATION
+- Added passwordless email-code request and verification endpoints.
+- Verification codes, client IPs, and refresh tokens are stored only as namespaced HMAC-SHA256 hashes.
+- Added per-email and per-IP request limits plus five-attempt verification lockout.
+- Added 15-minute HMAC JWT access tokens and 30-day rotating refresh sessions.
+- Replaying an already-rotated refresh token revokes its complete token family.
+- Added authenticated profile read/update, logout, and hard account deletion with cascading data removal.
+- Added an ignored development mailbox and authenticated STARTTLS SMTP production sender.
+- Production requires independent JWT and token-pepper secrets of at least 32 characters.
+- Malformed JSON and authentication failures return structured errors without exception details.
+
+AUTOMATED CHECKS
+- gradlew.bat :server:test: PASS
+- Server tests: 25, failures: 0, errors: 0.
+- Covered valid, incorrect, expired, reused, and attempt-limited verification codes.
+- Covered resend limits, login, profile update, logout, refresh rotation, replay rejection,
+  family revocation, account deletion, malformed request handling, and hash separation.
+- Log capture confirmed no raw email, verification code, access token, or refresh token was emitted.
+- PostgreSQL integration tests used a native temporary PostgreSQL process.
+- No PostgreSQL process remained after the tests.
+
+RESULT
+- M3.1 PASS.

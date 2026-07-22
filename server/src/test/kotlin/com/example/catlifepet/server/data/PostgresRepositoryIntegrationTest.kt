@@ -50,7 +50,7 @@ class PostgresRepositoryIntegrationTest {
     @Test
     @Order(1)
     fun `fresh migrations apply once and repeat idempotently`() {
-        assertEquals(2, database.migrate())
+        assertEquals(3, database.migrate())
         assertEquals(0, database.migrate())
 
         val tables = database.transaction { connection ->

@@ -1,7 +1,6 @@
 package com.example.catlifepet.server
 
 import com.example.catlifepet.server.config.AppEnvironment
-import com.example.catlifepet.server.config.SensitiveSettings
 import com.example.catlifepet.server.config.ServerConfigurationException
 import com.example.catlifepet.server.config.ServerSettings
 import com.example.catlifepet.server.http.ApiErrorEnvelope
@@ -114,7 +113,7 @@ class ServerSettingsTest {
 
     @Test
     fun `production missing configuration fails without secret values`() {
-        val secret = "must-not-appear-in-errors"
+        val secret = "must-not-appear-in-errors-and-is-long-enough"
         val config = MapApplicationConfig(
             "catlifepet.environment" to "production",
             "catlifepet.jwtSecret" to secret
@@ -124,6 +123,8 @@ class ServerSettingsTest {
 
         assertTrue(error is ServerConfigurationException)
         assertTrue(error.message.orEmpty().contains("DATABASE_URL"))
+        assertTrue(error.message.orEmpty().contains("CATLIFEPET_TOKEN_PEPPER"))
+        assertTrue(error.message.orEmpty().contains("SMTP_HOST"))
         assertTrue(error.message.orEmpty().contains("OPENAI_API_KEY"))
         assertFalse(error.message.orEmpty().contains(secret))
     }
@@ -157,6 +158,17 @@ class ServerSettingsTest {
     }
 
     @Test
+    fun `configured authentication secrets must be long enough`() {
+        val config = MapApplicationConfig("catlifepet.jwtSecret" to "short")
+
+        val error = kotlin.runCatching { ServerSettings.load(config) }.exceptionOrNull()
+
+        assertTrue(error is ServerConfigurationException)
+        assertTrue(error.message.orEmpty().contains("at least 32"))
+        assertFalse(error.message.orEmpty().contains("short"))
+    }
+
+    @Test
     fun `complete production configuration loads and stays redacted`() {
         val settings = ServerSettings.load(completeProductionConfig())
         val rendered = settings.sensitive.toString()
@@ -165,12 +177,27 @@ class ServerSettingsTest {
         assertEquals("https://api.example.com", settings.publicBaseUrl)
         assertFalse(rendered.contains("postgres-password"))
         assertFalse(rendered.contains("jwt-secret-value"))
+        assertFalse(rendered.contains("token-pepper-value"))
+        assertFalse(rendered.contains("smtp-password-value"))
         assertFalse(rendered.contains("openai-secret-value"))
         assertEquals(
-            "SensitiveSettings(database=<redacted>, jwtSecret=<redacted>, openAiApiKey=<redacted>)",
+            "SensitiveSettings(database=<redacted>, jwtSecret=<redacted>, tokenPepper=<redacted>, smtp=<redacted>, openAiApiKey=<redacted>)",
             rendered
         )
         assertEquals("DatabaseSettings(<redacted>)", settings.sensitive.database.toString())
+        assertEquals("SmtpSettings(<redacted>)", settings.sensitive.smtp.toString())
+    }
+
+    @Test
+    fun `production smtp requires transport encryption`() {
+        val config = completeProductionConfig().apply {
+            put("catlifepet.smtpStartTls", "false")
+        }
+
+        val error = kotlin.runCatching { ServerSettings.load(config) }.exceptionOrNull()
+
+        assertTrue(error is ServerConfigurationException)
+        assertTrue(error.message.orEmpty().contains("STARTTLS"))
     }
 
     private fun completeProductionConfig() = MapApplicationConfig(
@@ -179,7 +206,14 @@ class ServerSettingsTest {
         "catlifepet.databaseUrl" to "jdbc:postgresql://db/catlifepet",
         "catlifepet.databaseUser" to "catlifepet",
         "catlifepet.databasePassword" to "postgres-password",
-        "catlifepet.jwtSecret" to "jwt-secret-value",
+        "catlifepet.jwtSecret" to "jwt-secret-value-that-is-at-least-32-characters",
+        "catlifepet.tokenPepper" to "token-pepper-value-that-is-at-least-32-characters",
+        "catlifepet.smtpHost" to "smtp.example.com",
+        "catlifepet.smtpPort" to "587",
+        "catlifepet.smtpUsername" to "smtp-user",
+        "catlifepet.smtpPassword" to "smtp-password-value",
+        "catlifepet.smtpFrom" to "noreply@example.com",
+        "catlifepet.smtpStartTls" to "true",
         "catlifepet.openAiApiKey" to "openai-secret-value"
     )
 }

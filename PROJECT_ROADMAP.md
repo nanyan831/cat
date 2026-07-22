@@ -9,7 +9,7 @@ Last updated: 2026-07-22
 - [x] M1.2 Integrate CUDDLE runtime behavior - build, lint, Pixel 6 matrix, and PCRM00 device run passed on 2026-07-22.
 - [x] M2.1 Scaffold the Ktor service - 10 tests, real health check, production fail-fast, and Android regression build passed on 2026-07-22.
 - [x] M2.2 Add PostgreSQL and migrations - fresh/repeat migration, repository integration, rollback, and Android regression checks passed on 2026-07-22.
-- [ ] M3.1 Implement passwordless email authentication.
+- [x] M3.1 Implement passwordless email authentication - code policy, SMTP, JWT, rotation, replay defense, deletion, and secret-log checks passed on 2026-07-22.
 - [ ] M3.2 Add Android authentication UI.
 - [ ] M4.1 Add the server AI gateway.
 - [ ] M4.2 Add conversations and SSE streaming.

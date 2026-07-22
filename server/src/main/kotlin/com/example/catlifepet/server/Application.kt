@@ -1,6 +1,8 @@
 package com.example.catlifepet.server
 
 import com.example.catlifepet.server.config.ServerSettings
+import com.example.catlifepet.server.auth.AuthRuntimeOverrides
+import com.example.catlifepet.server.auth.configureAuthentication
 import com.example.catlifepet.server.data.configureDatabase
 import com.example.catlifepet.server.http.configureHttp
 import io.ktor.server.application.Application
@@ -12,7 +14,11 @@ fun Application.module() {
     module(ServerSettings.load(environment.config))
 }
 
-internal fun Application.module(settings: ServerSettings) {
+internal fun Application.module(
+    settings: ServerSettings,
+    authOverrides: AuthRuntimeOverrides = AuthRuntimeOverrides()
+) {
     configureDatabase(settings)
     configureHttp(settings)
+    configureAuthentication(settings, authOverrides)
 }

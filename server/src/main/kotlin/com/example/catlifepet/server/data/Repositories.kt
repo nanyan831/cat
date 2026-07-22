@@ -9,11 +9,28 @@ interface UserRepository {
     fun insert(connection: Connection, user: UserRecord)
     fun findById(connection: Connection, id: UUID): UserRecord?
     fun findActiveByEmail(connection: Connection, normalizedEmail: String): UserRecord?
+    fun updateProfile(
+        connection: Connection,
+        id: UUID,
+        displayName: String?,
+        timeZone: String,
+        updatedAt: Instant
+    ): UserRecord?
+    fun delete(connection: Connection, id: UUID): Boolean
 }
 
 interface LoginCodeRepository {
     fun insert(connection: Connection, code: LoginCodeRecord)
     fun findById(connection: Connection, id: UUID): LoginCodeRecord?
+    fun findLatestActiveForUpdate(
+        connection: Connection,
+        normalizedEmail: String,
+        now: Instant
+    ): LoginCodeRecord?
+    fun countCreatedSinceByEmail(connection: Connection, normalizedEmail: String, since: Instant): Int
+    fun countCreatedSinceByIpHash(connection: Connection, requestIpHash: ByteArray, since: Instant): Int
+    fun invalidateActiveForEmail(connection: Connection, normalizedEmail: String, consumedAt: Instant): Int
+    fun lockRequestKeys(connection: Connection, normalizedEmail: String, requestIpHash: ByteArray)
     fun markConsumed(connection: Connection, id: UUID, consumedAt: Instant): Boolean
     fun incrementFailedAttempts(connection: Connection, id: UUID): Boolean
 }
@@ -21,7 +38,11 @@ interface LoginCodeRepository {
 interface RefreshSessionRepository {
     fun insert(connection: Connection, session: RefreshSessionRecord)
     fun findByTokenHash(connection: Connection, tokenHash: ByteArray): RefreshSessionRecord?
+    fun findByTokenHashForUpdate(connection: Connection, tokenHash: ByteArray): RefreshSessionRecord?
+    fun findById(connection: Connection, id: UUID): RefreshSessionRecord?
     fun revoke(connection: Connection, id: UUID, revokedAt: Instant, replacedBy: UUID? = null): Boolean
+    fun revokeFamily(connection: Connection, familyId: UUID, revokedAt: Instant): Int
+    fun revokeAllForUser(connection: Connection, userId: UUID, revokedAt: Instant): Int
 }
 
 interface ConversationRepository {

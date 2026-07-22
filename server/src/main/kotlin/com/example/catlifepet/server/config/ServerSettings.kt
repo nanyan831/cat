@@ -2,16 +2,21 @@ package com.example.catlifepet.server.config
 
 import io.ktor.server.config.ApplicationConfig
 import java.net.URI
+import java.time.Duration
 
 data class ServerSettings(
     val environment: AppEnvironment,
     val serviceName: String,
     val version: String,
     val publicBaseUrl: String,
+    val auth: AuthSettings,
+    val developmentMailboxDir: String,
     val sensitive: SensitiveSettings
 ) {
     companion object {
         private const val DEFAULT_BASE_URL = "http://localhost:8080"
+        private const val DEVELOPMENT_JWT_SECRET = "development-only-jwt-secret-change-me"
+        private const val DEVELOPMENT_TOKEN_PEPPER = "development-only-token-pepper-change-me"
 
         fun load(config: ApplicationConfig): ServerSettings {
             val environment = AppEnvironment.parse(
@@ -19,32 +24,54 @@ data class ServerSettings(
             )
             val configuredBaseUrl = config.optionalString("catlifepet.publicBaseUrl")
             val database = loadDatabaseSettings(config)
-            val sensitive = SensitiveSettings(
+            val configuredSensitive = SensitiveSettings(
                 database = database,
                 jwtSecret = config.optionalString("catlifepet.jwtSecret"),
+                tokenPepper = config.optionalString("catlifepet.tokenPepper"),
+                smtp = loadSmtpSettings(config),
                 openAiApiKey = config.optionalString("catlifepet.openAiApiKey")
             )
+            validateConfiguredSecrets(configuredSensitive)
 
             if (environment == AppEnvironment.PRODUCTION) {
-                validateProduction(configuredBaseUrl, sensitive)
+                validateProduction(configuredBaseUrl, configuredSensitive)
             }
+
+            val sensitive = configuredSensitive.withDevelopmentDefaults(environment)
 
             return ServerSettings(
                 environment = environment,
                 serviceName = "catlifepet-server",
-                version = "0.10.0-SNAPSHOT",
+                version = "0.11.0-SNAPSHOT",
                 publicBaseUrl = configuredBaseUrl ?: DEFAULT_BASE_URL,
+                auth = AuthSettings(
+                    issuer = config.optionalString("catlifepet.jwtIssuer") ?: "catlifepet-server",
+                    audience = config.optionalString("catlifepet.jwtAudience") ?: "catlifepet-android"
+                ),
+                developmentMailboxDir = config.optionalString("catlifepet.developmentMailboxDir")
+                    ?: "server/build/dev-mailbox",
                 sensitive = sensitive
             )
         }
 
-        internal fun forTest(): ServerSettings {
+        internal fun forTest(
+            database: DatabaseSettings? = null,
+            authSettings: AuthSettings = AuthSettings()
+        ): ServerSettings {
             return ServerSettings(
                 environment = AppEnvironment.TEST,
                 serviceName = "catlifepet-server",
                 version = "test",
                 publicBaseUrl = "http://localhost",
-                sensitive = SensitiveSettings(null, null, null)
+                auth = authSettings,
+                developmentMailboxDir = "build/test-dev-mailbox",
+                sensitive = SensitiveSettings(
+                    database = database,
+                    jwtSecret = DEVELOPMENT_JWT_SECRET,
+                    tokenPepper = DEVELOPMENT_TOKEN_PEPPER,
+                    smtp = null,
+                    openAiApiKey = null
+                )
             )
         }
 
@@ -76,6 +103,49 @@ data class ServerSettings(
             return DatabaseSettings(url, user!!, password!!)
         }
 
+        private fun loadSmtpSettings(config: ApplicationConfig): SmtpSettings? {
+            val host = config.optionalString("catlifepet.smtpHost")
+            val username = config.optionalString("catlifepet.smtpUsername")
+            val password = config.optionalString("catlifepet.smtpPassword")
+            val from = config.optionalString("catlifepet.smtpFrom")
+            val configuredPort = config.optionalString("catlifepet.smtpPort")
+            val configuredStartTls = config.optionalString("catlifepet.smtpStartTls")
+            if (
+                host == null && username == null && password == null && from == null &&
+                configuredPort == null && configuredStartTls == null
+            ) {
+                return null
+            }
+
+            val missing = buildList {
+                if (host == null) add("SMTP_HOST")
+                if (username == null) add("SMTP_USERNAME")
+                if (password == null) add("SMTP_PASSWORD")
+                if (from == null) add("SMTP_FROM")
+            }
+            if (missing.isNotEmpty()) {
+                throw ServerConfigurationException("Incomplete SMTP configuration: ${missing.joinToString()}")
+            }
+            val port = configuredPort?.toIntOrNull() ?: 587
+            if (port !in 1..65535) throw ServerConfigurationException("SMTP_PORT must be between 1 and 65535.")
+            if (!from!!.contains('@')) throw ServerConfigurationException("SMTP_FROM must be an email address.")
+            val startTls = when (configuredStartTls) {
+                null -> true
+                else -> configuredStartTls.toBooleanStrictOrNull()
+                    ?: throw ServerConfigurationException("SMTP_STARTTLS must be true or false.")
+            }
+            return SmtpSettings(host!!, port, username!!, password!!, from, startTls)
+        }
+
+        private fun validateConfiguredSecrets(sensitive: SensitiveSettings) {
+            if (sensitive.jwtSecret != null && sensitive.jwtSecret.length < 32) {
+                throw ServerConfigurationException("CATLIFEPET_JWT_SECRET must contain at least 32 characters.")
+            }
+            if (sensitive.tokenPepper != null && sensitive.tokenPepper.length < 32) {
+                throw ServerConfigurationException("CATLIFEPET_TOKEN_PEPPER must contain at least 32 characters.")
+            }
+        }
+
         private fun validateProduction(baseUrl: String?, sensitive: SensitiveSettings) {
             val missing = buildList {
                 if (baseUrl == null) add("CATLIFEPET_PUBLIC_BASE_URL")
@@ -85,6 +155,13 @@ data class ServerSettings(
                     add("DATABASE_PASSWORD")
                 }
                 if (sensitive.jwtSecret == null) add("CATLIFEPET_JWT_SECRET")
+                if (sensitive.tokenPepper == null) add("CATLIFEPET_TOKEN_PEPPER")
+                if (sensitive.smtp == null) {
+                    add("SMTP_HOST")
+                    add("SMTP_USERNAME")
+                    add("SMTP_PASSWORD")
+                    add("SMTP_FROM")
+                }
                 if (sensitive.openAiApiKey == null) add("OPENAI_API_KEY")
             }
             if (missing.isNotEmpty()) {
@@ -99,17 +176,45 @@ data class ServerSettings(
                     "Invalid CATLIFEPET_PUBLIC_BASE_URL. Production requires an absolute HTTPS URL."
                 )
             }
+            if (sensitive.smtp?.startTls == false) {
+                throw ServerConfigurationException("Production SMTP requires STARTTLS.")
+            }
         }
     }
 }
 
+data class AuthSettings(
+    val issuer: String = "catlifepet-server",
+    val audience: String = "catlifepet-android",
+    val accessTokenLifetime: Duration = Duration.ofMinutes(15),
+    val refreshTokenLifetime: Duration = Duration.ofDays(30),
+    val verificationCodeLifetime: Duration = Duration.ofMinutes(10),
+    val maximumCodeAttempts: Int = 5,
+    val resendWindow: Duration = Duration.ofMinutes(10),
+    val maximumEmailRequestsPerWindow: Int = 3,
+    val maximumIpRequestsPerWindow: Int = 10
+)
+
 class SensitiveSettings(
     val database: DatabaseSettings?,
     val jwtSecret: String?,
+    val tokenPepper: String?,
+    val smtp: SmtpSettings?,
     val openAiApiKey: String?
 ) {
     override fun toString(): String {
-        return "SensitiveSettings(database=<redacted>, jwtSecret=<redacted>, openAiApiKey=<redacted>)"
+        return "SensitiveSettings(database=<redacted>, jwtSecret=<redacted>, tokenPepper=<redacted>, smtp=<redacted>, openAiApiKey=<redacted>)"
+    }
+
+    internal fun withDevelopmentDefaults(environment: AppEnvironment): SensitiveSettings {
+        if (environment == AppEnvironment.PRODUCTION) return this
+        return SensitiveSettings(
+            database = database,
+            jwtSecret = jwtSecret ?: "development-only-jwt-secret-change-me",
+            tokenPepper = tokenPepper ?: "development-only-token-pepper-change-me",
+            smtp = smtp,
+            openAiApiKey = openAiApiKey
+        )
     }
 }
 
@@ -119,6 +224,17 @@ class DatabaseSettings internal constructor(
     val password: String
 ) {
     override fun toString(): String = "DatabaseSettings(<redacted>)"
+}
+
+class SmtpSettings internal constructor(
+    val host: String,
+    val port: Int,
+    val username: String,
+    val password: String,
+    val fromAddress: String,
+    val startTls: Boolean
+) {
+    override fun toString(): String = "SmtpSettings(<redacted>)"
 }
 
 private fun ApplicationConfig.optionalString(path: String): String? {

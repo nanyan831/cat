@@ -39,7 +39,34 @@ Production variables:
 - `DATABASE_USER`
 - `DATABASE_PASSWORD`
 - `CATLIFEPET_JWT_SECRET`
+- `CATLIFEPET_TOKEN_PEPPER`
+- `SMTP_HOST`, `SMTP_PORT`, `SMTP_USERNAME`, `SMTP_PASSWORD`, `SMTP_FROM`
+- `SMTP_STARTTLS=true`
 - `OPENAI_API_KEY`
 - Optional `HOST` and `PORT`
 
 Secrets are never written to normal application logs or configuration errors. Keep them in the deployment platform's secret manager and never in Git.
+
+## Authentication
+
+Passwordless account endpoints are available when the database is configured:
+
+```text
+POST   /v1/auth/code/request
+POST   /v1/auth/code/verify
+POST   /v1/auth/refresh
+POST   /v1/auth/logout
+GET    /v1/me
+PATCH  /v1/me
+DELETE /v1/me
+```
+
+Development login messages are written to `server/build/dev-mailbox` and are never
+printed in logs. Production sends them through authenticated SMTP and requires:
+
+- `CATLIFEPET_TOKEN_PEPPER` independent from the JWT signing secret
+- `SMTP_HOST`, `SMTP_PORT`, `SMTP_USERNAME`, `SMTP_PASSWORD`, and `SMTP_FROM`
+- `SMTP_STARTTLS=true`
+
+Access tokens expire after 15 minutes. Refresh tokens expire after 30 days, rotate on
+every use, and revoke the entire token family when an already-rotated token is replayed.
