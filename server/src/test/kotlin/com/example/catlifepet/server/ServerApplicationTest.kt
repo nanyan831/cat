@@ -141,6 +141,22 @@ class ServerSettingsTest {
     }
 
     @Test
+    fun `database credentials cannot be embedded in jdbc url`() {
+        val config = MapApplicationConfig(
+            "catlifepet.databaseUrl" to "jdbc:postgresql://user:secret@db/catlifepet",
+            "catlifepet.databaseUser" to "catlifepet",
+            "catlifepet.databasePassword" to "separate-secret"
+        )
+
+        val error = kotlin.runCatching { ServerSettings.load(config) }.exceptionOrNull()
+
+        assertTrue(error is ServerConfigurationException)
+        assertTrue(error.message.orEmpty().contains("must not contain credentials"))
+        assertFalse(error.message.orEmpty().contains("secret@"))
+        assertFalse(error.message.orEmpty().contains("separate-secret"))
+    }
+
+    @Test
     fun `complete production configuration loads and stays redacted`() {
         val settings = ServerSettings.load(completeProductionConfig())
         val rendered = settings.sensitive.toString()
@@ -151,15 +167,18 @@ class ServerSettingsTest {
         assertFalse(rendered.contains("jwt-secret-value"))
         assertFalse(rendered.contains("openai-secret-value"))
         assertEquals(
-            "SensitiveSettings(databaseUrl=<redacted>, jwtSecret=<redacted>, openAiApiKey=<redacted>)",
+            "SensitiveSettings(database=<redacted>, jwtSecret=<redacted>, openAiApiKey=<redacted>)",
             rendered
         )
+        assertEquals("DatabaseSettings(<redacted>)", settings.sensitive.database.toString())
     }
 
     private fun completeProductionConfig() = MapApplicationConfig(
         "catlifepet.environment" to "production",
         "catlifepet.publicBaseUrl" to "https://api.example.com",
-        "catlifepet.databaseUrl" to "postgresql://user:postgres-password@db/catlifepet",
+        "catlifepet.databaseUrl" to "jdbc:postgresql://db/catlifepet",
+        "catlifepet.databaseUser" to "catlifepet",
+        "catlifepet.databasePassword" to "postgres-password",
         "catlifepet.jwtSecret" to "jwt-secret-value",
         "catlifepet.openAiApiKey" to "openai-secret-value"
     )

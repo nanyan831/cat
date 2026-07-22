@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:16.4-alpine
+    environment:
+      POSTGRES_DB: catlifepet
+      POSTGRES_USER: catlifepet
+      POSTGRES_PASSWORD: local-catlifepet-only
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U catlifepet -d catlifepet"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    volumes:
+      - catlifepet-postgres:/var/lib/postgresql/data
+
+volumes:
+  catlifepet-postgres:

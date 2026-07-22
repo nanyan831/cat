@@ -1,0 +1,31 @@
+CatLifePet M2.2 PostgreSQL foundation report
+Date: 2026-07-22
+
+IMPLEMENTATION
+- Added compose.yaml with PostgreSQL 16.4, health check, and persistent local volume.
+- Added a tracked .env.example; real .env files remain ignored.
+- Added HikariCP connection management and Flyway migration lifecycle integration.
+- Added V1 identity/session and V2 conversation/memory/usage migrations.
+- Added explicit transaction boundaries and JDBC repository interfaces/implementations.
+- Exposed the database context through the Ktor Application for later auth/chat routes.
+- Database credentials must use separate environment variables and cannot be embedded in the JDBC URL.
+
+AUTOMATED CHECKS
+- gradlew.bat :server:test: PASS
+- Server tests: 14, failures: 0, errors: 0.
+- Real embedded PostgreSQL started successfully and stopped after the tests.
+- Fresh migration applied 2 versions; repeat migration applied 0 versions.
+- Repository round trips passed for users, login codes, refresh sessions, conversations,
+  messages, memories, and daily usage.
+- Forced transaction failure rolled back its user insert.
+- gradlew.bat :server:test :app:assembleDebug: PASS.
+
+ENVIRONMENT NOTE
+- Docker Desktop CLI is not installed or exposed on this development machine, so a
+  docker compose runtime smoke check could not be executed here.
+- Database behavior was still tested against a native temporary PostgreSQL process,
+  not an H2 compatibility mode.
+- No PostgreSQL process remained after the test run.
+
+RESULT
+- M2.2 PASS.
