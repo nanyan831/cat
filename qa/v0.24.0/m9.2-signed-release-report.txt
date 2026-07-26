@@ -1,0 +1,43 @@
+CatLifePet M9.2 Signed Android Release QA Report
+Date: 2026-07-26
+
+Scope
+- Set Android versionCode to 10000 and versionName to 1.0.0.
+- Added external release signing configuration support through release-signing.properties, Gradle properties, or environment variables.
+- Generated a local release keystore outside Git at C:\Users\11329\Documents\CatLifePetRelease\catlifepet-v1-release.jks.
+- Rebuilt AuthActivity and PrivacyActivity user-facing copy as readable UTF-8 Chinese.
+- Updated auth and accessibility instrumentation tests to assert the corrected user-facing copy.
+- Added RELEASE_CHECKLIST.md and refreshed PRIVACY_POLICY.md.
+
+Release Artifacts
+- APK: app\build\outputs\apk\release\app-release.apk
+- AAB: app\build\outputs\bundle\release\app-release.aab
+- Checksums: qa\v0.24.0\release-checksums.txt
+
+Checks Run
+- .\gradlew.bat :app:assembleDebug :app:assembleRelease :app:bundleRelease :app:lintDebug: PASS
+- .\gradlew.bat test :app:assembleDebugAndroidTest: PASS
+- apksigner verify --verbose --print-certs app-release.apk: PASS
+  - v1/v2/v3 signatures verified.
+  - Certificate SHA-256 digest: 2a27f2d0431bba4568ffeeccd1e1b484cfdb71b18773d7444e1edbd658de9848.
+- aapt badging: package com.example.catlifepet, versionCode 10000, versionName 1.0.0, minSdk 23, targetSdk 35.
+- Precise DEX secret scan: PASS for OpenAI key pattern, JWT secret name, token pepper name, refresh-token-like literals, 127.0.0.1, and 10.0.2.2.
+- BuildConfig inspection: release API_BASE_URL is https://api.catlifepet.invalid/.
+
+Install / Device Results
+- Pixel_6 emulator:
+  - Direct upgrade from existing debug build failed with INSTALL_FAILED_UPDATE_INCOMPATIBLE, as expected because debug and release signatures differ.
+  - After uninstalling the debug build, app-release.apk installed successfully.
+  - Launcher smoke started MainActivity successfully.
+  - Post-launch log scan found no FATAL EXCEPTION, WindowLeaked, or BadToken entries.
+- OPPO PCRM00 / API 31:
+  - Device is visible through ADB.
+  - app-release.apk was pushed successfully to /data/local/tmp/catlifepet-release.apk.
+  - adb install, adb install --no-incremental, and pm install all failed with Failure [-99].
+  - This is a phone-side install policy/USB install authorization blocker, not an APK transfer failure.
+
+Environment-Gated Release Items
+- Real production API is not deployed in this workspace; release currently points to HTTPS placeholder https://api.catlifepet.invalid/.
+- Authenticated production smoke for login, AI chat, history, logout, and account deletion was not run because production server, domain, SMTP credentials, OpenAI key, and database are not configured.
+- OPPO signed-release install remains blocked by phone-side installation policy until USB install authorization is enabled or the device policy is adjusted.
+- The generated release keystore is local and outside Git. Before public release, the owner must back it up securely and decide whether this is the final app signing key.

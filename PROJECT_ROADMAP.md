@@ -23,7 +23,7 @@ Last updated: 2026-07-26
 - [x] M8.1 Automated regression suite - CatStateManager listener contracts, quota window/IP decisions, app unit tests, server PostgreSQL/migration integration, emulator Android UI smoke, Debug/Release builds, and lint passed on 2026-07-26.
 - [x] M8.2 Device endurance and compatibility qualification - added gated 100-action overlay endurance test, Pixel_6 emulator passed with 0 fatal crashes, 0 WindowLeaked, 0 BadToken, 0 ANR, 1 addView/100 duplicate skips/1 removeView, and full Gradle gate passed on 2026-07-26; Android 8/14/15 AVDs and PCRM00 install rerun remain environment-gated release-retake items.
 - [x] M9.1 Deploy staging and production services - production Docker/compose config, runbook, smoke scripts, backup/restore scripts, full Gradle gate, server installDist, PowerShell parser checks, and secret scan passed on 2026-07-26; actual Docker compose, backup restore, staging, and production deployment remain environment-gated by missing Docker CLI, hosting, database, HTTPS, SMTP, OpenAI credentials, and operator contact.
-- [ ] M9.2 Produce signed Android release.
+- [x] M9.2 Produce signed Android release - versionCode 10000/versionName 1.0.0, external signing config, local release keystore outside Git, signed APK/AAB, checksums, refreshed privacy/release materials, Gradle gates, apksigner verification, secret scan, and Pixel_6 emulator signed-install smoke passed on 2026-07-26; OPPO PCRM00 install remains blocked by phone-side Failure [-99], and production login/AI/account-deletion smoke remains gated by the missing production HTTPS server and credentials.
 
 ## 1. Product Goal
 

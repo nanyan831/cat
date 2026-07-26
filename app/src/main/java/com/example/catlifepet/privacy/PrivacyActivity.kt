@@ -55,7 +55,15 @@ class PrivacyActivity : Activity() {
     private fun render() {
         content.removeAllViews()
         topBar()
-        content.addView(label("CatLifePet 会把本地桌宠能力和云端 AI 能力分开处理。未登录时，小猫悬浮、提醒、拖动、大小、勿扰等设置都只保存在这台设备上。", 14f, false, textSecondary), match(18))
+        content.addView(
+            label(
+                "CatLifePet 会把本地桌宠能力和云端 AI 能力分开处理。未登录时，小猫悬浮、提醒、拖动、大小、勿扰等设置都只保存在这台设备上。",
+                14f,
+                false,
+                textSecondary
+            ),
+            match(18)
+        )
         content.addView(section("权限说明"), match(6))
         content.addView(infoCard("悬浮窗权限", "用于把小猫显示在其他 App 上方。关闭权限后，小猫不会悬浮显示，但 App 内设置仍可使用。"), match(10))
         content.addView(infoCard("通知权限", "用于前台服务通知和生活提醒。Android 13 及以上可以在系统设置里单独关闭通知。"), match(16))
@@ -79,7 +87,14 @@ class PrivacyActivity : Activity() {
         content.addView(actionCard("悬浮窗权限", overlayStatus(), "设置") {
             OverlayPermissionHelper.openOverlayPermissionSettings(this)
         }, match(16))
-        content.addView(infoCard("注销账号会删除什么", "注销会删除云端账号、刷新令牌、聊天记录、陪伴记忆和相关云端资料。本地桌宠位置、大小、提醒开关等设备设置不会被云端注销影响。", danger), match(12))
+        content.addView(
+            infoCard(
+                "注销账号会删除什么",
+                "注销会删除云端账号、刷新令牌、聊天记录、陪伴记忆和相关云端资料。本地桌宠位置、大小、提醒开关等设备设置不会被云端注销影响。",
+                danger
+            ),
+            match(12)
+        )
     }
 
     private fun overlayStatus(): String =

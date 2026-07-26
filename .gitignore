@@ -13,10 +13,13 @@ __pycache__/
 /qa/**/*.png
 /qa/**/*.log
 /qa/**/*logcat*.txt
+/qa/**/*dexdump*.txt
+/qa/**/apk-scan/
 /qa/*.xml
 /qa/**/*.xml
 *.jks
 *.keystore
+release-signing.properties
 .env
 .env.*
 !.env.example

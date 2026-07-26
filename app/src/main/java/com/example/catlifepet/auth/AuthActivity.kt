@@ -335,7 +335,7 @@ class AuthActivity : Activity() {
 
     private fun actionButton(textValue: String, action: () -> Unit) = Button(this).apply {
         text = textValue
-        textSize = 15f
+        textSize = if (textValue == "‹") 30f else 15f
         contentDescription = textValue
         setTextColor(textColor)
         isAllCaps = false

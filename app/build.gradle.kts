@@ -1,8 +1,19 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
 }
+
+val releaseSigningProperties = Properties().apply {
+    val file = rootProject.file("release-signing.properties")
+    if (file.isFile) file.inputStream().use { input -> load(input) }
+}
+
+fun releaseProperty(name: String): String? =
+    providers.gradleProperty(name).orElse(providers.environmentVariable(name)).orNull
+        ?: releaseSigningProperties.getProperty(name)
 
 android {
     namespace = "com.example.catlifepet"
@@ -12,9 +23,32 @@ android {
         applicationId = "com.example.catlifepet"
         minSdk = 23
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 10000
+        versionName = "1.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        create("release") {
+            val storePath = releaseProperty("CATLIFEPET_RELEASE_STORE_FILE")
+            val storePasswordValue = releaseProperty("CATLIFEPET_RELEASE_STORE_PASSWORD")
+            val keyAliasValue = releaseProperty("CATLIFEPET_RELEASE_KEY_ALIAS")
+            val keyPasswordValue = releaseProperty("CATLIFEPET_RELEASE_KEY_PASSWORD")
+            if (!storePath.isNullOrBlank() &&
+                !storePasswordValue.isNullOrBlank() &&
+                !keyAliasValue.isNullOrBlank() &&
+                !keyPasswordValue.isNullOrBlank()
+            ) {
+                storeFile = file(storePath)
+                storePassword = storePasswordValue
+                keyAlias = keyAliasValue
+                keyPassword = keyPasswordValue
+                enableV1Signing = true
+                enableV2Signing = true
+                enableV3Signing = true
+                enableV4Signing = true
+            }
+        }
     }
 
     buildTypes {
@@ -34,6 +68,10 @@ android {
                 "CATLIFEPET_RELEASE_API_BASE_URL must use HTTPS."
             }
             buildConfigField("String", "API_BASE_URL", "\"$apiBaseUrl\"")
+            val releaseSigning = signingConfigs.getByName("release")
+            if (releaseSigning.storeFile != null) {
+                signingConfig = releaseSigning
+            }
         }
     }
 
