@@ -181,3 +181,7 @@ $env:OPENAI_API_KEY = "..."
 $env:CATLIFEPET_RUN_OPENAI_SMOKE = "true"
 .\gradlew.bat :server:test --tests "*OpenAiResponsesProviderTest.optional real provider smoke test"
 ```
+
+For a full phone-to-local-server AI chat run, see `AI_LOCAL_TEST_README.md`. The
+`:server:runDeviceAuthServer` task automatically switches from fake AI to OpenAI when
+`OPENAI_API_KEY` is present in the current environment.

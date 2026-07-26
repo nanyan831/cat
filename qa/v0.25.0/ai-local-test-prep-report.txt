@@ -1,0 +1,25 @@
+CatLifePet AI Local Test Preparation Report
+Date: 2026-07-26
+
+Scope
+- Preserved the current offline/fake-AI development behavior.
+- Updated :server:runDeviceAuthServer so it switches to the OpenAI provider when OPENAI_API_KEY exists in the current environment.
+- Added AI_LOCAL_TEST_README.md with local phone-to-server real AI test steps.
+- Updated server/README.md to point to the AI local test flow.
+
+Important Security Notes
+- No OpenAI API key was present in the local environment during this change.
+- No OpenAI API key was written to Git, Android Gradle configuration, APK, or logs.
+- The Android app still calls CatLifePet Server only; it never calls OpenAI directly.
+
+Checks Run
+- .\gradlew.bat :server:test --tests "*OpenAiResponsesProviderTest*" --tests "*ServerApplicationTest*": PASS
+- .\gradlew.bat :server:testClasses :app:assembleDebug: PASS
+- .\gradlew.bat test assembleDebug assembleRelease lintDebug: PASS
+
+Not Run
+- Real OpenAI smoke test was not run because OPENAI_API_KEY is not configured in this shell.
+- Phone AI chat against a real model was not run for the same reason.
+
+Next Step
+- Set OPENAI_API_KEY in a local PowerShell session, start :server:runDeviceAuthServer, run adb reverse tcp:8080 tcp:8080, install the debug app, log in with code 424242, and send a chat message.
