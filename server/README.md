@@ -25,6 +25,30 @@ startup whenever database configuration is present. `:server:test` starts a real
 temporary PostgreSQL process for migration and repository integration tests, so the
 database checks do not silently fall back to H2.
 
+## Production-like Docker
+
+Deployment artifacts live at the repository root:
+
+- `Dockerfile`
+- `docker-compose.production.yml`
+- `ops/env.production.example`
+- `ops/DEPLOYMENT_RUNBOOK.md`
+- `ops/smoke-test.ps1`
+- `ops/backup-postgres.ps1`
+- `ops/restore-postgres.ps1`
+
+Start a local production-like stack after filling `ops/env.production.local`:
+
+```powershell
+docker compose -f docker-compose.production.yml --env-file ops/env.production.local up -d --build
+.\ops\smoke-test.ps1 -BaseUrl http://localhost:8080
+```
+
+Real staging and production deployment require an HTTPS host, managed PostgreSQL,
+SMTP credentials, and an OpenAI API key stored in the deployment secret manager.
+See `ops/DEPLOYMENT_RUNBOOK.md` for rollout, backup, restore, smoke, and rotation
+steps.
+
 ## Environments
 
 - `development`: local defaults are allowed.

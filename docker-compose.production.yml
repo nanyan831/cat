@@ -1,0 +1,43 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-catlifepet}
+      POSTGRES_USER: ${POSTGRES_USER:-catlifepet}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+    volumes:
+      - catlifepet-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-catlifepet} -d ${POSTGRES_DB:-catlifepet}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - ./ops/env.production.local
+    environment:
+      HOST: 0.0.0.0
+      PORT: 8080
+      CATLIFEPET_ENV: production
+      DATABASE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-catlifepet}
+      DATABASE_USER: ${POSTGRES_USER:-catlifepet}
+      DATABASE_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+    ports:
+      - "${CATLIFEPET_SERVER_PORT:-8080}:8080"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "http://127.0.0.1:8080/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  catlifepet-postgres:

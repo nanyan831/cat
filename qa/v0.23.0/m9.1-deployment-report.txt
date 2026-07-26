@@ -1,0 +1,36 @@
+﻿CatLifePet M9.1 Deployment Configuration QA Report
+Date: 2026-07-26
+
+Scope
+- Added production Docker image definition for the Ktor server.
+- Added production-like docker compose stack with PostgreSQL health checks.
+- Added production environment template, deployment runbook, smoke test script, and PostgreSQL backup/restore scripts.
+- Documented real staging/production external inputs: hosting target, managed PostgreSQL, HTTPS domain/cert, SMTP credentials, OpenAI API key, and operator contact.
+
+Files
+- Dockerfile
+- docker-compose.production.yml
+- ops/env.production.example
+- ops/DEPLOYMENT_RUNBOOK.md
+- ops/smoke-test.ps1
+- ops/backup-postgres.ps1
+- ops/restore-postgres.ps1
+- server/README.md
+- .gitignore
+
+Checks Run
+- PowerShell parser check for ops/smoke-test.ps1, ops/backup-postgres.ps1, ops/restore-postgres.ps1: PASS
+- .\gradlew.bat test assembleDebug assembleRelease lintDebug: PASS
+- .\gradlew.bat :server:installDist: PASS
+- Repository secret scan for OpenAI/JWT/token placeholders excluding build and QA output: PASS, no real secret pattern hit.
+
+Environment-Gated Checks
+- docker --version: BLOCKED, Docker CLI is not installed or not on PATH on this Windows machine.
+- docker compose production-like startup: NOT RUN because Docker CLI is unavailable.
+- backup/restore exercise through docker compose: NOT RUN because Docker CLI is unavailable.
+- real staging deployment: NOT RUN because hosting, managed PostgreSQL, HTTPS domain/certificate, SMTP credentials, OpenAI API key, and operator contact are not configured in this workspace.
+- production deployment: NOT RUN for the same external-input reasons.
+
+Risk / Follow-up
+- Before a public release, install Docker or run these artifacts on the chosen host, create ops/env.production.local from the example using real staging secrets, start the stack, run ops/smoke-test.ps1, then exercise ops/backup-postgres.ps1 and ops/restore-postgres.ps1 against a disposable restore database.
+- Promote the exact image digest that passes staging; do not rebuild separately for production.
