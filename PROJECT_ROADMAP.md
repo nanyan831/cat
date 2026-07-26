@@ -20,7 +20,7 @@ Last updated: 2026-07-26
 - [x] M6.2 Harden overlay service lifecycle - persisted hide restoration, duplicate-view guards, explicit special-use FGS startup, notification-denied behavior, process death, full regression, and dual-device checks passed on 2026-07-22.
 - [x] M7.1 Replace final visual and release resources - 90 pet PNGs passed canvas/alpha/anchor contracts; launcher, monochrome, notification, and splash resources plus three-size edge/bubble checks passed on 2026-07-22.
 - [x] M7.2 Complete account, privacy, and accessibility UI - settings entries, privacy/data page, deletion routes, accessibility contracts, large-font screenshot, release debuggable check, and Pixel emulator tests passed on 2026-07-26; PCRM00 install channel timed out and needs phone-side USB install confirmation before rerun.
-- [ ] M8.1 Automated regression suite.
+- [x] M8.1 Automated regression suite - CatStateManager listener contracts, quota window/IP decisions, app unit tests, server PostgreSQL/migration integration, emulator Android UI smoke, Debug/Release builds, and lint passed on 2026-07-26.
 - [ ] M8.2 Device endurance and compatibility qualification.
 - [ ] M9.1 Deploy staging and production services.
 - [ ] M9.2 Produce signed Android release.

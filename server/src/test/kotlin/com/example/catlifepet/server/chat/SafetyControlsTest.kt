@@ -13,6 +13,7 @@ import java.time.ZoneId
 import java.time.ZoneOffset
 import java.util.UUID
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertIs
 import kotlin.test.assertTrue
 
@@ -42,9 +43,33 @@ class SafetyControlsTest {
         assertEquals(10, admitted.count { it })
         assertTrue(admitted.count { !it } == 54)
     }
+
+    @Test
+    fun `limiter enforces ip quota and resets after the minute window`() {
+        val clock = MutableClock(Instant.parse("2026-07-22T00:00:00Z"))
+        val limiter = ChatRequestLimiter(
+            AiSettings(maximumUserRequestsPerMinute = 100, maximumIpRequestsPerMinute = 2),
+            clock
+        )
+
+        limiter.check(UUID.randomUUID(), "203.0.113.9")
+        limiter.check(UUID.randomUUID(), "203.0.113.9")
+        assertFailsWith<ApiException> {
+            limiter.check(UUID.randomUUID(), "203.0.113.9")
+        }
+
+        clock.instant = clock.instant.plusSeconds(60)
+        limiter.check(UUID.randomUUID(), "203.0.113.9")
+    }
 }
 
 private class FixedClock(private val instant: Instant) : Clock() {
+    override fun getZone(): ZoneId = ZoneOffset.UTC
+    override fun withZone(zone: ZoneId): Clock = this
+    override fun instant(): Instant = instant
+}
+
+private class MutableClock(var instant: Instant) : Clock() {
     override fun getZone(): ZoneId = ZoneOffset.UTC
     override fun withZone(zone: ZoneId): Clock = this
     override fun instant(): Instant = instant

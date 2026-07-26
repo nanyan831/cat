@@ -1,0 +1,77 @@
+CatLifePet M8.1 Automated Regression Report
+Date: 2026-07-26
+
+New coverage added
+
+- CatStateManagerTest:
+  - Listener receives IDLE immediately and then ordered transitions.
+  - Same-state switch re-notifies listeners so one-shot animations can replay.
+  - Removed listeners no longer receive future transitions.
+
+- CatStateManager runtime hardening:
+  - Logger is injectable for JVM tests.
+  - removeListener now removes by identity or equality, covering function-reference listener cleanup.
+
+- SafetyControlsTest:
+  - IP quota is enforced independently from user quota.
+  - The one-minute limiter window resets and admits requests again after 60 seconds.
+
+Existing regression matrix exercised
+
+- Reminder time logic:
+  - Cross-midnight DND.
+  - Mute-today rollover.
+  - Local wall-clock meal/sleep scheduling across timezone/DST.
+  - Debug reminder intervals.
+
+- Authentication:
+  - Login code flow.
+  - Refresh token rotation.
+  - Replay defense.
+  - Logout and account deletion paths.
+  - Encrypted Android session storage.
+
+- Streaming chat:
+  - SSE event order.
+  - Idempotent replay.
+  - Provider failure fallback.
+  - Timeout fallback.
+  - Bounded concurrency.
+  - Room cache and pending message recovery.
+
+- Companion memory:
+  - Explicit memory CRUD.
+  - Owner-only access.
+  - Prompt context bounds.
+  - Deleted memory excluded from later prompts.
+
+- PostgreSQL and migrations:
+  - Embedded PostgreSQL repository integration.
+  - Fresh migrations.
+  - Conversation persistence across PostgreSQL restart.
+  - Daily quota persistence across application restart.
+
+Checks executed
+
+- .\gradlew.bat test
+  Result: PASS.
+  App debug unit tests: 23, failures: 0.
+  App release unit tests: 23, failures: 0.
+  Server tests: 55, failures: 0.
+
+- .\gradlew.bat :server:test --rerun-tasks
+  Result: PASS.
+  This forced a fresh server test run instead of relying on Gradle cache.
+
+- .\gradlew.bat test assembleDebug assembleRelease lintDebug
+  Result: PASS.
+
+- Pixel_6 emulator full instrumentation run:
+  Command: adb shell am instrument -w -r com.example.catlifepet.test/androidx.test.runner.AndroidJUnitRunner
+  Result: OK, 14 tests.
+  Notes: DeviceAuthSmokeInstrumentedTest, DeviceChatSmokeInstrumentedTest, and DeviceMemorySmokeInstrumentedTest were assumption-skipped because the local development auth server and adb reverse arguments were not enabled for this general run.
+
+Device notes
+
+- Pixel_6 emulator: passed full instrumentation suite.
+- OPPO PCRM00: still reachable over adb shell, but package installation timed out during M7.2. It remains a phone-side USB install authorization/channel follow-up for M8.2 device qualification.

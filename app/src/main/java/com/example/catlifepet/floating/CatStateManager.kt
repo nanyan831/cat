@@ -1,7 +1,10 @@
 package com.example.catlifepet.floating
 
 import android.util.Log
-class CatStateManager {
+
+class CatStateManager(
+    private val logger: (String) -> Unit = { Log.d(TAG, it) }
+) {
     var currentState: CatState = CatState.IDLE
         private set
 
@@ -13,7 +16,7 @@ class CatStateManager {
     }
 
     fun removeListener(listener: (CatState) -> Unit) {
-        listeners.remove(listener)
+        listeners.removeAll { it === listener || it == listener }
     }
 
     fun switchTo(state: CatState) {
@@ -22,7 +25,7 @@ class CatStateManager {
             listeners.forEach { it(state) }
             return
         }
-        Log.d(TAG, "小猫状态切换: $currentState -> $state")
+        logger("小猫状态切换: $currentState -> $state")
         currentState = state
         listeners.forEach { it(state) }
     }
