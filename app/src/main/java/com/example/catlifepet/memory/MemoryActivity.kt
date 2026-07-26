@@ -78,11 +78,14 @@ class MemoryActivity : ComponentActivity() {
         content.addView(label("只保存你明确填写的内容", 17f, true), margins(10))
         content.addView(label("小猫不会把聊天中的敏感推测自动保存为长期记忆。你可以随时查看或删除。", 14f, false, textSecondary), margins(14))
         kindSpinner = Spinner(this)
+        kindSpinner.contentDescription = "记忆类型"
         kindSpinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, KIND_LABELS.map { it.first })
         content.addView(kindSpinner, cardParams(8))
         memoryInput = EditText(this).apply {
             hint = "例如：请叫我小雨"
             maxLines = 4
+            minHeight = dp(52)
+            contentDescription = "记忆内容"
             setTextColor(textPrimary)
             setHintTextColor(textSecondary)
             setPadding(dp(14), dp(12), dp(14), dp(12))
@@ -135,7 +138,9 @@ class MemoryActivity : ComponentActivity() {
                 orientation = LinearLayout.HORIZONTAL
                 gravity = Gravity.CENTER_VERTICAL
                 setPadding(dp(14), dp(12), dp(8), dp(12))
+                minimumHeight = dp(64)
                 background = rounded(surface, 8)
+                contentDescription = "${kindLabel(memory.kind)}，${memory.content}"
                 tag = DYNAMIC_TAG
             }
             val description = "${kindLabel(memory.kind)}\n${memory.content}"
@@ -235,11 +240,14 @@ class MemoryActivity : ComponentActivity() {
         textSize = size
         setTextColor(color)
         if (bold) setTypeface(typeface, Typeface.BOLD)
+        setLineSpacing(0f, 1.15f)
     }
 
     private fun button(value: String, action: () -> Unit) = Button(this).apply {
         text = value
         isAllCaps = false
+        minHeight = dp(48)
+        contentDescription = value
         setTextColor(textPrimary)
         background = rounded(warmSurface, 8)
         stateListAnimator = null

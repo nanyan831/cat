@@ -35,6 +35,7 @@ import com.example.catlifepet.auth.AuthActivity
 import com.example.catlifepet.auth.AuthGraph
 import com.example.catlifepet.chat.ChatActivity
 import com.example.catlifepet.memory.MemoryActivity
+import com.example.catlifepet.privacy.PrivacyActivity
 import com.example.catlifepet.floating.CatFloatingService
 import com.example.catlifepet.floating.CatState
 import com.example.catlifepet.floating.GrowthUnlockManager
@@ -353,8 +354,14 @@ class MainActivity : Activity() {
         root.addView(cardRow("☁", "账号与云同步", accountSubtitle, "›") {
             startActivity(Intent(this, AuthActivity::class.java))
         }, match(dp(12)))
-        root.addView(cardRow("✦", "陪伴记忆与聊天数据", "查看、删除记忆或清空云端聊天", "›") {
+        root.addView(cardRow("☰", "聊天记录", "查看历史会话，继续或删除当前聊天", "›") {
+            startActivity(Intent(this, ChatActivity::class.java))
+        }, match(dp(12)))
+        root.addView(cardRow("✦", "陪伴记忆", "查看、添加或删除小猫使用的长期记忆", "›") {
             startActivity(Intent(this, MemoryActivity::class.java))
+        }, match(dp(12)))
+        root.addView(cardRow("ⓘ", "隐私与数据", "了解权限、账号数据、AI 处理和删除入口", "›") {
+            startActivity(Intent(this, PrivacyActivity::class.java))
         }, match(dp(12)))
         settingsEntry(root, "🐱", "桌宠设置", "悬浮窗、行为、外观等", Screen.PET_SETTINGS)
         settingsEntry(root, "◔", "勿扰设置", "免打扰时段与提醒规则", Screen.DND_SETTINGS)
@@ -484,7 +491,7 @@ class MainActivity : Activity() {
     private fun topBar(root: LinearLayout, title: String, action: String, onAction: () -> Unit) {
         val row = LinearLayout(this).apply { gravity = Gravity.CENTER_VERTICAL }
         row.addView(text(title, 24f, TEXT_PRIMARY, true), LinearLayout.LayoutParams(0, -2, 1f))
-        row.addView(Button(this).apply { text = action; setAllCaps(false); background = rounded(Color.TRANSPARENT, 14); setOnClickListener { onAction() } }, LinearLayout.LayoutParams(dp(54), dp(48)))
+        row.addView(Button(this).apply { text = action; contentDescription = "打开设置"; setAllCaps(false); background = rounded(Color.TRANSPARENT, 14); setOnClickListener { onAction() } }, LinearLayout.LayoutParams(dp(54), dp(48)))
         root.addView(row, match(dp(14)))
     }
 
@@ -495,7 +502,7 @@ class MainActivity : Activity() {
 
     private fun backBar(root: LinearLayout, title: String) {
         val row = LinearLayout(this).apply { gravity = Gravity.CENTER_VERTICAL }
-        row.addView(Button(this).apply { text = "‹"; textSize = 30f; setAllCaps(false); background = rounded(Color.TRANSPARENT, 14); setOnClickListener { screen = screen.parent!!; render(screen) } }, LinearLayout.LayoutParams(dp(52), dp(52)))
+        row.addView(Button(this).apply { text = "‹"; contentDescription = "返回"; textSize = 30f; setAllCaps(false); background = rounded(Color.TRANSPARENT, 14); setOnClickListener { screen = screen.parent!!; render(screen) } }, LinearLayout.LayoutParams(dp(52), dp(52)))
         row.addView(text(title, 22f, TEXT_PRIMARY, true), LinearLayout.LayoutParams(0, -2, 1f))
         root.addView(row, match(dp(10)))
     }
@@ -524,7 +531,17 @@ class MainActivity : Activity() {
     }
 
     private fun cardRow(icon: String, title: String, subtitle: String, action: String?, onClick: (() -> Unit)? = null): LinearLayout {
-        val card = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setPadding(dp(16), dp(14), dp(14), dp(14)); background = rounded(SURFACE, 18); isClickable = onClick != null; if (onClick != null) foreground = selectableItemBackground(); setOnClickListener { onClick?.invoke() } }
+        val card = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            setPadding(dp(16), dp(14), dp(14), dp(14))
+            minimumHeight = dp(64)
+            background = rounded(SURFACE, 18)
+            contentDescription = if (action != null) "$title，$subtitle，$action" else "$title，$subtitle"
+            isClickable = onClick != null
+            if (onClick != null) foreground = selectableItemBackground()
+            setOnClickListener { onClick?.invoke() }
+        }
         card.addView(text(icon, 24f, PRIMARY, false), LinearLayout.LayoutParams(dp(42), -2))
         val copy = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
         copy.addView(text(title, 15f, TEXT_PRIMARY, true), wrap())
@@ -568,10 +585,10 @@ class MainActivity : Activity() {
 
     private fun chip(parent: LinearLayout, value: String) { parent.addView(text(value, 12f, TEXT_PRIMARY, true).apply { gravity = Gravity.CENTER; background = rounded(PRIMARY_LIGHT, 14); setPadding(dp(10), dp(8), dp(10), dp(8)) }, weightParams()) }
 
-    private fun navItem(icon: String, label: String, onClick: () -> Unit): TextView = text("$icon\n$label", 12f, TEXT_SECONDARY, true).apply { gravity = Gravity.CENTER; setOnClickListener { onClick() } }
+    private fun navItem(icon: String, label: String, onClick: () -> Unit): TextView = text("$icon\n$label", 12f, TEXT_SECONDARY, true).apply { gravity = Gravity.CENTER; contentDescription = label; minHeight = dp(48); setOnClickListener { onClick() } }
 
     private fun section(value: String) = text(value, 18f, TEXT_PRIMARY, true).apply { setPadding(0, dp(10), 0, dp(4)) }
-    private fun text(value: String, size: Float, color: Int, bold: Boolean) = TextView(this).apply { text = value; textSize = size; setTextColor(color); if (bold) setTypeface(typeface, android.graphics.Typeface.BOLD) }
+    private fun text(value: String, size: Float, color: Int, bold: Boolean) = TextView(this).apply { text = value; textSize = size; setTextColor(color); if (bold) setTypeface(typeface, android.graphics.Typeface.BOLD); setLineSpacing(0f, 1.15f) }
     private fun column(left: Int, top: Int) = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(left, top, left, dp(110)) }
     private fun cardColumn(color: Int, radius: Int) = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(16), dp(14), dp(16), dp(14)); background = rounded(color, radius) }
     private fun rounded(color: Int, radius: Int) = GradientDrawable().apply { setColor(color); cornerRadius = dp(radius).toFloat() }

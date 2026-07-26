@@ -81,7 +81,7 @@ class ChatActivity : ComponentActivity() {
         }
         root.addView(status, LinearLayout.LayoutParams(-1, -2))
         stateAction = primaryButton("重试") { viewModel.load() }.apply { visibility = View.GONE }
-        root.addView(stateAction, LinearLayout.LayoutParams(-1, dp(44)).apply {
+        root.addView(stateAction, LinearLayout.LayoutParams(-1, dp(48)).apply {
             marginStart = dp(16); marginEnd = dp(16); bottomMargin = dp(6)
         })
 
@@ -102,6 +102,7 @@ class ChatActivity : ComponentActivity() {
         }
         input = EditText(this).apply {
             hint = "想和小猫说点什么？"
+            contentDescription = "聊天输入框"
             textSize = 16f
             setTextColor(textPrimary)
             setHintTextColor(textSecondary)
@@ -162,6 +163,7 @@ class ChatActivity : ComponentActivity() {
                 ChatScreenStatus.ERROR
             )) View.VISIBLE else View.GONE
         stateAction.text = if (state.status == ChatScreenStatus.SESSION_EXPIRED) "去登录" else "重试"
+        stateAction.contentDescription = stateAction.text
         stateAction.setOnClickListener {
             if (state.status == ChatScreenStatus.SESSION_EXPIRED) {
                 startActivity(Intent(this, AuthActivity::class.java))
@@ -216,6 +218,8 @@ class ChatActivity : ComponentActivity() {
         text = value
         textSize = 14f
         isAllCaps = false
+        minHeight = dp(48)
+        contentDescription = value
         setTextColor(textPrimary)
         background = rounded(appBackground, 8)
         stateListAnimator = null
@@ -227,6 +231,7 @@ class ChatActivity : ComponentActivity() {
         textSize = size
         setTextColor(color)
         if (bold) setTypeface(typeface, Typeface.BOLD)
+        setLineSpacing(0f, 1.15f)
     }
 
     private fun rounded(color: Int, radiusDp: Int) = GradientDrawable().apply {

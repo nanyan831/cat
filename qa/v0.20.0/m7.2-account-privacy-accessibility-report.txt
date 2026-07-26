@@ -1,0 +1,52 @@
+CatLifePet M7.2 Account, Privacy, And Accessibility Report
+Date: 2026-07-26
+
+Scope completed
+
+- Added separate settings entries for account sync, chat history, companion memory, and privacy/data.
+- Added PrivacyActivity with plain-language explanations for overlay permission, notifications, local settings, account data, cloud chat, companion memory, AI processing, deletion, and account cancellation.
+- Added root PRIVACY_POLICY.md as the source copy for release/privacy materials.
+- Added accessible labels and 48dp minimum target handling across MainActivity cards, navigation, ChatActivity action/input controls, MemoryActivity controls, and AuthActivity inputs/back action.
+- Added AccessibilityContractInstrumentedTest to verify primary clickable controls have a label and meet the 48dp target contract.
+
+Checks executed
+
+- .\gradlew.bat :app:testDebugUnitTest
+  Result: PASS.
+
+- .\gradlew.bat :app:assembleDebug :app:assembleRelease :app:lintDebug
+  Result: PASS.
+  Note: lint generated reports and did not fail the build.
+
+- .\gradlew.bat test assembleDebug assembleRelease lintDebug
+  Result: PASS.
+
+- .\gradlew.bat :app:assembleDebug :app:assembleDebugAndroidTest
+  Result: PASS.
+
+- Pixel_6 emulator adb instrumentation:
+  Classes:
+  com.example.catlifepet.AccessibilityContractInstrumentedTest
+  com.example.catlifepet.auth.AuthActivityInstrumentedTest
+  com.example.catlifepet.chat.ChatActivityInstrumentedTest
+  com.example.catlifepet.memory.MemoryActivityInstrumentedTest
+  Result: PASS, 5 tests.
+
+- Large font screenshot:
+  Device: Pixel_6 emulator.
+  Font scale: 1.3.
+  Artifact: qa/v0.20.0/m7.2-large-font-settings.png.
+  Result: Settings page entries wrap without obvious overlap.
+
+- Release Debug visibility:
+  app/build/intermediates/merged_manifest/release/processReleaseMainManifest/AndroidManifest.xml has no android:debuggable entry.
+  Debug-only tools remain guarded behind ApplicationInfo.FLAG_DEBUGGABLE in MainActivity.
+
+Device notes
+
+- Pixel_6 emulator: instrumentation passed.
+- OPPO PCRM00 Android 12: device shell remained online, but adb install and pm install timed out without returning installer output. This appears to be a phone-side USB install channel/ColorOS authorization issue rather than an APK or instrumentation failure. Rerun after confirming USB install authorization on the phone.
+
+Known follow-up
+
+- Release APK is currently app-release-unsigned.apk; installable release verification will be completed during M9.2 after creating the release signing configuration.

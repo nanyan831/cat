@@ -91,7 +91,7 @@ class AuthActivity : Activity() {
 
     private fun addTopBar() {
         val row = LinearLayout(this).apply { gravity = Gravity.CENTER_VERTICAL }
-        row.addView(actionButton("‹") { finish() }, LinearLayout.LayoutParams(dp(48), dp(48)))
+        row.addView(actionButton("‹") { finish() }.apply { contentDescription = "返回" }, LinearLayout.LayoutParams(dp(48), dp(48)))
         row.addView(label("账号与云同步", 22f, true, textColor), LinearLayout.LayoutParams(0, -2, 1f))
         content.addView(row, match(dp(18)))
     }
@@ -311,6 +311,7 @@ class AuthActivity : Activity() {
 
     private fun input(hintText: String, type: Int) = EditText(this).apply {
         hint = hintText
+        contentDescription = hintText
         inputType = type
         textSize = 16f
         setTextColor(textColor)
@@ -335,6 +336,7 @@ class AuthActivity : Activity() {
     private fun actionButton(textValue: String, action: () -> Unit) = Button(this).apply {
         text = textValue
         textSize = 15f
+        contentDescription = textValue
         setTextColor(textColor)
         isAllCaps = false
         minHeight = dp(48)
