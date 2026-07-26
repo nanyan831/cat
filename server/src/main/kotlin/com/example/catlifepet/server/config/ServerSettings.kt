@@ -30,7 +30,8 @@ data class ServerSettings(
                 jwtSecret = config.optionalString("catlifepet.jwtSecret"),
                 tokenPepper = config.optionalString("catlifepet.tokenPepper"),
                 smtp = loadSmtpSettings(config),
-                openAiApiKey = config.optionalString("catlifepet.openAiApiKey")
+                openAiApiKey = config.optionalString("catlifepet.openAiApiKey"),
+                deepSeekApiKey = config.optionalString("catlifepet.deepSeekApiKey")
             )
             validateConfiguredSecrets(configuredSensitive)
 
@@ -39,7 +40,12 @@ data class ServerSettings(
             }
 
             val sensitive = configuredSensitive.withDevelopmentDefaults(environment)
-            val ai = loadAiSettings(config, environment, sensitive.openAiApiKey)
+            val ai = loadAiSettings(
+                config = config,
+                environment = environment,
+                openAiApiKey = sensitive.openAiApiKey,
+                deepSeekApiKey = sensitive.deepSeekApiKey
+            )
 
             return ServerSettings(
                 environment = environment,
@@ -75,7 +81,8 @@ data class ServerSettings(
                     jwtSecret = DEVELOPMENT_JWT_SECRET,
                     tokenPepper = DEVELOPMENT_TOKEN_PEPPER,
                     smtp = null,
-                    openAiApiKey = null
+                    openAiApiKey = null,
+                    deepSeekApiKey = null
                 )
             )
         }
@@ -145,16 +152,24 @@ data class ServerSettings(
         private fun loadAiSettings(
             config: ApplicationConfig,
             environment: AppEnvironment,
-            apiKey: String?
+            openAiApiKey: String?,
+            deepSeekApiKey: String?
         ): AiSettings {
             val configuredBackend = config.optionalString("catlifepet.aiProvider")
             val backend = configuredBackend?.let(AiBackend::parse)
-                ?: if (apiKey == null) AiBackend.FAKE else AiBackend.OPENAI
-            if (backend == AiBackend.OPENAI && apiKey == null) {
+                ?: when {
+                    deepSeekApiKey != null -> AiBackend.DEEPSEEK
+                    openAiApiKey != null -> AiBackend.OPENAI
+                    else -> AiBackend.FAKE
+                }
+            if (backend == AiBackend.OPENAI && openAiApiKey == null) {
                 throw ServerConfigurationException("OPENAI_API_KEY is required when CATLIFEPET_AI_PROVIDER=openai.")
             }
-            if (environment == AppEnvironment.PRODUCTION && backend != AiBackend.OPENAI) {
-                throw ServerConfigurationException("Production requires CATLIFEPET_AI_PROVIDER=openai.")
+            if (backend == AiBackend.DEEPSEEK && deepSeekApiKey == null) {
+                throw ServerConfigurationException("DEEPSEEK_API_KEY is required when CATLIFEPET_AI_PROVIDER=deepseek.")
+            }
+            if (environment == AppEnvironment.PRODUCTION && backend == AiBackend.FAKE) {
+                throw ServerConfigurationException("Production requires CATLIFEPET_AI_PROVIDER=deepseek or openai.")
             }
 
             val baseUrl = config.optionalString("catlifepet.openAiBaseUrl") ?: AiSettings.DEFAULT_OPENAI_BASE_URL
@@ -164,10 +179,28 @@ data class ServerSettings(
                 throw ServerConfigurationException("OPENAI_BASE_URL must be an absolute URL; production requires HTTPS.")
             }
 
+            val deepSeekBaseUrl = config.optionalString("catlifepet.deepSeekBaseUrl")
+                ?: AiSettings.DEFAULT_DEEPSEEK_BASE_URL
+            val deepSeekUri = runCatching { URI(deepSeekBaseUrl) }.getOrNull()
+            val validDeepSeekScheme = deepSeekUri?.scheme == "https" ||
+                environment != AppEnvironment.PRODUCTION && deepSeekUri?.scheme == "http"
+            if (!validDeepSeekScheme || deepSeekUri?.host.isNullOrBlank()) {
+                throw ServerConfigurationException("DEEPSEEK_BASE_URL must be an absolute URL; production requires HTTPS.")
+            }
+
+            val configuredModel = when (backend) {
+                AiBackend.DEEPSEEK -> config.optionalString("catlifepet.deepSeekModel")
+                    ?: config.optionalString("catlifepet.openAiModel")
+                AiBackend.OPENAI -> config.optionalString("catlifepet.openAiModel")
+                AiBackend.FAKE -> config.optionalString("catlifepet.deepSeekModel")
+                    ?: config.optionalString("catlifepet.openAiModel")
+            }
+
             return AiSettings(
                 backend = backend,
-                model = config.optionalString("catlifepet.openAiModel") ?: AiSettings.DEFAULT_MODEL,
+                model = configuredModel ?: backend.defaultModel(),
                 openAiBaseUrl = baseUrl.trimEnd('/'),
+                deepSeekBaseUrl = deepSeekBaseUrl.trimEnd('/'),
                 storeResponses = config.optionalBoolean("catlifepet.openAiStoreResponses") ?: false,
                 requestTimeout = Duration.ofSeconds(
                     (config.optionalInt("catlifepet.aiTimeoutSeconds", 1..120) ?: 30).toLong()
@@ -221,7 +254,9 @@ data class ServerSettings(
                     add("SMTP_PASSWORD")
                     add("SMTP_FROM")
                 }
-                if (sensitive.openAiApiKey == null) add("OPENAI_API_KEY")
+                if (sensitive.openAiApiKey == null && sensitive.deepSeekApiKey == null) {
+                    add("OPENAI_API_KEY or DEEPSEEK_API_KEY")
+                }
             }
             if (missing.isNotEmpty()) {
                 throw ServerConfigurationException(
@@ -256,13 +291,20 @@ data class AuthSettings(
 
 enum class AiBackend(val wireName: String) {
     FAKE("fake"),
-    OPENAI("openai");
+    OPENAI("openai"),
+    DEEPSEEK("deepseek");
 
     companion object {
         fun parse(value: String): AiBackend {
             return entries.firstOrNull { it.wireName == value.trim().lowercase() }
-                ?: throw ServerConfigurationException("Invalid CATLIFEPET_AI_PROVIDER. Expected fake or openai.")
+                ?: throw ServerConfigurationException("Invalid CATLIFEPET_AI_PROVIDER. Expected fake, deepseek, or openai.")
         }
+    }
+
+    fun defaultModel(): String = when (this) {
+        FAKE -> AiSettings.DEFAULT_MODEL
+        OPENAI -> AiSettings.DEFAULT_OPENAI_MODEL
+        DEEPSEEK -> AiSettings.DEFAULT_DEEPSEEK_MODEL
     }
 }
 
@@ -270,6 +312,7 @@ data class AiSettings(
     val backend: AiBackend = AiBackend.FAKE,
     val model: String = DEFAULT_MODEL,
     val openAiBaseUrl: String = DEFAULT_OPENAI_BASE_URL,
+    val deepSeekBaseUrl: String = DEFAULT_DEEPSEEK_BASE_URL,
     val storeResponses: Boolean = false,
     val requestTimeout: Duration = Duration.ofSeconds(30),
     val maximumInputCharacters: Int = 12_000,
@@ -281,8 +324,11 @@ data class AiSettings(
     val circuitOpenDuration: Duration = Duration.ofSeconds(30)
 ) {
     companion object {
-        const val DEFAULT_MODEL = "gpt-5.6-luna"
+        const val DEFAULT_OPENAI_MODEL = "gpt-4o-mini"
+        const val DEFAULT_DEEPSEEK_MODEL = "deepseek-v4-flash"
+        const val DEFAULT_MODEL = DEFAULT_DEEPSEEK_MODEL
         const val DEFAULT_OPENAI_BASE_URL = "https://api.openai.com/v1"
+        const val DEFAULT_DEEPSEEK_BASE_URL = "https://api.deepseek.com"
     }
 }
 
@@ -291,10 +337,11 @@ class SensitiveSettings(
     val jwtSecret: String?,
     val tokenPepper: String?,
     val smtp: SmtpSettings?,
-    val openAiApiKey: String?
+    val openAiApiKey: String?,
+    val deepSeekApiKey: String?
 ) {
     override fun toString(): String {
-        return "SensitiveSettings(database=<redacted>, jwtSecret=<redacted>, tokenPepper=<redacted>, smtp=<redacted>, openAiApiKey=<redacted>)"
+        return "SensitiveSettings(database=<redacted>, jwtSecret=<redacted>, tokenPepper=<redacted>, smtp=<redacted>, openAiApiKey=<redacted>, deepSeekApiKey=<redacted>)"
     }
 
     internal fun withDevelopmentDefaults(environment: AppEnvironment): SensitiveSettings {
@@ -304,7 +351,8 @@ class SensitiveSettings(
             jwtSecret = jwtSecret ?: "development-only-jwt-secret-change-me",
             tokenPepper = tokenPepper ?: "development-only-token-pepper-change-me",
             smtp = smtp,
-            openAiApiKey = openAiApiKey
+            openAiApiKey = openAiApiKey,
+            deepSeekApiKey = deepSeekApiKey
         )
     }
 }

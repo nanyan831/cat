@@ -1,0 +1,31 @@
+CatLifePet v0.26.0 DeepSeek provider report
+Date: 2026-07-26
+
+Scope
+- Switched the primary real AI provider path from OpenAI to DeepSeek.
+- Kept the existing OpenAI adapter as an explicit fallback provider.
+- Added server-side DeepSeek Chat Completions request, non-stream parsing, SSE delta parsing, and provider error mapping.
+- Updated local, production, privacy, and release documentation to use DEEPSEEK_API_KEY.
+
+Configuration
+- Primary provider: deepseek
+- Default model: deepseek-v4-flash
+- Default base URL: https://api.deepseek.com
+- Server can still run without DEEPSEEK_API_KEY in development by using the deterministic fake provider.
+- Android still calls CatLifePet Server only; DeepSeek credentials are server-only.
+
+Validation
+- PASS: .\gradlew.bat :server:test --tests "*DeepSeekChatCompletionsProviderTest*" --tests "*ServerSettingsTest*" --tests "*OpenAiResponsesProviderTest*"
+- PASS: .\gradlew.bat test assembleDebug assembleRelease lintDebug
+- PASS: Release APK installed on connected device c03f36c.
+- PASS: App launched on connected device c03f36c and process started.
+- PASS: Repository secret scan found no real DeepSeek/OpenAI API key patterns. The only hits were placeholder JWT/pepper fields in example env files.
+
+Not Run
+- Real paid DeepSeek smoke test was not run because DEEPSEEK_API_KEY is not configured in this shell.
+
+Next Manual Test
+- Set DEEPSEEK_API_KEY in a local PowerShell session.
+- Run :server:runDeviceAuthServer.
+- Run adb reverse tcp:8080 tcp:8080.
+- Log in with local code 424242 and send a chat message from the phone.

@@ -45,7 +45,7 @@ docker compose -f docker-compose.production.yml --env-file ops/env.production.lo
 ```
 
 Real staging and production deployment require an HTTPS host, managed PostgreSQL,
-SMTP credentials, and an OpenAI API key stored in the deployment secret manager.
+SMTP credentials, and a DeepSeek API key stored in the deployment secret manager.
 See `ops/DEPLOYMENT_RUNBOOK.md` for rollout, backup, restore, smoke, and rotation
 steps.
 
@@ -66,9 +66,10 @@ Production variables:
 - `CATLIFEPET_TOKEN_PEPPER`
 - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USERNAME`, `SMTP_PASSWORD`, `SMTP_FROM`
 - `SMTP_STARTTLS=true`
-- `OPENAI_API_KEY`
-- Optional `OPENAI_MODEL` (defaults to `gpt-5.6-luna`)
-- Optional `CATLIFEPET_AI_PROVIDER=openai` (automatically selected when a key exists)
+- `DEEPSEEK_API_KEY`
+- `CATLIFEPET_AI_PROVIDER=deepseek`
+- Optional `DEEPSEEK_MODEL` (defaults to `deepseek-v4-flash`)
+- Optional `DEEPSEEK_BASE_URL` (defaults to `https://api.deepseek.com`)
 - Optional `HOST` and `PORT`
 
 Secrets are never written to normal application logs or configuration errors. Keep them in the deployment platform's secret manager and never in Git.
@@ -139,19 +140,19 @@ deterministic order. Deleting a memory excludes it from the next model request.
 
 ## AI Gateway
 
-The server owns all model credentials. Never add `OPENAI_API_KEY` to Android Gradle
+The server owns all model credentials. Never add `DEEPSEEK_API_KEY` to Android Gradle
 properties, resources, `BuildConfig`, APKs, or client logs.
 
 Development without an API key uses `DeterministicFakeAiProvider`; production requires
-the OpenAI provider and a server-side key. The OpenAI adapter uses the Responses API and
-defaults to `gpt-5.6-luna`, which is appropriate for a cost-sensitive, high-volume
-companion flow. Override the model with `OPENAI_MODEL` after running representative
-quality and cost evaluations.
+the DeepSeek provider and a server-side key. The DeepSeek adapter uses the
+OpenAI-compatible Chat Completions API and defaults to `deepseek-v4-flash`, which is
+the current non-deprecated DeepSeek chat model as of 2026-07-26. Override the model with
+`DEEPSEEK_MODEL` after running representative quality and cost evaluations.
 
 Privacy and limits:
 
-- `OPENAI_STORE_RESPONSES=false` by default. The app stores its own user-visible chat
-  history and does not rely on provider-side response storage.
+- The app stores its own user-visible chat history and does not rely on provider-side
+  response storage.
 - Every request must include a stable, privacy-preserving `safety_identifier`; do not
   send an email address or raw account ID.
 - Defaults: 30 second timeout, 12,000 input characters, and 500 output tokens.
@@ -166,22 +167,22 @@ Privacy and limits:
 - Quota and circuit settings use `CATLIFEPET_AI_DAILY_REQUEST_LIMIT`,
   `CATLIFEPET_AI_USER_REQUESTS_PER_MINUTE`, `CATLIFEPET_AI_IP_REQUESTS_PER_MINUTE`,
   `CATLIFEPET_AI_CIRCUIT_FAILURE_THRESHOLD`, and `CATLIFEPET_AI_CIRCUIT_OPEN_SECONDS`.
-- `OPENAI_BASE_URL` is configurable for controlled testing; production requires HTTPS.
+- `DEEPSEEK_BASE_URL` is configurable for controlled testing; production requires HTTPS.
 
-OpenAI references:
+DeepSeek references:
 
-- Responses and streaming: https://developers.openai.com/api/docs/guides/streaming-responses
-- Model guidance: https://developers.openai.com/api/docs/guides/latest-model
-- Data controls: https://developers.openai.com/api/docs/guides/your-data
+- Chat Completions API: https://api-docs.deepseek.com/api/create-chat-completion
+- Models and compatibility notes: https://api-docs.deepseek.com/
 
 An optional paid smoke test runs only when both variables are present:
 
 ```powershell
-$env:OPENAI_API_KEY = "..."
-$env:CATLIFEPET_RUN_OPENAI_SMOKE = "true"
-.\gradlew.bat :server:test --tests "*OpenAiResponsesProviderTest.optional real provider smoke test"
+$env:DEEPSEEK_API_KEY = "..."
+$env:CATLIFEPET_RUN_DEEPSEEK_SMOKE = "true"
+.\gradlew.bat :server:test --tests "*DeepSeekChatCompletionsProviderTest.optional real DeepSeek smoke test"
 ```
 
 For a full phone-to-local-server AI chat run, see `AI_LOCAL_TEST_README.md`. The
-`:server:runDeviceAuthServer` task automatically switches from fake AI to OpenAI when
-`OPENAI_API_KEY` is present in the current environment.
+`:server:runDeviceAuthServer` task automatically switches from fake AI to DeepSeek when
+`DEEPSEEK_API_KEY` is present in the current environment. `OPENAI_API_KEY` still works as
+an explicit fallback for the older OpenAI adapter, but DeepSeek is the primary path.

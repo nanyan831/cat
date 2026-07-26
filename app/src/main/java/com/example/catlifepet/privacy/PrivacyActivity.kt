@@ -72,7 +72,7 @@ class PrivacyActivity : Activity() {
         content.addView(infoCard("聊天记录", "登录后的会话和消息会保存到服务器，也会在本机保留最近缓存，方便断网时查看。你可以删除单段聊天或清空全部云端聊天。"), match(10))
         content.addView(infoCard("陪伴记忆", "小猫只使用你明确保存或确认的长期记忆，例如昵称、作息和偏好。你可以随时查看、删除单条记忆或清空全部记忆。"), match(16))
         content.addView(section("AI 处理"), match(6))
-        content.addView(infoCard("AI 请求", "发送消息时，服务器会把必要的最近聊天、会话摘要和陪伴记忆发送给 AI 服务生成回复。OpenAI API Key 只保存在服务器，不会进入 APK。"), match(10))
+        content.addView(infoCard("AI 请求", "发送消息时，服务器会把必要的最近聊天、会话摘要和陪伴记忆发送给第三方 AI 服务生成回复。DeepSeek API Key 只保存在服务器，不会进入 APK。"), match(10))
         content.addView(infoCard("安全与降级", "服务器会限制频率、每日用量和单次内容长度。网络或模型不可用时，桌宠和本地提醒仍然继续工作。"), match(16))
         content.addView(section("管理入口"), match(6))
         content.addView(actionCard("账号管理", "登录、退出、修改昵称或注销账号", "打开") {

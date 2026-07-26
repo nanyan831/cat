@@ -130,7 +130,7 @@ class ServerSettingsTest {
         assertTrue(error.message.orEmpty().contains("DATABASE_URL"))
         assertTrue(error.message.orEmpty().contains("CATLIFEPET_TOKEN_PEPPER"))
         assertTrue(error.message.orEmpty().contains("SMTP_HOST"))
-        assertTrue(error.message.orEmpty().contains("OPENAI_API_KEY"))
+        assertTrue(error.message.orEmpty().contains("OPENAI_API_KEY or DEEPSEEK_API_KEY"))
         assertFalse(error.message.orEmpty().contains(secret))
     }
 
@@ -180,15 +180,16 @@ class ServerSettingsTest {
 
         assertEquals(AppEnvironment.PRODUCTION, settings.environment)
         assertEquals("https://api.example.com", settings.publicBaseUrl)
-        assertEquals(AiBackend.OPENAI, settings.ai.backend)
+        assertEquals(AiBackend.DEEPSEEK, settings.ai.backend)
+        assertEquals(AiSettings.DEFAULT_DEEPSEEK_MODEL, settings.ai.model)
         assertFalse(settings.ai.storeResponses)
         assertFalse(rendered.contains("postgres-password"))
         assertFalse(rendered.contains("jwt-secret-value"))
         assertFalse(rendered.contains("token-pepper-value"))
         assertFalse(rendered.contains("smtp-password-value"))
-        assertFalse(rendered.contains("openai-secret-value"))
+        assertFalse(rendered.contains("deepseek-secret-value"))
         assertEquals(
-            "SensitiveSettings(database=<redacted>, jwtSecret=<redacted>, tokenPepper=<redacted>, smtp=<redacted>, openAiApiKey=<redacted>)",
+            "SensitiveSettings(database=<redacted>, jwtSecret=<redacted>, tokenPepper=<redacted>, smtp=<redacted>, openAiApiKey=<redacted>, deepSeekApiKey=<redacted>)",
             rendered
         )
         assertEquals("DatabaseSettings(<redacted>)", settings.sensitive.database.toString())
@@ -218,6 +219,16 @@ class ServerSettingsTest {
     }
 
     @Test
+    fun `development selects DeepSeek when a key is configured`() {
+        val settings = ServerSettings.load(
+            MapApplicationConfig("catlifepet.deepSeekApiKey" to "development-deepseek-key")
+        )
+
+        assertEquals(AiBackend.DEEPSEEK, settings.ai.backend)
+        assertEquals(AiSettings.DEFAULT_DEEPSEEK_MODEL, settings.ai.model)
+    }
+
+    @Test
     fun `explicit OpenAI provider requires a key`() {
         val config = MapApplicationConfig("catlifepet.aiProvider" to "openai")
 
@@ -225,6 +236,16 @@ class ServerSettingsTest {
 
         assertTrue(error is ServerConfigurationException)
         assertTrue(error.message.orEmpty().contains("OPENAI_API_KEY"))
+    }
+
+    @Test
+    fun `explicit DeepSeek provider requires a key`() {
+        val config = MapApplicationConfig("catlifepet.aiProvider" to "deepseek")
+
+        val error = kotlin.runCatching { ServerSettings.load(config) }.exceptionOrNull()
+
+        assertTrue(error is ServerConfigurationException)
+        assertTrue(error.message.orEmpty().contains("DEEPSEEK_API_KEY"))
     }
 
     @Test
@@ -254,6 +275,7 @@ class ServerSettingsTest {
         "catlifepet.smtpPassword" to "smtp-password-value",
         "catlifepet.smtpFrom" to "noreply@example.com",
         "catlifepet.smtpStartTls" to "true",
-        "catlifepet.openAiApiKey" to "openai-secret-value"
+        "catlifepet.aiProvider" to "deepseek",
+        "catlifepet.deepSeekApiKey" to "deepseek-secret-value"
     )
 }

@@ -17,7 +17,7 @@ import java.time.Duration
 /**
  * Local-only server used for Android device smoke tests. Verification codes are
  * written to an ignored build directory and are never emitted to application logs.
- * Set OPENAI_API_KEY to use the real OpenAI provider during local device AI tests.
+ * Set DEEPSEEK_API_KEY or OPENAI_API_KEY to use a real provider during local device AI tests.
  */
 fun main() {
     val postgres = EmbeddedPostgres.builder()
@@ -33,7 +33,7 @@ fun main() {
         database = database,
         authSettings = AuthSettings(maximumIpRequestsPerWindow = 100)
     ).copy(developmentMailboxDir = mailbox.toString())
-    val settings = baseSettings.withOptionalOpenAiProvider()
+    val settings = baseSettings.withOptionalAiProvider()
     val server = embeddedServer(Netty, host = "0.0.0.0", port = 8080) {
         module(settings, AuthRuntimeOverrides(secureRandom = DeviceTestSecureRandom()))
     }
@@ -54,35 +54,65 @@ fun main() {
     }
 }
 
-private fun ServerSettings.withOptionalOpenAiProvider(): ServerSettings {
+private fun ServerSettings.withOptionalAiProvider(): ServerSettings {
+    val deepSeekKey = System.getenv("DEEPSEEK_API_KEY")?.trim()?.takeIf(String::isNotEmpty)
+    if (deepSeekKey != null) {
+        val model = System.getenv("DEEPSEEK_MODEL")?.trim()?.takeIf(String::isNotEmpty)
+            ?: AiSettings.DEFAULT_DEEPSEEK_MODEL
+        val baseUrl = System.getenv("DEEPSEEK_BASE_URL")?.trim()?.takeIf(String::isNotEmpty)
+            ?: AiSettings.DEFAULT_DEEPSEEK_BASE_URL
+        return copy(
+            ai = ai.copy(
+                backend = AiBackend.DEEPSEEK,
+                model = model,
+                deepSeekBaseUrl = baseUrl.trimEnd('/'),
+                requestTimeout = Duration.ofSeconds(timeoutSeconds()),
+                maximumOutputTokens = maxOutputTokens()
+            ),
+            sensitive = SensitiveSettings(
+                database = sensitive.database,
+                jwtSecret = sensitive.jwtSecret,
+                tokenPepper = sensitive.tokenPepper,
+                smtp = sensitive.smtp,
+                openAiApiKey = sensitive.openAiApiKey,
+                deepSeekApiKey = deepSeekKey
+            )
+        )
+    }
+
     val apiKey = System.getenv("OPENAI_API_KEY")?.trim()?.takeIf(String::isNotEmpty)
         ?: return this
     val model = System.getenv("OPENAI_MODEL")?.trim()?.takeIf(String::isNotEmpty)
-        ?: AiSettings.DEFAULT_MODEL
+        ?: AiSettings.DEFAULT_OPENAI_MODEL
     val baseUrl = System.getenv("OPENAI_BASE_URL")?.trim()?.takeIf(String::isNotEmpty)
         ?: AiSettings.DEFAULT_OPENAI_BASE_URL
-    val timeoutSeconds = System.getenv("CATLIFEPET_AI_TIMEOUT_SECONDS")?.toLongOrNull()?.coerceIn(1L, 120L)
-        ?: ai.requestTimeout.seconds
-    val maxOutputTokens = System.getenv("CATLIFEPET_AI_MAX_OUTPUT_TOKENS")?.toIntOrNull()?.coerceIn(32, 4096)
-        ?: ai.maximumOutputTokens
 
     return copy(
         ai = ai.copy(
             backend = AiBackend.OPENAI,
             model = model,
             openAiBaseUrl = baseUrl.trimEnd('/'),
-            requestTimeout = Duration.ofSeconds(timeoutSeconds),
-            maximumOutputTokens = maxOutputTokens
+            requestTimeout = Duration.ofSeconds(timeoutSeconds()),
+            maximumOutputTokens = maxOutputTokens()
         ),
         sensitive = SensitiveSettings(
             database = sensitive.database,
             jwtSecret = sensitive.jwtSecret,
             tokenPepper = sensitive.tokenPepper,
             smtp = sensitive.smtp,
-            openAiApiKey = apiKey
+            openAiApiKey = apiKey,
+            deepSeekApiKey = sensitive.deepSeekApiKey
         )
     )
 }
+
+private fun ServerSettings.timeoutSeconds(): Long =
+    System.getenv("CATLIFEPET_AI_TIMEOUT_SECONDS")?.toLongOrNull()?.coerceIn(1L, 120L)
+        ?: ai.requestTimeout.seconds
+
+private fun ServerSettings.maxOutputTokens(): Int =
+    System.getenv("CATLIFEPET_AI_MAX_OUTPUT_TOKENS")?.toIntOrNull()?.coerceIn(32, 4096)
+        ?: ai.maximumOutputTokens
 
 private class DeviceTestSecureRandom : SecureRandom() {
     override fun nextInt(bound: Int): Int {

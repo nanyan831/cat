@@ -22,6 +22,10 @@ internal fun Application.configureAi(settings: ServerSettings, overrides: AiRunt
             settings = settings.ai,
             apiKey = checkNotNull(settings.sensitive.openAiApiKey)
         )
+        AiBackend.DEEPSEEK -> DeepSeekChatCompletionsProvider(
+            settings = settings.ai,
+            apiKey = checkNotNull(settings.sensitive.deepSeekApiKey)
+        )
     }
     val gateway = AiGateway(settings.ai, provider)
     attributes.put(AiGatewayKey, gateway)
@@ -29,7 +33,7 @@ internal fun Application.configureAi(settings: ServerSettings, overrides: AiRunt
     environment.log.info(
         "AI gateway ready: backend={}, model={}, storeResponses={}",
         settings.ai.backend.wireName,
-        if (settings.ai.backend == AiBackend.OPENAI) settings.ai.model else "catlifepet-fake",
+        if (settings.ai.backend == AiBackend.FAKE) "catlifepet-fake" else settings.ai.model,
         settings.ai.storeResponses
     )
 }

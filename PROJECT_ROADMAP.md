@@ -22,7 +22,7 @@ Last updated: 2026-07-26
 - [x] M7.2 Complete account, privacy, and accessibility UI - settings entries, privacy/data page, deletion routes, accessibility contracts, large-font screenshot, release debuggable check, and Pixel emulator tests passed on 2026-07-26; PCRM00 install channel timed out and needs phone-side USB install confirmation before rerun.
 - [x] M8.1 Automated regression suite - CatStateManager listener contracts, quota window/IP decisions, app unit tests, server PostgreSQL/migration integration, emulator Android UI smoke, Debug/Release builds, and lint passed on 2026-07-26.
 - [x] M8.2 Device endurance and compatibility qualification - added gated 100-action overlay endurance test, Pixel_6 emulator passed with 0 fatal crashes, 0 WindowLeaked, 0 BadToken, 0 ANR, 1 addView/100 duplicate skips/1 removeView, and full Gradle gate passed on 2026-07-26; Android 8/14/15 AVDs and PCRM00 install rerun remain environment-gated release-retake items.
-- [x] M9.1 Deploy staging and production services - production Docker/compose config, runbook, smoke scripts, backup/restore scripts, full Gradle gate, server installDist, PowerShell parser checks, and secret scan passed on 2026-07-26; actual Docker compose, backup restore, staging, and production deployment remain environment-gated by missing Docker CLI, hosting, database, HTTPS, SMTP, OpenAI credentials, and operator contact.
+- [x] M9.1 Deploy staging and production services - production Docker/compose config, runbook, smoke scripts, backup/restore scripts, full Gradle gate, server installDist, PowerShell parser checks, and secret scan passed on 2026-07-26; actual Docker compose, backup restore, staging, and production deployment remain environment-gated by missing Docker CLI, hosting, database, HTTPS, SMTP, DeepSeek credentials, and operator contact.
 - [x] M9.2 Produce signed Android release - versionCode 10000/versionName 1.0.0, external signing config, local release keystore outside Git, signed APK/AAB, checksums, refreshed privacy/release materials, Gradle gates, apksigner verification, secret scan, and Pixel_6 emulator signed-install smoke passed on 2026-07-26; OPPO PCRM00 install remains blocked by phone-side Failure [-99], and production login/AI/account-deletion smoke remains gated by the missing production HTTPS server and credentials.
 
 ## 1. Product Goal
@@ -62,7 +62,7 @@ Known unfinished product work:
 
 - Local pet and reminders work without login and without network access.
 - Login is required only for AI chat, cloud history, and cloud memory.
-- The OpenAI API key exists only on the server and never in the APK or client logs.
+- The DeepSeek API key exists only on the server and never in the APK or client logs.
 - Device-specific values such as overlay position and size remain local.
 - Account, conversation, message, memory, and usage data live on the server.
 - Every network API is versioned under `/v1`.
@@ -90,7 +90,7 @@ CatLifePet Ktor server
 |- Authentication and rotating token sessions
 |- User profile and account deletion
 |- Conversation, message, and companion-memory APIs
-|- AI provider gateway and OpenAI Responses adapter
+|- AI provider gateway with DeepSeek as the primary provider and OpenAI as a fallback adapter
 |- Streaming SSE relay
 |- Moderation, rate limits, quotas, and usage records
 `- PostgreSQL with versioned migrations
@@ -296,7 +296,7 @@ Commit:
 Scope:
 
 - Define an `AiProvider` interface and deterministic fake provider.
-- Add the OpenAI Responses API adapter on the server.
+- Add the DeepSeek Chat Completions adapter on the server, keeping provider credentials server-only.
 - Keep API key and model selection in server environment configuration.
 - Set explicit timeout, cancellation, input limit, output limit, and provider error mapping.
 - Default to the intended data-storage setting and document it.
@@ -604,7 +604,7 @@ Development can continue with local fakes until these checkpoints:
 | Required input | Needed by | Local fallback |
 | --- | --- | --- |
 | SMTP sender/domain credentials | M3 production verification | Development email sender |
-| OpenAI API key and approved model | M4 real-provider smoke test | Deterministic fake provider |
+| DeepSeek API key and approved model | M4 real-provider smoke test | Deterministic fake provider |
 | Hosting region, domain, and cloud account | M9 deployment | Docker Compose localhost |
 | Release signing identity and secure backup location | M9 Android release | Debug signing only |
 | Final privacy/operator information | M7/M9 legal copy | Draft placeholders outside release |

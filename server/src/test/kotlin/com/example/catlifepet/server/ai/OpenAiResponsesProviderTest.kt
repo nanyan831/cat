@@ -78,7 +78,7 @@ class OpenAiResponsesProviderTest {
 
         val body = Json.parseToJsonElement(requestJson).jsonObject
         assertEquals("Bearer test-api-key", authorization)
-        assertEquals("gpt-5.6-luna", body["model"]!!.jsonPrimitive.content)
+        assertEquals(AiSettings.DEFAULT_OPENAI_MODEL, body["model"]!!.jsonPrimitive.content)
         assertFalse(body["store"]!!.jsonPrimitive.boolean)
         assertEquals(500, body["max_output_tokens"]!!.jsonPrimitive.int)
         assertEquals("safe_user_123456", body["safety_identifier"]!!.jsonPrimitive.content)
@@ -155,7 +155,7 @@ class OpenAiResponsesProviderTest {
         assumeTrue(enabled && !apiKey.isNullOrBlank())
         val settings = AiSettings(
             backend = AiBackend.OPENAI,
-            model = System.getenv("OPENAI_MODEL") ?: AiSettings.DEFAULT_MODEL,
+            model = System.getenv("OPENAI_MODEL") ?: AiSettings.DEFAULT_OPENAI_MODEL,
             storeResponses = false,
             requestTimeout = Duration.ofSeconds(60),
             maximumOutputTokens = 32
@@ -181,6 +181,7 @@ class OpenAiResponsesProviderTest {
 
     private fun settings() = AiSettings(
         backend = AiBackend.OPENAI,
+        model = AiSettings.DEFAULT_OPENAI_MODEL,
         openAiBaseUrl = "https://openai.test/v1",
         storeResponses = false
     )

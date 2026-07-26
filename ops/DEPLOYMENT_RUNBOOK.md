@@ -16,12 +16,12 @@ Store these in the deployment platform secret manager, not in Git:
 - `SMTP_PASSWORD`
 - `SMTP_FROM`
 - `SMTP_STARTTLS=true`
-- `OPENAI_API_KEY`
+- `DEEPSEEK_API_KEY`
 
 Optional tuning:
 
-- `OPENAI_MODEL`
-- `OPENAI_STORE_RESPONSES=false`
+- `DEEPSEEK_MODEL`
+- `DEEPSEEK_BASE_URL`
 - `CATLIFEPET_AI_DAILY_REQUEST_LIMIT`
 - `CATLIFEPET_AI_USER_REQUESTS_PER_MINUTE`
 - `CATLIFEPET_AI_IP_REQUESTS_PER_MINUTE`
@@ -73,7 +73,7 @@ docker compose -f docker-compose.production.yml --env-file ops/env.production.lo
 7. Watch logs for 30 minutes for:
    - 5xx spikes
    - `rate_limited` spikes
-   - OpenAI provider errors
+   - DeepSeek provider errors
    - SMTP delivery errors
    - database connection pool exhaustion
 
@@ -102,7 +102,7 @@ Managed PostgreSQL providers should use provider-native scheduled backups plus t
 Rotate in this order:
 
 1. SMTP password.
-2. OpenAI key.
+2. DeepSeek key.
 3. `CATLIFEPET_TOKEN_PEPPER` only with a planned logout window, because existing refresh token hashes depend on it.
 4. `CATLIFEPET_JWT_SECRET` only with a planned short access-token expiry window.
 
@@ -118,5 +118,5 @@ The repository contains deployable configuration, but real staging/production de
 - Managed PostgreSQL connection details.
 - HTTPS domain and certificate.
 - SMTP account.
-- OpenAI API key.
+- DeepSeek API key.
 - Operator contact details for privacy policy and account deletion support.
