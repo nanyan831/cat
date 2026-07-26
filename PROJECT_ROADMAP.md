@@ -21,7 +21,7 @@ Last updated: 2026-07-26
 - [x] M7.1 Replace final visual and release resources - 90 pet PNGs passed canvas/alpha/anchor contracts; launcher, monochrome, notification, and splash resources plus three-size edge/bubble checks passed on 2026-07-22.
 - [x] M7.2 Complete account, privacy, and accessibility UI - settings entries, privacy/data page, deletion routes, accessibility contracts, large-font screenshot, release debuggable check, and Pixel emulator tests passed on 2026-07-26; PCRM00 install channel timed out and needs phone-side USB install confirmation before rerun.
 - [x] M8.1 Automated regression suite - CatStateManager listener contracts, quota window/IP decisions, app unit tests, server PostgreSQL/migration integration, emulator Android UI smoke, Debug/Release builds, and lint passed on 2026-07-26.
-- [ ] M8.2 Device endurance and compatibility qualification.
+- [x] M8.2 Device endurance and compatibility qualification - added gated 100-action overlay endurance test, Pixel_6 emulator passed with 0 fatal crashes, 0 WindowLeaked, 0 BadToken, 0 ANR, 1 addView/100 duplicate skips/1 removeView, and full Gradle gate passed on 2026-07-26; Android 8/14/15 AVDs and PCRM00 install rerun remain environment-gated release-retake items.
 - [ ] M9.1 Deploy staging and production services.
 - [ ] M9.2 Produce signed Android release.
 

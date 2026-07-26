@@ -1,0 +1,78 @@
+CatLifePet M8.2 Device Endurance And Compatibility Report
+Date: 2026-07-26
+
+New coverage added
+
+- DeviceEnduranceInstrumentedTest:
+  - Gated behind instrumentation argument: -e enduranceSmoke true.
+  - Requires overlay permission to be granted before execution.
+  - Starts CatFloatingService from the app process.
+  - Executes 100 overlay actions:
+    - random talk
+    - WATER, FOOD, REST, SLEEP reminders
+    - BLINKING, YAWNING, LICKING debug animations
+    - CURIOUS and CUDDLE relationship animations
+  - Asserts OverlayLifecycleDiagnostics.maximumViewCount() never exceeds 1.
+  - Stops the service and asserts active view count returns to 0.
+
+Pixel_6 emulator execution
+
+- Device: emulator-5554.
+- API level: 37.
+- Command:
+  adb shell am instrument -w -r -e enduranceSmoke true -e class com.example.catlifepet.floating.DeviceEnduranceInstrumentedTest com.example.catlifepet.test/androidx.test.runner.AndroidJUnitRunner
+- Result: PASS, 1 test.
+- Duration reported by runner: 5.414 seconds.
+
+Pixel_6 log scan
+
+- Source: qa/v0.22.0/m8.2-pixel-endurance-logcat.txt.
+- FATAL EXCEPTION: 0.
+- WindowLeaked: 0.
+- BadTokenException: 0.
+- ANR in com.example.catlifepet: 0.
+- addView: 1.
+- addView skipped: 100.
+- removeView: 1.
+- onStartCommand action: 102.
+
+Build and regression gate
+
+- .\gradlew.bat test assembleDebug assembleRelease lintDebug
+  Result: PASS.
+
+- Pixel_6 emulator default instrumentation suite:
+  Command: adb shell am instrument -w -r com.example.catlifepet.test/androidx.test.runner.AndroidJUnitRunner
+  Result: OK, 15 tests.
+  Note: DeviceEnduranceInstrumentedTest is assumption-skipped by default and only runs with -e enduranceSmoke true.
+
+Environment coverage
+
+- Available and tested:
+  - Pixel_6 emulator, API 37.
+
+- Available but not installable in this run:
+  - OPPO PCRM00, Android 12/API 31.
+  - adb shell works and the device is online.
+  - adb install and pm install time out without installer output.
+  - This appears to be a phone-side USB install authorization or ColorOS package installer channel issue.
+
+- Not available locally:
+  - Android 8 phone AVD.
+  - Android 14 phone AVD.
+  - Android 15 phone AVD.
+  - The local SDK only exposes system-images/android-36 and system-images/android-37.0, and sdkmanager.bat is not installed, so additional images cannot be installed from CLI in this environment.
+
+Release retake items
+
+- Rerun DeviceEnduranceInstrumentedTest on PCRM00 after confirming USB install authorization.
+- Add or connect Android 8, Android 14, and Android 15 test devices/AVDs, then run:
+  - full instrumentation suite
+  - 100-action endurance test
+  - crash/leak/token log scan
+  - 2-4 hour soak
+
+Conclusion
+
+- The available automated device qualification passed with no duplicate pet windows, no WindowLeaked errors, no crashes, and clean service add/remove behavior.
+- Full compatibility matrix remains dependent on unavailable local AVD images and OPPO install authorization.
