@@ -1,0 +1,32 @@
+CatLifePet v0.27.0 DeepSeek device smoke report
+Date: 2026-07-30
+
+Scope
+- Verified the real DeepSeek provider with the server optional smoke test.
+- Added a provider-neutral Android instrumented smoke test for real AI replies.
+- Verified the connected OPPO device can log in, create a conversation, and receive a non-blank DeepSeek reply through the Android networking stack.
+
+Environment
+- Device: c03f36c / OPPO PCRM00 / Android 12
+- Server: :server:runDeviceAuthServer
+- AI provider: deepseek
+- Model: deepseek-v4-flash
+- Android API base URL: debug BuildConfig http://127.0.0.1:8080/
+- Device routing: adb reverse tcp:8080 tcp:8080
+
+Validation
+- PASS: DEEPSEEK_API_KEY was available from the Windows User environment. The key value was not printed.
+- PASS: .\gradlew.bat :server:test --tests "*DeepSeekChatCompletionsProviderTest.optional real DeepSeek smoke test"
+- PASS: .\gradlew.bat :app:assembleDebugAndroidTest
+- PASS: adb install -r -t app-debug-androidTest.apk
+- PASS: DeviceRealAiSmokeInstrumentedTest.loginAndReceiveAnyNonBlankAiReply
+- PASS: Instrumentation output: OK (1 test), Time: 2.303 seconds
+- PASS: Server health returned ok.
+- PASS: Server log showed AI provider: deepseek, model: deepseek-v4-flash.
+- PASS: Server log showed POST /v1/auth/code/request 202, /verify 200, /v1/conversations 201, and /messages/stream 200.
+- PASS: No FATAL EXCEPTION, WindowLeaked, or BadTokenException appeared in the filtered logcat output.
+- PASS: Test server was stopped and port 8080 was released after the run.
+
+Notes
+- Existing DeviceChatSmokeInstrumentedTest remains useful for deterministic fake-provider UI checks.
+- DeviceRealAiSmokeInstrumentedTest is intentionally provider-neutral and only asserts that a real provider returns a non-blank completed reply.
