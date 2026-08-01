@@ -52,6 +52,7 @@ class ChatActivity : ComponentActivity() {
         window.navigationBarColor = surface
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         setContentView(buildContent())
+        intent.getStringExtra(EXTRA_CONVERSATION_ID)?.let(viewModel::load)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect(::render)
@@ -240,4 +241,8 @@ class ChatActivity : ComponentActivity() {
     }
 
     private fun dp(value: Int) = ScreenUtils.dp(this, value)
+
+    companion object {
+        const val EXTRA_CONVERSATION_ID = "com.example.catlifepet.chat.extra.CONVERSATION_ID"
+    }
 }

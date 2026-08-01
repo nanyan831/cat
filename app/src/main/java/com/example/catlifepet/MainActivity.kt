@@ -34,6 +34,7 @@ import com.example.catlifepet.data.SettingsRepository
 import com.example.catlifepet.auth.AuthActivity
 import com.example.catlifepet.auth.AuthGraph
 import com.example.catlifepet.chat.ChatActivity
+import com.example.catlifepet.chat.ChatConversationListActivity
 import com.example.catlifepet.memory.MemoryActivity
 import com.example.catlifepet.privacy.PrivacyActivity
 import com.example.catlifepet.floating.CatFloatingService
@@ -254,6 +255,9 @@ class MainActivity : Activity() {
         root.addView(cardRow("✦", "和小猫聊聊", "登录后可以继续聊天并保存记录", "聊聊") {
             startActivity(Intent(this, ChatActivity::class.java))
         }, match(dp(12)))
+        root.addView(cardRow("☰", "AI 会话", "单独查看所有 AI 聊天记录", "查看") {
+            startActivity(Intent(this, ChatConversationListActivity::class.java))
+        }, match(dp(12)))
 
         root.addView(section("我们的关系"), wrap())
         root.addView(cardRow("♥", relationshipName(), relationshipDescription(), null), match(dp(12)))
@@ -366,8 +370,8 @@ class MainActivity : Activity() {
         root.addView(cardRow("☁", "账号与云同步", accountSubtitle, "›") {
             startActivity(Intent(this, AuthActivity::class.java))
         }, match(dp(12)))
-        root.addView(cardRow("☰", "聊天记录", "查看历史会话，继续或删除当前聊天", "›") {
-            startActivity(Intent(this, ChatActivity::class.java))
+        root.addView(cardRow("☰", "AI 会话", "查看所有历史会话并继续聊天", "›") {
+            startActivity(Intent(this, ChatConversationListActivity::class.java))
         }, match(dp(12)))
         root.addView(cardRow("✦", "陪伴记忆", "查看、添加或删除小猫使用的长期记忆", "›") {
             startActivity(Intent(this, MemoryActivity::class.java))
