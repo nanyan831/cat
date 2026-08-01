@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".auth.AuthGateActivity"
             android:exported="true"
             android:theme="@style/LaunchTheme">
             <intent-filter>
@@ -25,6 +25,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:theme="@style/LaunchTheme" />
 
         <activity
             android:name=".auth.AuthActivity"

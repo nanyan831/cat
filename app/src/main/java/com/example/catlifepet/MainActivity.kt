@@ -92,6 +92,7 @@ class MainActivity : Activity() {
 
     override fun onResume() {
         super.onResume()
+        if (redirectToLoginIfNeeded()) return
         if (::settingsRepository.isInitialized && settingsRepository.getTemporaryHideUntil() in 1 until System.currentTimeMillis()) {
             settingsRepository.clearTemporaryHide()
             Log.d(TAG, "temporary hide marker expired; pet can be shown")
@@ -201,6 +202,17 @@ class MainActivity : Activity() {
         settingsRepository.setOnboardingCompleted(true)
         settingsRepository.setFirstPetSummonCompleted(true)
         Log.d(TAG, "legacy user detected; onboarding skipped")
+    }
+
+    private fun redirectToLoginIfNeeded(): Boolean {
+        if (AuthGraph.repository(this).hasStoredSession()) return false
+        startActivity(
+            AuthActivity.requiredLoginIntent(this).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+        )
+        finish()
+        return true
     }
 
     private fun page(target: Screen): View {

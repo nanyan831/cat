@@ -2,6 +2,8 @@ package com.example.catlifepet.auth
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
@@ -17,6 +19,7 @@ import android.widget.ProgressBar
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.example.catlifepet.MainActivity
 import com.example.catlifepet.R
 import com.example.catlifepet.util.ScreenUtils
 import kotlinx.coroutines.CoroutineScope
@@ -34,6 +37,7 @@ class AuthActivity : Activity() {
     private var email = ""
     private var busy = false
     private var errorMessage: String? = null
+    private var requireLogin = false
 
     private val backgroundColor get() = ContextCompat.getColor(this, R.color.app_background)
     private val surfaceColor get() = ContextCompat.getColor(this, R.color.surface_primary)
@@ -49,11 +53,16 @@ class AuthActivity : Activity() {
         window.navigationBarColor = surfaceColor
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         repository = AuthGraph.repository(this)
+        requireLogin = intent.getBooleanExtra(EXTRA_REQUIRE_LOGIN, false)
         setContentView(buildShell())
 
         repository.currentUser?.let {
-            page = Page.ACCOUNT
-            render()
+            if (requireLogin) {
+                openMainAndFinish()
+            } else {
+                page = Page.ACCOUNT
+                render()
+            }
         } ?: if (repository.hasStoredSession()) {
             restoreSession()
         } else {
@@ -64,6 +73,14 @@ class AuthActivity : Activity() {
     override fun onDestroy() {
         scope.cancel()
         super.onDestroy()
+    }
+
+    override fun onBackPressed() {
+        if (requireLogin) {
+            moveTaskToBack(true)
+        } else {
+            super.onBackPressed()
+        }
     }
 
     private fun buildShell(): View {
@@ -91,7 +108,7 @@ class AuthActivity : Activity() {
 
     private fun addTopBar() {
         val row = LinearLayout(this).apply { gravity = Gravity.CENTER_VERTICAL }
-        row.addView(actionButton("‹") { finish() }.apply { contentDescription = "返回" }, LinearLayout.LayoutParams(dp(48), dp(48)))
+        row.addView(actionButton("‹") { handleBackAction() }.apply { contentDescription = "返回" }, LinearLayout.LayoutParams(dp(48), dp(48)))
         row.addView(label("账号与云同步", 22f, true, textColor), LinearLayout.LayoutParams(0, -2, 1f))
         content.addView(row, match(dp(18)))
     }
@@ -99,7 +116,7 @@ class AuthActivity : Activity() {
     private fun renderEmailPage() {
         content.addView(label("登录后和小猫继续聊天", 20f, true, textColor), match(dp(8)))
         content.addView(
-            label("桌宠和生活提醒无需登录也能使用。账号仅用于 AI 对话、聊天记录和陪伴记忆。", 14f, false, secondaryTextColor),
+            label("请先登录账号，登录后才能进入 CatLifePet。", 14f, false, secondaryTextColor),
             match(dp(22))
         )
         val emailInput = input("邮箱地址", InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS).apply {
@@ -204,8 +221,8 @@ class AuthActivity : Activity() {
             setPadding(dp(16), dp(14), dp(16), dp(14))
             background = rounded(warmSurfaceColor, 8)
         }
-        card.addView(label("本地陪伴不受影响", 15f, true, textColor), match(dp(4)))
-        card.addView(label("断网或未登录时，小猫悬浮、互动和生活提醒仍会继续工作。", 13f, false, secondaryTextColor), match())
+        card.addView(label("登录保护已开启", 15f, true, textColor), match(dp(4)))
+        card.addView(label("登录成功后才能进入桌宠、提醒和 AI 聊天功能。", 13f, false, secondaryTextColor), match())
         content.addView(card, match())
     }
 
@@ -222,8 +239,12 @@ class AuthActivity : Activity() {
     private fun verifyCode(code: String) = runBusy {
         when (val outcome = repository.verifyCode(email, code)) {
             is AuthOutcome.Success -> {
-                page = Page.ACCOUNT
-                errorMessage = null
+                if (requireLogin) {
+                    openMainAndFinish()
+                } else {
+                    page = Page.ACCOUNT
+                    errorMessage = null
+                }
             }
             is AuthOutcome.Failure -> errorMessage = messageFor(outcome)
         }
@@ -234,8 +255,12 @@ class AuthActivity : Activity() {
         runBusy {
             when (val outcome = repository.restoreSession()) {
                 is AuthOutcome.Success -> {
-                    page = Page.ACCOUNT
-                    errorMessage = null
+                    if (requireLogin) {
+                        openMainAndFinish()
+                    } else {
+                        page = Page.ACCOUNT
+                        errorMessage = null
+                    }
                 }
                 is AuthOutcome.Failure -> {
                     if (outcome.code == "logged_out" || outcome.httpStatus == 401) {
@@ -263,6 +288,7 @@ class AuthActivity : Activity() {
 
     private fun logout() = runBusy {
         repository.logout()
+        requireLogin = true
         page = Page.EMAIL
         email = ""
         errorMessage = null
@@ -280,11 +306,29 @@ class AuthActivity : Activity() {
     private fun deleteAccount() = runBusy {
         when (val outcome = repository.deleteAccount()) {
             is AuthOutcome.Success -> {
+                requireLogin = true
                 page = Page.EMAIL
                 email = ""
                 errorMessage = null
             }
             is AuthOutcome.Failure -> errorMessage = messageFor(outcome)
+        }
+    }
+
+    private fun openMainAndFinish() {
+        startActivity(
+            Intent(this, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+        )
+        finish()
+    }
+
+    private fun handleBackAction() {
+        if (requireLogin) {
+            moveTaskToBack(true)
+        } else {
+            finish()
         }
     }
 
@@ -367,4 +411,12 @@ class AuthActivity : Activity() {
     private fun dp(value: Int) = ScreenUtils.dp(this, value)
 
     private enum class Page { EMAIL, CODE, ACCOUNT, RESTORE_ERROR }
+
+    companion object {
+        private const val EXTRA_REQUIRE_LOGIN = "com.example.catlifepet.auth.extra.REQUIRE_LOGIN"
+
+        fun requiredLoginIntent(context: Context): Intent {
+            return Intent(context, AuthActivity::class.java).putExtra(EXTRA_REQUIRE_LOGIN, true)
+        }
+    }
 }
