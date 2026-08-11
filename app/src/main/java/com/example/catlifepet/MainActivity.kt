@@ -68,10 +68,12 @@ class MainActivity : Activity() {
     private val WARM_BACKGROUND get() = ContextCompat.getColor(this, R.color.app_background)
     private val SURFACE get() = ContextCompat.getColor(this, R.color.surface_primary)
     private val SURFACE_WARM get() = ContextCompat.getColor(this, R.color.surface_warm)
+    private val SURFACE_TINT get() = ContextCompat.getColor(this, R.color.surface_tint)
     private val PRIMARY get() = ContextCompat.getColor(this, R.color.primary)
     private val PRIMARY_LIGHT get() = ContextCompat.getColor(this, R.color.primary_light)
     private val TEXT_PRIMARY get() = ContextCompat.getColor(this, R.color.text_primary)
     private val TEXT_SECONDARY get() = ContextCompat.getColor(this, R.color.text_secondary)
+    private val DIVIDER get() = ContextCompat.getColor(this, R.color.divider_soft)
     private val SUCCESS get() = ContextCompat.getColor(this, R.color.success_soft)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -119,7 +121,8 @@ class MainActivity : Activity() {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER
             setPadding(dp(10), dp(8), dp(10), dp(8))
-            background = rounded(SURFACE, 22)
+            background = rounded(SURFACE, 28, DIVIDER)
+            elevation = dp(10).toFloat()
         }
         navCompanion = navItem("⌂", "陪伴") { screen = Screen.COMPANION; render(screen) }
         navReminder = navItem("♟", "提醒") { screen = Screen.REMINDERS; render(screen) }
@@ -150,7 +153,7 @@ class MainActivity : Activity() {
     }
 
     private fun onboardingPage(): View {
-        val root = column(dp(24), dp(28))
+        val root = column(dp(24), dp(44))
         root.gravity = Gravity.CENTER_HORIZONTAL
         root.addView(text("CatLifePet", 26f, TEXT_PRIMARY, true).apply { gravity = Gravity.CENTER }, match(dp(12)))
         val image = ImageView(this).apply {
@@ -184,7 +187,7 @@ class MainActivity : Activity() {
         root.addView(configureActionButton(Button(this).apply {
             text = if (onboardingStep == 3) "开始陪伴" else "下一步"
             setOnClickListener { if (onboardingStep < 3) { onboardingStep++; render(screen) } else completeOnboarding() }
-        }), match(dp(12)))
+        }, primary = true), match(dp(12)))
         root.addView(text("$onboardingStep / 3", 13f, TEXT_SECONDARY, false).apply { gravity = Gravity.CENTER }, match(dp(12)))
         return root
     }
@@ -217,7 +220,7 @@ class MainActivity : Activity() {
     }
 
     private fun page(target: Screen): View {
-        val root = column(dp(20), dp(18))
+        val root = column(dp(20), dp(40))
         when (target) {
             Screen.COMPANION -> companionPage(root)
             Screen.REMINDERS -> reminderPage(root)
@@ -235,6 +238,7 @@ class MainActivity : Activity() {
     private fun companionPage(root: LinearLayout) {
         topBar(root, "CatLifePet", "⚙") { screen = Screen.SETTINGS; render(screen) }
         val hero = cardColumn(SURFACE_WARM, 22)
+        hero.background = rounded(SURFACE_WARM, 28, DIVIDER)
         hero.addView(text("今天也一起生活吧～", 16f, TEXT_PRIMARY, true), wrap())
         val image = ImageView(this).apply {
             setImageResource(com.example.catlifepet.R.drawable.cat_idle)
@@ -550,9 +554,10 @@ class MainActivity : Activity() {
         val card = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
-            setPadding(dp(16), dp(14), dp(14), dp(14))
+            setPadding(dp(16), dp(15), dp(14), dp(15))
             minimumHeight = dp(64)
-            background = rounded(SURFACE, 18)
+            background = rounded(SURFACE, 22, DIVIDER)
+            elevation = dp(1).toFloat()
             contentDescription = if (action != null) "$title，$subtitle，$action" else "$title，$subtitle"
             isClickable = onClick != null
             if (onClick != null) foreground = selectableItemBackground()
@@ -581,7 +586,7 @@ class MainActivity : Activity() {
     private fun infoCard(title: String, value: String): LinearLayout = cardRow("", title, value, null)
 
     private fun reminderIllustration(root: LinearLayout, resource: Int, message: String) {
-        val card = cardColumn(SURFACE_WARM, 18)
+        val card = cardColumn(SURFACE_WARM, 24)
         val image = ImageView(this).apply { setImageResource(resource); scaleType = ImageView.ScaleType.FIT_CENTER; contentDescription = message }
         card.addView(image, LinearLayout.LayoutParams(-1, dp(130)))
         card.addView(text(message, 14f, TEXT_PRIMARY, true).apply { gravity = Gravity.CENTER }, match(dp(4)))
@@ -599,21 +604,31 @@ class MainActivity : Activity() {
         val old = settingsRepository.getSettings(); settingsRepository.saveDoNotDisturbTime(if (start) value else old.doNotDisturbStart, if (start) old.doNotDisturbEnd else value); runReminderSync(); render(Screen.DND_SETTINGS)
     }
 
-    private fun chip(parent: LinearLayout, value: String) { parent.addView(text(value, 12f, TEXT_PRIMARY, true).apply { gravity = Gravity.CENTER; background = rounded(PRIMARY_LIGHT, 14); setPadding(dp(10), dp(8), dp(10), dp(8)) }, weightParams()) }
+    private fun chip(parent: LinearLayout, value: String) { parent.addView(text(value, 12f, TEXT_PRIMARY, true).apply { gravity = Gravity.CENTER; background = rounded(PRIMARY_LIGHT, 18, DIVIDER); setPadding(dp(10), dp(8), dp(10), dp(8)) }, weightParams()) }
 
-    private fun navItem(icon: String, label: String, onClick: () -> Unit): TextView = text("$icon\n$label", 12f, TEXT_SECONDARY, true).apply { gravity = Gravity.CENTER; contentDescription = label; minHeight = dp(48); setOnClickListener { onClick() } }
+    private fun navItem(icon: String, label: String, onClick: () -> Unit): TextView = text("$icon\n$label", 12f, TEXT_SECONDARY, true).apply { gravity = Gravity.CENTER; contentDescription = label; minHeight = dp(48); setPadding(0, dp(4), 0, dp(4)); setOnClickListener { onClick() } }
 
     private fun section(value: String) = text(value, 18f, TEXT_PRIMARY, true).apply { setPadding(0, dp(10), 0, dp(4)) }
     private fun text(value: String, size: Float, color: Int, bold: Boolean) = TextView(this).apply { text = value; textSize = size; setTextColor(color); if (bold) setTypeface(typeface, android.graphics.Typeface.BOLD); setLineSpacing(0f, 1.15f) }
-    private fun column(left: Int, top: Int) = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(left, top, left, dp(110)) }
-    private fun cardColumn(color: Int, radius: Int) = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(dp(16), dp(14), dp(16), dp(14)); background = rounded(color, radius) }
-    private fun rounded(color: Int, radius: Int) = GradientDrawable().apply { setColor(color); cornerRadius = dp(radius).toFloat() }
-    private fun configureActionButton(button: Button): Button = button.apply {
+    private fun column(left: Int, top: Int) = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL; setPadding(left, top, left, dp(116)) }
+    private fun cardColumn(color: Int, radius: Int) = LinearLayout(this).apply {
+        orientation = LinearLayout.VERTICAL
+        setPadding(dp(18), dp(16), dp(18), dp(16))
+        background = rounded(color, radius, DIVIDER)
+        elevation = dp(1).toFloat()
+    }
+    private fun rounded(color: Int, radius: Int, strokeColor: Int? = null) = GradientDrawable().apply {
+        setColor(color)
+        cornerRadius = dp(radius).toFloat()
+        strokeColor?.let { setStroke(dp(1), it) }
+    }
+    private fun configureActionButton(button: Button, primary: Boolean = false): Button = button.apply {
         setAllCaps(false)
-        setTextColor(TEXT_PRIMARY)
+        setTextColor(if (primary) Color.WHITE else TEXT_PRIMARY)
         minHeight = dp(48)
         stateListAnimator = null
-        background = rounded(SURFACE, 16)
+        background = rounded(if (primary) PRIMARY else SURFACE, 18, if (primary) null else DIVIDER)
+        elevation = if (primary) dp(2).toFloat() else 0f
     }
     private fun selectableItemBackground(): Drawable? {
         val value = TypedValue()

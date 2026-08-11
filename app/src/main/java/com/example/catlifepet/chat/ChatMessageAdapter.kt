@@ -58,7 +58,7 @@ class MessageRow(
 ) : LinearLayout(context) {
     private val bubble = LinearLayout(context).apply {
         orientation = VERTICAL
-        setPadding(dp(14), dp(11), dp(14), dp(10))
+        setPadding(dp(16), dp(13), dp(16), dp(12))
     }
     private val messageText = TextView(context).apply {
         textSize = 16f
@@ -80,7 +80,7 @@ class MessageRow(
 
     init {
         orientation = HORIZONTAL
-        setPadding(dp(12), dp(5), dp(12), dp(5))
+        setPadding(dp(18), dp(6), dp(18), dp(6))
         bubble.addView(messageText, LayoutParams(-1, -2))
         stateRow.addView(stateText, LayoutParams(0, -2, 1f))
         stateRow.addView(retry, LayoutParams(-2, dp(34)))
@@ -105,8 +105,10 @@ class MessageRow(
         messageText.setTextColor(ContextCompat.getColor(context, R.color.text_primary))
         bubble.background = rounded(
             ContextCompat.getColor(context, if (user) R.color.primary_light else R.color.surface_primary),
-            8
-        )
+            18
+        ).apply {
+            setStroke(dp(1), ContextCompat.getColor(context, R.color.divider_soft))
+        }
         val state = when (message.status) {
             "sending" -> "正在发送…"
             "stopped" -> "已停止"
@@ -119,7 +121,7 @@ class MessageRow(
         stateText.setTypeface(stateText.typeface, if (message.status == "failed") Typeface.BOLD else Typeface.NORMAL)
         stateRow.visibility = if (state.isEmpty()) GONE else VISIBLE
         retry.visibility = if (message.pending && message.status in setOf("failed", "stopped")) VISIBLE else GONE
-        retry.background = rounded(Color.TRANSPARENT, 8).apply {
+        retry.background = rounded(Color.TRANSPARENT, 14).apply {
             setStroke(dp(1), ContextCompat.getColor(context, R.color.primary))
         }
         retry.setTextColor(ContextCompat.getColor(context, R.color.primary))

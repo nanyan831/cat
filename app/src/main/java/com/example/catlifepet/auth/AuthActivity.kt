@@ -14,6 +14,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.ScrollView
@@ -46,6 +47,7 @@ class AuthActivity : Activity() {
     private val textColor get() = ContextCompat.getColor(this, R.color.text_primary)
     private val secondaryTextColor get() = ContextCompat.getColor(this, R.color.text_secondary)
     private val dangerColor get() = ContextCompat.getColor(this, R.color.danger_soft)
+    private val dividerColor get() = ContextCompat.getColor(this, R.color.divider_soft)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,7 +88,7 @@ class AuthActivity : Activity() {
     private fun buildShell(): View {
         content = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(dp(20), dp(18), dp(20), dp(40))
+            setPadding(dp(20), dp(42), dp(20), dp(40))
         }
         return ScrollView(this).apply {
             isFillViewport = true
@@ -117,8 +119,9 @@ class AuthActivity : Activity() {
         content.addView(label("登录后和小猫继续聊天", 20f, true, textColor), match(dp(8)))
         content.addView(
             label("请先登录账号，登录后才能进入 CatLifePet。", 14f, false, secondaryTextColor),
-            match(dp(22))
+            match(dp(16))
         )
+        content.addView(catHero(R.drawable.cat_happy), match(dp(18)))
         val emailInput = input("邮箱地址", InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS).apply {
             setText(email)
         }
@@ -138,10 +141,14 @@ class AuthActivity : Activity() {
     }
 
     private fun renderCodePage() {
-        content.addView(label("输入验证码", 20f, true, textColor), match(dp(8)))
-        content.addView(label("验证码已发送到 $email，有效期 10 分钟。", 14f, false, secondaryTextColor), match(dp(20)))
+        content.addView(label("验证码已发送到邮箱", 20f, true, textColor).apply { gravity = Gravity.CENTER }, match(dp(8)))
+        content.addView(label("请在下方输入 6 位验证码", 14f, false, secondaryTextColor).apply { gravity = Gravity.CENTER }, match(dp(12)))
+        content.addView(catHero(R.drawable.cat_happy), match(dp(12)))
+        content.addView(label("验证码已发送到 $email，有效期 10 分钟。", 13f, false, secondaryTextColor), match(dp(16)))
         val codeInput = input("6 位验证码", InputType.TYPE_CLASS_NUMBER).apply {
             filters = arrayOf(InputFilter.LengthFilter(6))
+            gravity = Gravity.CENTER
+            textSize = 18f
         }
         content.addView(codeInput, match(dp(12)))
         errorMessage?.let { content.addView(errorLabel(it), match(dp(10))) }
@@ -177,7 +184,8 @@ class AuthActivity : Activity() {
         val accountCard = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(dp(16), dp(16), dp(16), dp(16))
-            background = rounded(surfaceColor, 8)
+            background = rounded(surfaceColor, 22, dividerColor)
+            elevation = dp(1).toFloat()
         }
         accountCard.addView(label(user.displayName ?: "小猫的朋友", 17f, true, textColor), match(dp(5)))
         accountCard.addView(label(user.email, 14f, false, secondaryTextColor), match(dp(5)))
@@ -219,7 +227,8 @@ class AuthActivity : Activity() {
         val card = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(dp(16), dp(14), dp(16), dp(14))
-            background = rounded(warmSurfaceColor, 8)
+            background = rounded(warmSurfaceColor, 22, dividerColor)
+            elevation = dp(1).toFloat()
         }
         card.addView(label("登录保护已开启", 15f, true, textColor), match(dp(4)))
         card.addView(label("登录成功后才能进入桌宠、提醒和 AI 聊天功能。", 13f, false, secondaryTextColor), match())
@@ -361,20 +370,21 @@ class AuthActivity : Activity() {
         setTextColor(textColor)
         setHintTextColor(secondaryTextColor)
         setPadding(dp(14), dp(12), dp(14), dp(12))
-        background = rounded(surfaceColor, 8)
-        minHeight = dp(52)
+        background = rounded(surfaceColor, 18, dividerColor)
+        minHeight = dp(56)
     }
 
     private fun primaryButton(textValue: String, action: () -> Unit) = actionButton(textValue, action).apply {
         setTextColor(Color.WHITE)
-        background = rounded(primaryColor, 8)
+        background = rounded(primaryColor, 18)
+        elevation = dp(2).toFloat()
         isEnabled = !busy
         alpha = if (busy) 0.65f else 1f
     }
 
     private fun dangerButton(textValue: String, action: () -> Unit) = actionButton(textValue, action).apply {
         setTextColor(dangerColor)
-        background = rounded(surfaceColor, 8)
+        background = rounded(surfaceColor, 18, dividerColor)
     }
 
     private fun actionButton(textValue: String, action: () -> Unit) = Button(this).apply {
@@ -385,8 +395,22 @@ class AuthActivity : Activity() {
         isAllCaps = false
         minHeight = dp(48)
         stateListAnimator = null
-        background = rounded(surfaceColor, 8)
+        background = rounded(surfaceColor, 18, dividerColor)
         setOnClickListener { action() }
+    }
+
+    private fun catHero(resourceId: Int): View {
+        return LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            gravity = Gravity.CENTER
+            setPadding(dp(12), dp(6), dp(12), dp(6))
+            addView(ImageView(this@AuthActivity).apply {
+                setImageResource(resourceId)
+                scaleType = ImageView.ScaleType.FIT_CENTER
+                setBackgroundColor(Color.TRANSPARENT)
+                contentDescription = "CatLifePet 小猫"
+            }, LinearLayout.LayoutParams(-1, dp(150)))
+        }
     }
 
     private fun errorLabel(value: String) = label(value, 13f, false, dangerColor)
@@ -399,9 +423,10 @@ class AuthActivity : Activity() {
         setLineSpacing(0f, 1.15f)
     }
 
-    private fun rounded(color: Int, radiusDp: Int) = GradientDrawable().apply {
+    private fun rounded(color: Int, radiusDp: Int, strokeColor: Int? = null) = GradientDrawable().apply {
         setColor(color)
         cornerRadius = dp(radiusDp).toFloat()
+        strokeColor?.let { setStroke(dp(1), it) }
     }
 
     private fun match(bottomMargin: Int = 0) = LinearLayout.LayoutParams(-1, -2).apply {

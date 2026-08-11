@@ -45,6 +45,7 @@ class ChatActivity : ComponentActivity() {
     private val primary get() = ContextCompat.getColor(this, R.color.primary)
     private val textPrimary get() = ContextCompat.getColor(this, R.color.text_primary)
     private val textSecondary get() = ContextCompat.getColor(this, R.color.text_secondary)
+    private val divider get() = ContextCompat.getColor(this, R.color.divider_soft)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,14 +68,14 @@ class ChatActivity : ComponentActivity() {
         }
         val top = LinearLayout(this).apply {
             gravity = Gravity.CENTER_VERTICAL
-            setPadding(dp(8), dp(8), dp(8), dp(8))
+            setPadding(dp(12), dp(26), dp(12), dp(8))
         }
-        top.addView(iconButton("‹", "返回") { finish() }, LinearLayout.LayoutParams(dp(48), dp(48)))
+        top.addView(iconButton("‹", "返回") { finish() }, LinearLayout.LayoutParams(dp(46), dp(46)))
         title = label("和小猫聊聊", 19f, true, textPrimary).apply { gravity = Gravity.CENTER }
-        top.addView(title, LinearLayout.LayoutParams(0, dp(48), 1f))
-        top.addView(iconButton("☷", "聊天记录") { showHistory() }, LinearLayout.LayoutParams(dp(48), dp(48)))
-        top.addView(iconButton("＋", "新建聊天") { viewModel.newConversation() }, LinearLayout.LayoutParams(dp(48), dp(48)))
-        root.addView(top, LinearLayout.LayoutParams(-1, dp(64)))
+        top.addView(title, LinearLayout.LayoutParams(0, dp(46), 1f))
+        top.addView(iconButton("☷", "聊天记录") { showHistory() }, LinearLayout.LayoutParams(dp(46), dp(46)))
+        top.addView(iconButton("＋", "新建聊天") { viewModel.newConversation() }, LinearLayout.LayoutParams(dp(46), dp(46)))
+        root.addView(top, LinearLayout.LayoutParams(-1, dp(84)))
 
         status = label("正在准备聊天…", 13f, false, textSecondary).apply {
             gravity = Gravity.CENTER
@@ -90,7 +91,7 @@ class ChatActivity : ComponentActivity() {
             layoutManager = LinearLayoutManager(this@ChatActivity).apply { stackFromEnd = true }
             adapter = this@ChatActivity.adapter
             clipToPadding = false
-            setPadding(0, dp(8), 0, dp(8))
+            setPadding(0, dp(10), 0, dp(12))
             contentDescription = "聊天消息"
         }
         root.addView(recycler, LinearLayout.LayoutParams(-1, 0, 1f))
@@ -98,8 +99,9 @@ class ChatActivity : ComponentActivity() {
         val composer = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.BOTTOM
-            setPadding(dp(10), dp(8), dp(10), dp(10))
-            background = rounded(surface, 0)
+            setPadding(dp(14), dp(10), dp(14), dp(12))
+            background = rounded(surface, 24, divider)
+            elevation = dp(6).toFloat()
         }
         input = EditText(this).apply {
             hint = "想和小猫说点什么？"
@@ -108,9 +110,9 @@ class ChatActivity : ComponentActivity() {
             setTextColor(textPrimary)
             setHintTextColor(textSecondary)
             setPadding(dp(14), dp(10), dp(14), dp(10))
-            background = rounded(appBackground, 8)
+            background = rounded(appBackground, 18, divider)
             maxLines = 4
-            minHeight = dp(48)
+            minHeight = dp(54)
             imeOptions = EditorInfo.IME_ACTION_SEND
             setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEND) { send(); true } else false
@@ -118,9 +120,9 @@ class ChatActivity : ComponentActivity() {
         }
         composer.addView(input, LinearLayout.LayoutParams(0, -2, 1f).apply { marginEnd = dp(8) })
         sendButton = primaryButton("发送") { send() }
-        composer.addView(sendButton, LinearLayout.LayoutParams(dp(68), dp(48)))
+        composer.addView(sendButton, LinearLayout.LayoutParams(dp(76), dp(54)))
         stopButton = actionButton("停止") { viewModel.stopGenerating() }.apply { visibility = View.GONE }
-        composer.addView(stopButton, LinearLayout.LayoutParams(dp(68), dp(48)))
+        composer.addView(stopButton, LinearLayout.LayoutParams(dp(76), dp(54)))
         root.addView(composer, LinearLayout.LayoutParams(-1, -2))
         return root
     }
@@ -212,7 +214,8 @@ class ChatActivity : ComponentActivity() {
 
     private fun primaryButton(value: String, action: () -> Unit) = actionButton(value, action).apply {
         setTextColor(Color.WHITE)
-        background = rounded(primary, 8)
+        background = rounded(primary, 18)
+        elevation = dp(2).toFloat()
     }
 
     private fun actionButton(value: String, action: () -> Unit) = Button(this).apply {
@@ -222,7 +225,7 @@ class ChatActivity : ComponentActivity() {
         minHeight = dp(48)
         contentDescription = value
         setTextColor(textPrimary)
-        background = rounded(appBackground, 8)
+        background = rounded(appBackground, 18, divider)
         stateListAnimator = null
         setOnClickListener { action() }
     }
@@ -235,9 +238,10 @@ class ChatActivity : ComponentActivity() {
         setLineSpacing(0f, 1.15f)
     }
 
-    private fun rounded(color: Int, radiusDp: Int) = GradientDrawable().apply {
+    private fun rounded(color: Int, radiusDp: Int, strokeColor: Int? = null) = GradientDrawable().apply {
         setColor(color)
         cornerRadius = dp(radiusDp).toFloat()
+        strokeColor?.let { setStroke(dp(1), it) }
     }
 
     private fun dp(value: Int) = ScreenUtils.dp(this, value)

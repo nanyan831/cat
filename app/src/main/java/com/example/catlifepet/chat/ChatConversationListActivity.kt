@@ -36,6 +36,7 @@ class ChatConversationListActivity : ComponentActivity() {
     private val primary get() = ContextCompat.getColor(this, R.color.primary)
     private val textPrimary get() = ContextCompat.getColor(this, R.color.text_primary)
     private val textSecondary get() = ContextCompat.getColor(this, R.color.text_secondary)
+    private val divider get() = ContextCompat.getColor(this, R.color.divider_soft)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +54,7 @@ class ChatConversationListActivity : ComponentActivity() {
     private fun buildContent(): View {
         content = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(dp(20), dp(18), dp(20), dp(32))
+            setPadding(dp(20), dp(42), dp(20), dp(34))
         }
         return ScrollView(this).apply {
             isFillViewport = true
@@ -117,7 +118,8 @@ class ChatConversationListActivity : ComponentActivity() {
         return LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(dp(16), dp(14), dp(16), dp(14))
-            background = rounded(if (selected) warmSurface else surface, 10)
+            background = rounded(if (selected) warmSurface else surface, 22, divider)
+            elevation = dp(1).toFloat()
             isClickable = true
             foreground = selectableItemBackground()
             addView(label(conversation.title?.takeIf(String::isNotBlank) ?: "未命名 AI 会话", 17f, true, textPrimary), match(dp(5)))
@@ -137,7 +139,8 @@ class ChatConversationListActivity : ComponentActivity() {
         return LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(dp(16), dp(14), dp(16), dp(14))
-            background = rounded(warmSurface, 10)
+            background = rounded(warmSurface, 22, divider)
+            elevation = dp(1).toFloat()
             addView(label(title, 16f, true, textPrimary), match(dp(5)))
             addView(label(subtitle, 13f, false, textSecondary), match())
         }
@@ -145,7 +148,8 @@ class ChatConversationListActivity : ComponentActivity() {
 
     private fun primaryButton(text: String, action: () -> Unit) = actionButton(text, action).apply {
         setTextColor(Color.WHITE)
-        background = rounded(primary, 10)
+        background = rounded(primary, 18)
+        elevation = dp(2).toFloat()
     }
 
     private fun actionButton(text: String, action: () -> Unit) = Button(this).apply {
@@ -154,7 +158,7 @@ class ChatConversationListActivity : ComponentActivity() {
         isAllCaps = false
         minHeight = dp(48)
         setTextColor(textPrimary)
-        background = rounded(surface, 10)
+        background = rounded(surface, 18, divider)
         stateListAnimator = null
         setOnClickListener { action() }
     }
@@ -167,9 +171,10 @@ class ChatConversationListActivity : ComponentActivity() {
         setLineSpacing(0f, 1.15f)
     }
 
-    private fun rounded(color: Int, radiusDp: Int) = GradientDrawable().apply {
+    private fun rounded(color: Int, radiusDp: Int, strokeColor: Int? = null) = GradientDrawable().apply {
         setColor(color)
         cornerRadius = dp(radiusDp).toFloat()
+        strokeColor?.let { setStroke(dp(1), it) }
     }
 
     private fun selectableItemBackground(): android.graphics.drawable.Drawable? {
