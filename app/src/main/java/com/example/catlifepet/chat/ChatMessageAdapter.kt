@@ -5,6 +5,8 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
+import android.os.Handler
+import android.os.Looper
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.Button
@@ -77,6 +79,7 @@ class MessageRow(
         setPadding(dp(10), 0, dp(10), 0)
     }
     private var bound: ChatMessage? = null
+    private val smoothText = SmoothStreamingText(messageText)
 
     init {
         orientation = HORIZONTAL
@@ -101,7 +104,11 @@ class MessageRow(
         } else if (getChildAt(0) !== bubble) {
             removeAllViews(); addView(bubble, LayoutParams(0, -2, 0.82f)); addView(TextView(context), LayoutParams(0, 1, 0.18f))
         }
-        messageText.text = message.content.ifBlank { "…" }
+        if (!user && (message.status == "streaming" || smoothText.canContinue(message.id, message.content))) {
+            smoothText.showStreaming(message.id, message.content)
+        } else {
+            smoothText.showImmediate(message.id, message.content.ifBlank { "…" })
+        }
         messageText.setTextColor(ContextCompat.getColor(context, R.color.text_primary))
         bubble.background = rounded(
             ContextCompat.getColor(context, if (user) R.color.primary_light else R.color.surface_primary),
@@ -135,4 +142,80 @@ class MessageRow(
     }
 
     private fun dp(value: Int) = ScreenUtils.dp(context, value)
+
+    override fun onDetachedFromWindow() {
+        smoothText.stop()
+        super.onDetachedFromWindow()
+    }
+}
+
+private class SmoothStreamingText(
+    private val view: TextView
+) {
+    private val handler = Handler(Looper.getMainLooper())
+    private var messageId: String? = null
+    private var target = ""
+    private var visible = ""
+    private var running = false
+
+    private val pump = object : Runnable {
+        override fun run() {
+            if (!running) return
+            if (visible.length >= target.length) {
+                running = false
+                return
+            }
+            visible = target.substring(0, nextEndIndex(visible.length, target, CHARS_PER_FRAME))
+            view.text = visible
+            handler.postDelayed(this, FRAME_DELAY_MS)
+        }
+    }
+
+    fun showStreaming(id: String, text: String) {
+        if (messageId != id || !text.startsWith(visible)) {
+            messageId = id
+            visible = ""
+            view.text = ""
+        }
+        target = text
+        if (target.isEmpty()) {
+            stop()
+            view.text = ""
+            return
+        }
+        if (!running && visible.length < target.length) {
+            running = true
+            handler.removeCallbacks(pump)
+            handler.post(pump)
+        }
+    }
+
+    fun showImmediate(id: String, text: String) {
+        stop()
+        messageId = id
+        target = text
+        visible = text
+        view.text = text
+    }
+
+    fun canContinue(id: String, text: String): Boolean =
+        messageId == id && text.startsWith(visible) && visible.length < text.length
+
+    fun stop() {
+        running = false
+        handler.removeCallbacks(pump)
+    }
+
+    private fun nextEndIndex(start: Int, text: String, codePoints: Int): Int {
+        var end = start
+        repeat(codePoints) {
+            if (end < text.length) end = text.offsetByCodePoints(end, 1)
+        }
+        return end
+    }
+
+    private companion object {
+        const val FRAME_DELAY_MS = 18L
+        const val CHARS_PER_FRAME = 2
+    }
 }
