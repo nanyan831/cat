@@ -129,7 +129,7 @@ class AuthActivity : Activity() {
         errorMessage?.let { content.addView(errorLabel(it), match(dp(10))) }
         content.addView(primaryButton(if (busy) "正在发送…" else "发送验证码") {
             if (busy) return@primaryButton
-            email = emailInput.text.toString().trim()
+            email = normalizeEmail(emailInput.text.toString())
             if (email.isBlank()) {
                 errorMessage = "请输入邮箱地址。"
                 render()
@@ -236,6 +236,7 @@ class AuthActivity : Activity() {
     }
 
     private fun requestCode() = runBusy {
+        email = normalizeEmail(email)
         when (val outcome = repository.requestCode(email)) {
             is AuthOutcome.Success -> {
                 page = Page.CODE
@@ -246,6 +247,7 @@ class AuthActivity : Activity() {
     }
 
     private fun verifyCode(code: String) = runBusy {
+        email = normalizeEmail(email)
         when (val outcome = repository.verifyCode(email, code)) {
             is AuthOutcome.Success -> {
                 if (requireLogin) {
@@ -361,6 +363,12 @@ class AuthActivity : Activity() {
         "invalid_request" -> "输入内容不正确，请检查后重试。"
         else -> if (failure.retryable) "服务器暂时不可用，请稍后重试。" else "操作没有完成，请稍后重试。"
     }
+
+    private fun normalizeEmail(value: String): String = value
+        .trim()
+        .replace('。', '.')
+        .replace('．', '.')
+        .replace(" ", "")
 
     private fun input(hintText: String, type: Int) = EditText(this).apply {
         hint = hintText
