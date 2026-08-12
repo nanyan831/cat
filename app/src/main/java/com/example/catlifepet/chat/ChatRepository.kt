@@ -1,5 +1,6 @@
 package com.example.catlifepet.chat
 
+import android.util.Log
 import com.example.catlifepet.auth.AuthOutcome
 import com.example.catlifepet.auth.AuthRepository
 import com.example.catlifepet.chat.data.ChatDao
@@ -13,10 +14,12 @@ import com.example.catlifepet.chat.network.MessageDto
 import com.example.catlifepet.chat.network.TransportStreamEvent
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withTimeout
 import kotlinx.coroutines.withContext
 
 class ChatRepository(
@@ -94,14 +97,14 @@ class ChatRepository(
         dao.upsertPending(pending)
         try {
             ensureAuthenticated()
-            var retryAuthentication = collectStream(conversationId, normalized, clientMessageId) { emit(it) }
+            var retryAuthentication = withTimeout(STREAM_TIMEOUT_MS) {
+                collectStream(conversationId, normalized, clientMessageId) { emit(it) }
+            }
             if (retryAuthentication) {
                 when (authRepository.ensureAuthenticated(forceRefresh = true)) {
-                    is AuthOutcome.Success -> retryAuthentication = collectStream(
-                        conversationId,
-                        normalized,
-                        clientMessageId
-                    ) { emit(it) }
+                    is AuthOutcome.Success -> retryAuthentication = withTimeout(STREAM_TIMEOUT_MS) {
+                        collectStream(conversationId, normalized, clientMessageId) { emit(it) }
+                    }
                     is AuthOutcome.Failure -> Unit
                 }
             }
@@ -110,13 +113,19 @@ class ChatRepository(
                 dao.upsertPending(pending.copy(state = "failed", errorMessage = message))
                 emit(ChatSendEvent.Failure("invalid_access_token", message, false, sessionExpired = true))
             }
+        } catch (error: TimeoutCancellationException) {
+            logWarning("Chat stream timed out: clientMessageId=$clientMessageId")
+            val message = TransportStreamEvent.Failure(null, "ai_timeout", "", true).toUserMessage()
+            dao.upsertPending(pending.copy(state = "failed", errorMessage = message))
+            emit(ChatSendEvent.Failure("ai_timeout", message, true))
         } catch (error: CancellationException) {
             withContext(NonCancellable) {
                 dao.upsertPending(pending.copy(state = "stopped", errorMessage = "已停止生成，可以重试。"))
             }
             throw error
         } catch (error: ChatHttpException) {
-            val message = if (error.status == 401) "登录已失效，请重新登录。" else "网络中断，消息已保留。"
+            logWarning("Chat send failed: status=${error.status}, code=${error.code}, message=${error.message}")
+            val message = error.toUserMessage()
             dao.upsertPending(pending.copy(state = "failed", errorMessage = message))
             emit(ChatSendEvent.Failure(error.code, message, error.retryable, error.status == 401))
         }
@@ -154,14 +163,13 @@ class ChatRepository(
                     emitEvent(ChatSendEvent.Completed(event.message.toDomain(conversationId)))
                 }
                 is TransportStreamEvent.Failure -> {
+                    logWarning(
+                        "Chat stream failure event: status=${event.status}, code=${event.code}, message=${event.message}"
+                    )
                     if (event.status == 401) {
                         unauthorized = true
                     } else {
-                        val userMessage = when (event.code) {
-                            "daily_quota_exceeded" -> "今天的聊天次数已经用完了，我们明天再继续吧。"
-                            "rate_limited" -> "说得有点快啦，稍等一会儿再试。"
-                            else -> event.message
-                        }
+                        val userMessage = event.toUserMessage()
                         val pending = dao.listPending(conversationId).firstOrNull {
                             it.clientMessageId == clientMessageId
                         }
@@ -216,6 +224,61 @@ class ChatRepository(
 
     private fun ChatHttpException.toLoadFailure(): ChatLoadResult =
         if (status == 401) ChatLoadResult.SessionExpired else ChatLoadResult.Failure("操作没有完成，请稍后重试。")
+
+    private fun ChatHttpException.toUserMessage(): String =
+        TransportStreamEvent.Failure(status, code, message.orEmpty(), retryable).toUserMessage()
+
+    private fun TransportStreamEvent.Failure.toUserMessage(): String {
+        val message = when (code) {
+            "invalid_access_token", "missing_access_token", "token_expired" -> "登录已失效，请重新登录。"
+            "daily_quota_exceeded" -> "今天的聊天次数已经用完了，我们明天再继续吧。"
+            "rate_limited" -> "说得有点快啦，稍等一会儿再试。"
+            "turn_in_progress" -> "上一条还在生成，稍等一下再试。"
+            "client_message_conflict", "message_retry_conflict" -> "这条消息状态不一致，请重新发送一条新的。"
+            "ai_provider_rate_limited" -> "模型那边有点忙，稍等一会儿再试。"
+            "ai_timeout" -> "模型回复超时了，稍后再试一次。"
+            "ai_network_error", "ai_stream_failed", "internal_error" -> "小猫刚才没连上模型，稍后再试。"
+            "network_error", "stream_interrupted" -> "网络中断，消息已保留。"
+            "empty_response" -> "服务器没有返回内容，请稍后重试。"
+            "invalid_stream" -> "回复数据异常，请稍后重试。"
+            "http_error" -> this.message.ifBlank { "服务器拒绝了请求。" }
+            else -> this.message.ifBlank { "服务器拒绝了请求。" }
+        }
+        return if (status != null && code !in USER_FRIENDLY_CODES) {
+            "$message（$code / HTTP $status）"
+        } else {
+            message
+        }
+    }
+
+    private fun logWarning(message: String) {
+        runCatching { Log.w(TAG, message) }
+    }
+
+    private companion object {
+        const val TAG = "CatLifePet"
+        const val STREAM_TIMEOUT_MS = 45_000L
+
+        val USER_FRIENDLY_CODES = setOf(
+            "invalid_access_token",
+            "missing_access_token",
+            "token_expired",
+            "daily_quota_exceeded",
+            "rate_limited",
+            "turn_in_progress",
+            "client_message_conflict",
+            "message_retry_conflict",
+            "ai_provider_rate_limited",
+            "ai_timeout",
+            "ai_network_error",
+            "ai_stream_failed",
+            "internal_error",
+            "network_error",
+            "stream_interrupted",
+            "empty_response",
+            "invalid_stream"
+        )
+    }
 }
 
 private fun ConversationDto.toEntity() = ConversationEntity(id, title, createdAt, updatedAt)

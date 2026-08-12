@@ -1,5 +1,6 @@
 package com.example.catlifepet.chat.network
 
+import android.util.Log
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
@@ -58,6 +59,7 @@ class ChatHttpClient(
             call.enqueue(object : Callback {
                 override fun onFailure(call: Call, error: IOException) {
                     if (!call.isCanceled()) {
+                        logWarning("Chat stream network failure: ${error.message}")
                         trySend(TransportStreamEvent.Failure(null, "network_error", "无法连接服务器，请稍后重试。", true))
                     }
                     close()
@@ -68,6 +70,9 @@ class ChatHttpClient(
                         response.use {
                             if (!response.isSuccessful) {
                                 val error = response.toException()
+                                logWarning(
+                                    "Chat stream rejected: status=${error.status}, code=${error.code}, message=${error.message}"
+                                )
                                 trySend(TransportStreamEvent.Failure(error.status, error.code, error.message, error.retryable))
                                 close()
                                 return
@@ -164,17 +169,25 @@ class ChatHttpClient(
         val envelope = runCatching {
             body?.charStream()?.use { gson.fromJson(it, ApiErrorEnvelopeDto::class.java) }
         }.getOrNull()
+        val errorCode = envelope?.error?.code ?: "http_error"
+        val errorMessage = envelope?.error?.message
+            ?: "服务器拒绝了请求（HTTP $code，$errorCode）。"
         return ChatHttpException(
             code,
-            envelope?.error?.code ?: "http_error",
-            envelope?.error?.message ?: "服务器拒绝了请求。",
+            errorCode,
+            errorMessage,
             code >= 500
         )
     }
 
     private fun url(path: String) = baseUrl.newBuilder().addPathSegments(path).build()
 
+    private fun logWarning(message: String) {
+        runCatching { Log.w(TAG, message) }
+    }
+
     private companion object {
+        const val TAG = "CatLifePet"
         val JSON_MEDIA_TYPE = "application/json; charset=utf-8".toMediaType()
     }
 }
