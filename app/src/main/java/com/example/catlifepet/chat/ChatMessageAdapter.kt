@@ -215,7 +215,7 @@ private class SmoothStreamingText(
     }
 
     private companion object {
-        const val FRAME_DELAY_MS = 18L
-        const val CHARS_PER_FRAME = 2
+        const val FRAME_DELAY_MS = 38L
+        const val CHARS_PER_FRAME = 1
     }
 }
