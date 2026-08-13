@@ -20,7 +20,11 @@ function Invoke-SmokeRequest {
     $args = @{
         Method = $Method
         Uri = "$base$Path"
-        Headers = $Headers
+        UseBasicParsing = $true
+        TimeoutSec = 15
+    }
+    if ($Headers.Count -gt 0) {
+        $args.Headers = $Headers
     }
     if ($null -ne $Body) {
         $args.ContentType = "application/json"
@@ -32,9 +36,17 @@ function Invoke-SmokeRequest {
         $statusCode = [int]$response.StatusCode
         $content = $response.Content
     } catch [System.Net.WebException] {
+        if ($null -eq $_.Exception.Response) {
+            throw "Smoke request failed for $Method $Path. $($_.Exception.Message)"
+        }
         $statusCode = [int]$_.Exception.Response.StatusCode
-        $reader = New-Object System.IO.StreamReader($_.Exception.Response.GetResponseStream())
-        $content = $reader.ReadToEnd()
+        $responseStream = $_.Exception.Response.GetResponseStream()
+        if ($null -ne $responseStream) {
+            $reader = New-Object System.IO.StreamReader($responseStream)
+            $content = $reader.ReadToEnd()
+        } else {
+            $content = ""
+        }
         $response = [pscustomobject]@{ StatusCode = $statusCode; Content = $content }
     } catch {
         throw "Smoke request failed for $Method $Path. $($_.Exception.Message)"
@@ -53,6 +65,19 @@ if ($healthBody.service -ne "catlifepet-server") {
 }
 
 Invoke-SmokeRequest -Method GET -Path "/v1/conversations" -ExpectedStatus 401 | Out-Null
+
+$privacyHtml = Invoke-SmokeRequest -Method GET -Path "/privacy" -ExpectedStatus 200
+$privacyHtmlValid = $privacyHtml.Content -match "CatLifePet"
+$privacyHtmlValid = $privacyHtmlValid -and ($privacyHtml.Content -match "1132994878@qq.com")
+$privacyHtmlValid = $privacyHtmlValid -and ($privacyHtml.Content -match "DeepSeek")
+if (-not $privacyHtmlValid) {
+    throw "Privacy HTML does not contain expected release policy text."
+}
+
+$privacyMarkdown = Invoke-SmokeRequest -Method GET -Path "/privacy.md" -ExpectedStatus 200
+if ($privacyMarkdown.Content -notmatch "https://catlifepet.top/privacy") {
+    throw "Privacy markdown does not contain the public privacy URL."
+}
 
 if ($AccessToken.Trim().Length -gt 0) {
     $headers = @{ Authorization = "Bearer $AccessToken" }

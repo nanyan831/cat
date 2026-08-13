@@ -67,7 +67,7 @@ docker compose -f docker-compose.production.yml --env-file ops/env.production.lo
 1. Confirm staging is green.
 2. Confirm a fresh database backup exists.
 3. Promote the same image digest that passed staging.
-4. Set `CATLIFEPET_PUBLIC_BASE_URL` to the production HTTPS URL.
+4. Set `CATLIFEPET_PUBLIC_BASE_URL` to `https://api.catlifepet.top`.
 5. Run the unauthenticated smoke test immediately after deploy.
 6. Run authenticated smoke with a test account.
 7. Watch logs for 30 minutes for:
@@ -76,6 +76,14 @@ docker compose -f docker-compose.production.yml --env-file ops/env.production.lo
    - DeepSeek provider errors
    - SMTP delivery errors
    - database connection pool exhaustion
+
+Production smoke command:
+
+```powershell
+.\ops\smoke-test.ps1 -BaseUrl https://api.catlifepet.top
+```
+
+The app store privacy URL is `https://catlifepet.top/privacy`. Configure the HTTPS reverse proxy so this URL reaches the same server route as `/privacy`, or serve the same HTML from the apex domain. The smoke script validates `/privacy` and `/privacy.md` on the supplied base URL after every deployment.
 
 ## Database Migrations
 
@@ -116,7 +124,6 @@ The repository contains deployable configuration, but real staging/production de
 
 - Hosting target or Kubernetes/Docker host.
 - Managed PostgreSQL connection details.
-- HTTPS domain and certificate.
+- HTTPS certificate and reverse proxy for `api.catlifepet.top` and `catlifepet.top/privacy`.
 - SMTP account.
 - DeepSeek API key.
-- Operator contact details for privacy policy and account deletion support.
