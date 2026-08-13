@@ -25,14 +25,32 @@ class ReleaseSurfaceTest {
     }
 
     @Test
-    fun `privacy policy keeps release placeholders explicit`() {
+    fun `privacy policy has publishable operator and contact details`() {
         val privacyPolicy = File("../PRIVACY_POLICY.md").readText()
+        val unresolvedPlaceholders = Regex("""\{[^}]+}""")
+            .findAll(privacyPolicy)
+            .map { it.value }
+            .toList()
 
-        assertTrue(privacyPolicy.contains("{运营者名称}"))
-        assertTrue(privacyPolicy.contains("{隐私联系邮箱}"))
-        assertTrue(privacyPolicy.contains("{服务器所在国家或地区}"))
-        assertTrue(privacyPolicy.contains("{隐私政策 URL}"))
+        assertTrue("Unresolved privacy placeholders found: $unresolvedPlaceholders", unresolvedPlaceholders.isEmpty())
+        assertTrue(privacyPolicy.contains("CatLifePet 项目组"))
+        assertTrue(privacyPolicy.contains("1132994878@qq.com"))
+        assertTrue(privacyPolicy.contains("中国大陆（阿里云华东 2 上海）"))
+        assertTrue(privacyPolicy.contains("https://catlifepet.top/privacy"))
         assertTrue(privacyPolicy.contains("DeepSeek"))
+    }
+
+    @Test
+    fun `release checklist does not keep unresolved publication placeholders`() {
+        val checklist = File("../RELEASE_CHECKLIST.md").readText()
+        val unresolvedPlaceholders = Regex("""\{[^}]+}""")
+            .findAll(checklist)
+            .map { it.value }
+            .toList()
+
+        assertTrue("Unresolved release checklist placeholders found: $unresolvedPlaceholders", unresolvedPlaceholders.isEmpty())
+        assertTrue(checklist.contains("https://catlifepet.top/privacy"))
+        assertTrue(checklist.contains("不得包含"))
     }
 
     @Test
