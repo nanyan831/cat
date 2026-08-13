@@ -14,6 +14,26 @@ sealed interface AuthOutcome<out T> {
     ) : AuthOutcome<Nothing>
 }
 
+fun AuthOutcome.Failure.toUserMessage(): String = when (code) {
+    "invalid_code" -> "验证码错误或已过期，请重新输入。"
+    "code_attempts_exceeded" -> "尝试次数过多，请重新发送验证码。"
+    "code_send_failed" -> "验证码暂时发送失败，请稍后再试。"
+    "rate_limited" -> "操作有些频繁，请稍后再试。"
+    "invalid_session",
+    "session_replay_detected",
+    "invalid_access_token",
+    "missing_access_token",
+    "token_expired",
+    "logged_out" -> "登录已失效，请重新登录。"
+    "secure_storage_error" -> "无法安全保存登录状态，请检查设备安全设置。"
+    "invalid_request" -> "输入内容不正确，请检查后重试。"
+    "empty_response" -> "服务器没有返回内容，请稍后重试。"
+    "network_error" -> "无法连接服务器，请检查网络后重试。"
+    "client_error" -> "数据解析失败，请稍后重试。"
+    "http_error" -> friendlyAuthHttpMessage(httpStatus)
+    else -> if (retryable) "服务器暂时不可用，请稍后重试。" else friendlyAuthHttpMessage(httpStatus)
+}
+
 class AuthRepository(
     private val api: AuthApi,
     private val sessionStore: SessionStore,
@@ -44,7 +64,7 @@ class AuthRepository(
 
     suspend fun restoreSession(): AuthOutcome<UserProfile> {
         val refreshToken = sessionStore.readRefreshToken()
-            ?: return AuthOutcome.Failure("logged_out", "No saved session.")
+            ?: return AuthOutcome.Failure("logged_out", "登录已失效，请重新登录。")
         return refresh(refreshToken)
     }
 
@@ -99,7 +119,7 @@ class AuthRepository(
     suspend fun ensureAuthenticated(forceRefresh: Boolean = false): AuthOutcome<Unit> {
         if (!forceRefresh && !tokenProvider.accessToken.isNullOrBlank()) return AuthOutcome.Success(Unit)
         val refreshToken = sessionStore.readRefreshToken()
-            ?: return AuthOutcome.Failure("logged_out", "No saved session.", httpStatus = 401)
+            ?: return AuthOutcome.Failure("logged_out", "登录已失效，请重新登录。", httpStatus = 401)
         return when (val restored = refresh(refreshToken)) {
             is AuthOutcome.Failure -> restored
             is AuthOutcome.Success -> AuthOutcome.Success(Unit)
@@ -137,7 +157,7 @@ class AuthRepository(
                 runCatching { sessionStore.clear() }
                 AuthOutcome.Failure(
                     code = "secure_storage_error",
-                    message = "The secure session could not be saved."
+                    message = "无法安全保存登录状态，请检查设备安全设置。"
                 )
             }
         )
@@ -152,7 +172,7 @@ class AuthRepository(
             var response = call()
             if (response.code() == 401) {
                 val refreshToken = sessionStore.readRefreshToken()
-                    ?: return AuthOutcome.Failure("logged_out", "No saved session.")
+                    ?: return AuthOutcome.Failure("logged_out", "登录已失效，请重新登录。")
                 when (val refreshed = refresh(refreshToken)) {
                     is AuthOutcome.Failure -> return refreshed
                     is AuthOutcome.Success -> Unit
@@ -163,7 +183,7 @@ class AuthRepository(
         } catch (error: IOException) {
             networkFailure(error)
         } catch (error: RuntimeException) {
-            AuthOutcome.Failure("client_error", "The response could not be processed.")
+            AuthOutcome.Failure("client_error", "数据解析失败，请稍后重试。")
         }
     }
 
@@ -173,32 +193,45 @@ class AuthRepository(
         } catch (error: IOException) {
             networkFailure(error)
         } catch (error: RuntimeException) {
-            AuthOutcome.Failure("client_error", "The response could not be processed.")
+            AuthOutcome.Failure("client_error", "数据解析失败，请稍后重试。")
         }
     }
 
     private fun <T> Response<T>.toOutcome(): AuthOutcome<T> {
         if (isSuccessful) {
             val value = body()
-                ?: return AuthOutcome.Failure("empty_response", "The server returned an empty response.", code())
+                ?: return AuthOutcome.Failure("empty_response", "服务器没有返回内容，请稍后重试。", code())
             return AuthOutcome.Success(value)
         }
         val envelope = runCatching {
             errorBody()?.charStream()?.use { gson.fromJson(it, ApiErrorEnvelope::class.java) }
         }.getOrNull()
-        return AuthOutcome.Failure(
+        val failure = AuthOutcome.Failure(
             code = envelope?.error?.code ?: "http_error",
-            message = envelope?.error?.message ?: "The server rejected the request.",
+            message = envelope?.error?.message.orEmpty(),
             httpStatus = code(),
             retryable = code() >= 500
         )
+        return failure.copy(message = failure.toUserMessage())
     }
 
     private fun networkFailure(error: IOException): AuthOutcome.Failure {
         return AuthOutcome.Failure(
             code = "network_error",
-            message = error.message ?: "The server could not be reached.",
+            message = "无法连接服务器，请检查网络后重试。",
             retryable = true
         )
     }
+}
+
+private fun friendlyAuthHttpMessage(status: Int?): String = when (status) {
+    400, 422 -> "输入内容不正确，请检查后重试。"
+    401 -> "登录已失效，请重新登录。"
+    403 -> "当前账号没有权限继续操作，请重新登录后再试。"
+    404 -> "请求的内容暂时找不到了，请稍后重试。"
+    408 -> "服务器响应超时，请稍后重试。"
+    409 -> "当前状态已变化，请刷新后重试。"
+    429 -> "操作有些频繁，请稍后再试。"
+    in 500..599 -> "服务器暂时不可用，请稍后重试。"
+    else -> "操作没有完成，请稍后重试。"
 }

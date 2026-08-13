@@ -94,8 +94,34 @@ class AuthRepositoryTest {
 
         assertTrue(outcome is AuthOutcome.Failure)
         assertEquals("invalid_code", (outcome as AuthOutcome.Failure).code)
+        assertEquals("验证码错误或已过期，请重新输入。", outcome.message)
+        assertEquals("验证码错误或已过期，请重新输入。", outcome.toUserMessage())
         assertNull(store.readRefreshToken())
         assertNull(tokenProvider.accessToken)
+    }
+
+    @Test
+    fun `server english error messages are converted to friendly auth copy`() = runBlocking {
+        server.enqueue(jsonResponse(429, errorJson("rate_limited", "Too many requests.")))
+
+        val outcome = repository.requestCode("cat@example.com")
+
+        assertTrue(outcome is AuthOutcome.Failure)
+        assertEquals("rate_limited", (outcome as AuthOutcome.Failure).code)
+        assertEquals("操作有些频繁，请稍后再试。", outcome.message)
+        assertFalse(outcome.message.contains("Too many"))
+    }
+
+    @Test
+    fun `network auth failure uses friendly retry copy`() = runBlocking {
+        server.shutdown()
+
+        val outcome = repository.requestCode("cat@example.com")
+
+        assertTrue(outcome is AuthOutcome.Failure)
+        assertEquals("network_error", (outcome as AuthOutcome.Failure).code)
+        assertEquals("无法连接服务器，请检查网络后重试。", outcome.message)
+        assertTrue(outcome.retryable)
     }
 
     @Test
@@ -133,8 +159,8 @@ class AuthRepositoryTest {
         {"id":"user-1","email":"cat@example.com","displayName":"Momo","timeZone":"Asia/Shanghai"}
     """.trimIndent()
 
-    private fun errorJson(code: String) = """
-        {"error":{"code":"$code","message":"request rejected"},"requestId":"request-1"}
+    private fun errorJson(code: String, message: String = "request rejected") = """
+        {"error":{"code":"$code","message":"$message"},"requestId":"request-1"}
     """.trimIndent()
 }
 

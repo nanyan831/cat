@@ -245,7 +245,7 @@ class AuthActivity : ComponentActivity() {
                 page = Page.CODE
                 errorMessage = null
             }
-            is AuthOutcome.Failure -> errorMessage = messageFor(outcome)
+            is AuthOutcome.Failure -> errorMessage = outcome.toUserMessage()
         }
     }
 
@@ -260,7 +260,7 @@ class AuthActivity : ComponentActivity() {
                     errorMessage = null
                 }
             }
-            is AuthOutcome.Failure -> errorMessage = messageFor(outcome)
+            is AuthOutcome.Failure -> errorMessage = outcome.toUserMessage()
         }
     }
 
@@ -282,7 +282,7 @@ class AuthActivity : ComponentActivity() {
                     } else {
                         page = Page.RESTORE_ERROR
                     }
-                    errorMessage = messageFor(outcome)
+                    errorMessage = outcome.toUserMessage()
                 }
             }
         }
@@ -296,7 +296,7 @@ class AuthActivity : ComponentActivity() {
             )
         ) {
             is AuthOutcome.Success -> errorMessage = null
-            is AuthOutcome.Failure -> errorMessage = messageFor(outcome)
+            is AuthOutcome.Failure -> errorMessage = outcome.toUserMessage()
         }
     }
 
@@ -325,7 +325,7 @@ class AuthActivity : ComponentActivity() {
                 email = ""
                 errorMessage = null
             }
-            is AuthOutcome.Failure -> errorMessage = messageFor(outcome)
+            is AuthOutcome.Failure -> errorMessage = outcome.toUserMessage()
         }
     }
 
@@ -354,17 +354,6 @@ class AuthActivity : ComponentActivity() {
             busy = false
             render()
         }
-    }
-
-    private fun messageFor(failure: AuthOutcome.Failure): String = when (failure.code) {
-        "invalid_code" -> "验证码错误或已过期，请重新输入。"
-        "code_attempts_exceeded" -> "尝试次数过多，请重新发送验证码。"
-        "rate_limited" -> "操作有些频繁，请稍后再试。"
-        "invalid_session", "session_replay_detected", "invalid_access_token", "logged_out" -> "登录已失效，请重新登录。"
-        "network_error" -> "无法连接服务器，请检查网络后重试。"
-        "secure_storage_error" -> "无法安全保存登录状态，请检查设备安全设置。"
-        "invalid_request" -> "输入内容不正确，请检查后重试。"
-        else -> if (failure.retryable) "服务器暂时不可用，请稍后重试。" else "操作没有完成，请稍后重试。"
     }
 
     private fun normalizeEmail(value: String): String = value
