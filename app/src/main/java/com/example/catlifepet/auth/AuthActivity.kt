@@ -22,8 +22,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.catlifepet.MainActivity
 import com.example.catlifepet.R
+import com.example.catlifepet.chat.data.CatLifePetDatabase
 import com.example.catlifepet.util.ScreenUtils
 import com.example.catlifepet.util.SystemBarUtils
 import kotlinx.coroutines.CoroutineScope
@@ -31,6 +33,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.ZoneId
 
 class AuthActivity : ComponentActivity() {
@@ -217,10 +220,7 @@ class AuthActivity : ComponentActivity() {
         } else {
             content.addView(primaryButton("重试") { restoreSession() }, match(dp(10)))
             content.addView(actionButton("仅退出此设备") {
-                repository.clearLocalSession()
-                page = Page.EMAIL
-                errorMessage = null
-                render()
+                clearLocalSessionAndChatCache()
             }, match(dp(18)))
         }
         addLocalFeatureNotice()
@@ -302,6 +302,7 @@ class AuthActivity : ComponentActivity() {
 
     private fun logout() = runBusy {
         repository.logout()
+        clearChatCache()
         requireLogin = true
         page = Page.EMAIL
         email = ""
@@ -320,6 +321,7 @@ class AuthActivity : ComponentActivity() {
     private fun deleteAccount() = runBusy {
         when (val outcome = repository.deleteAccount()) {
             is AuthOutcome.Success -> {
+                clearChatCache()
                 requireLogin = true
                 page = Page.EMAIL
                 email = ""
@@ -353,6 +355,29 @@ class AuthActivity : ComponentActivity() {
             block()
             busy = false
             render()
+        }
+    }
+
+    private fun clearLocalSessionAndChatCache() {
+        busy = true
+        render()
+        lifecycleScope.launch {
+            repository.clearLocalSession()
+            clearChatCache()
+            requireLogin = true
+            page = Page.EMAIL
+            email = ""
+            errorMessage = null
+            busy = false
+            render()
+        }
+    }
+
+    private suspend fun clearChatCache() {
+        withContext(Dispatchers.IO) {
+            CatLifePetDatabase.getInstance(this@AuthActivity)
+                .chatDao()
+                .clearLocalChatCache()
         }
     }
 

@@ -6,6 +6,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.catlifepet.chat.data.CatLifePetDatabase
 import com.example.catlifepet.chat.data.ConversationEntity
+import com.example.catlifepet.chat.data.MessageEntity
 import com.example.catlifepet.chat.data.PendingMessageEntity
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -42,6 +43,49 @@ class ChatRoomCacheInstrumentedTest {
                 reopened.close()
             }
             context.deleteDatabase(name)
+        }
+    }
+
+    @Test
+    fun clearLocalChatCacheRemovesAllCachedRows() {
+        runBlocking {
+            val context = ApplicationProvider.getApplicationContext<Context>()
+            val name = "chat-clear-cache-test.db"
+            context.deleteDatabase(name)
+            val database = Room.databaseBuilder(context, CatLifePetDatabase::class.java, name).build()
+            try {
+                val dao = database.chatDao()
+                dao.upsertConversation(
+                    ConversationEntity("conversation", null, "2026-07-22T00:00:00Z", "2026-07-22T00:00:00Z")
+                )
+                dao.upsertMessage(
+                    MessageEntity(
+                        id = "message",
+                        conversationId = "conversation",
+                        sequenceNumber = 1,
+                        role = "assistant",
+                        content = "old reply",
+                        status = "completed",
+                        clientMessageId = null,
+                        replyToMessageId = null,
+                        model = "fake",
+                        createdAt = "2026-07-22T00:00:01Z",
+                        updatedAt = "2026-07-22T00:00:01Z"
+                    )
+                )
+                dao.upsertPending(
+                    PendingMessageEntity("client", "conversation", "old pending", 1L, "failed", "network")
+                )
+
+                dao.clearLocalChatCache()
+
+                assertEquals(emptyList<ConversationEntity>(), dao.listConversations())
+                assertEquals(emptyList<MessageEntity>(), dao.listMessages("conversation"))
+                assertEquals(emptyList<PendingMessageEntity>(), dao.listPending("conversation"))
+            } finally {
+                database.close()
+                context.deleteDatabase(name)
+            }
         }
     }
 }

@@ -45,8 +45,14 @@ interface ChatDao {
     @Query("DELETE FROM pending_chat_messages WHERE clientMessageId = :clientMessageId")
     suspend fun deletePending(clientMessageId: String)
 
+    @Query("DELETE FROM pending_chat_messages")
+    suspend fun deleteAllPending()
+
     @Query("DELETE FROM chat_messages WHERE conversationId = :conversationId")
     suspend fun deleteMessages(conversationId: String)
+
+    @Query("DELETE FROM chat_messages")
+    suspend fun deleteAllMessages()
 
     @Query("DELETE FROM chat_conversations WHERE id = :conversationId")
     suspend fun deleteConversation(conversationId: String)
@@ -58,8 +64,15 @@ interface ChatDao {
     suspend fun deleteAllConversations()
 
     @Transaction
+    suspend fun clearLocalChatCache() {
+        deleteAllPending()
+        deleteAllMessages()
+        deleteAllConversations()
+    }
+
+    @Transaction
     suspend fun replaceConversations(conversations: List<ConversationEntity>) {
-        if (conversations.isEmpty()) deleteAllConversations()
+        if (conversations.isEmpty()) clearLocalChatCache()
         else deleteConversationsNotIn(conversations.map { it.id })
         upsertConversations(conversations)
     }

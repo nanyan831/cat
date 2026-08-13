@@ -119,6 +119,41 @@ class ChatRepositoryTest {
         )
     }
 
+    @Test
+    fun `local chat cache clear removes conversations messages and pending sends`() = runBlocking {
+        dao.upsertMessage(
+            MessageEntity(
+                id = "server-message",
+                conversationId = "conversation",
+                sequenceNumber = 1,
+                role = "assistant",
+                content = "old reply",
+                status = "completed",
+                clientMessageId = null,
+                replyToMessageId = null,
+                model = "fake",
+                createdAt = "2026-07-22T00:00:00Z",
+                updatedAt = "2026-07-22T00:00:00Z"
+            )
+        )
+        dao.upsertPending(
+            PendingMessageEntity(
+                clientMessageId = "pending-one",
+                conversationId = "conversation",
+                content = "old pending",
+                createdAtEpochMillis = 200L,
+                state = "failed",
+                errorMessage = "old error"
+            )
+        )
+
+        dao.clearLocalChatCache()
+
+        assertTrue(dao.listConversations().isEmpty())
+        assertTrue(dao.listMessages("conversation").isEmpty())
+        assertTrue(dao.listPending("conversation").isEmpty())
+    }
+
     private fun sse(body: String) = MockResponse().setHeader("Content-Type", "text/event-stream").setBody(body)
     private fun json(body: String) = MockResponse().setHeader("Content-Type", "application/json").setBody(body)
 
@@ -181,9 +216,19 @@ private class MemoryChatDao : ChatDao {
         val conversationId = pendingMap.remove(clientMessageId)?.conversationId ?: return
         publishPending(conversationId)
     }
+    override suspend fun deleteAllPending() {
+        val affectedIds = pendingMap.values.map { it.conversationId }.toSet()
+        pendingMap.clear()
+        affectedIds.forEach(::publishPending)
+    }
     override suspend fun deleteMessages(conversationId: String) {
         messageMap.entries.removeIf { it.value.conversationId == conversationId }
         publishMessages(conversationId)
+    }
+    override suspend fun deleteAllMessages() {
+        val affectedIds = messageMap.values.map { it.conversationId }.toSet()
+        messageMap.clear()
+        affectedIds.forEach(::publishMessages)
     }
     override suspend fun deleteConversation(conversationId: String) {
         conversationMap.remove(conversationId); deleteMessages(conversationId)
