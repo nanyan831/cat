@@ -2,6 +2,7 @@ package com.example.catlifepet.floating
 
 import android.app.Service
 import android.app.ActivityManager
+import android.content.pm.ApplicationInfo
 import android.content.pm.ServiceInfo
 import android.content.Context
 import android.content.Intent
@@ -125,6 +126,10 @@ class CatFloatingService : Service() {
     }
 
     private fun showDebugBehaviorSafely(state: CatState) {
+        if (!isDebugBuild()) {
+            Log.w(TAG, "debug behavior ignored in release build: $state")
+            return
+        }
         Log.d(TAG, "收到 debug behavior=$state")
         if (OverlayPermissionHelper.canDrawOverlays(this)) {
             controller?.show()
@@ -136,6 +141,10 @@ class CatFloatingService : Service() {
     }
 
     private fun showDebugRelationshipSafely(action: String) {
+        if (!isDebugBuild()) {
+            Log.w(TAG, "debug relationship behavior ignored in release build: $action")
+            return
+        }
         Log.d(TAG, "received $action")
         if (!OverlayPermissionHelper.canDrawOverlays(this)) {
             Log.w(TAG, "missing overlay permission for relationship behavior: $action")
@@ -149,6 +158,9 @@ class CatFloatingService : Service() {
             ACTION_DEBUG_CUDDLE -> controller?.showDebugCuddle()
         }
     }
+
+    private fun isDebugBuild(): Boolean =
+        applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
 
     companion object {
         private const val TAG = "CatLifePet"
@@ -218,6 +230,10 @@ class CatFloatingService : Service() {
         }
 
         fun showDebugBehavior(context: Context, state: CatState) {
+            if (!context.isDebugBuild()) {
+                Log.w(TAG, "debug behavior dispatch ignored in release build: $state")
+                return
+            }
             val action = when (state) {
                 CatState.BLINKING -> ACTION_DEBUG_BLINK
                 CatState.YAWNING -> ACTION_DEBUG_YAWN
@@ -228,6 +244,10 @@ class CatFloatingService : Service() {
         }
 
         fun showDebugRelationshipBehavior(context: Context, action: String) {
+            if (!context.isDebugBuild()) {
+                Log.w(TAG, "debug relationship dispatch ignored in release build: $action")
+                return
+            }
             if (action == ACTION_DEBUG_CURIOUS || action == ACTION_DEBUG_PEEK || action == ACTION_DEBUG_CUDDLE) {
                 sendAction(context, action)
             }
@@ -256,6 +276,9 @@ class CatFloatingService : Service() {
                 it.service.className == CatFloatingService::class.java.name
             }
         }
+
+        private fun Context.isDebugBuild(): Boolean =
+            applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
 
         fun actionForType(type: ReminderType): String {
             return when (type) {
