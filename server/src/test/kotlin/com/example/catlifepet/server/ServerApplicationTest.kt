@@ -11,6 +11,7 @@ import io.ktor.client.call.body
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
 import io.ktor.http.HttpStatusCode
+import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.config.MapApplicationConfig
 import io.ktor.server.testing.ApplicationTestBuilder
@@ -22,6 +23,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
+import java.io.File
 
 class ServerApplicationTest {
     @Test
@@ -76,6 +78,33 @@ class ServerApplicationTest {
     }
 
     @Test
+    fun `privacy policy is publicly served as html`() = testApplication {
+        configureTestApplication()
+
+        val response = createClient {}.get("/privacy")
+        val body = response.body<String>()
+
+        assertEquals(HttpStatusCode.OK, response.status)
+        assertEquals("text/html", response.contentType()?.withoutParameters().toString())
+        assertTrue(body.contains("<title>CatLifePet 隐私政策</title>"))
+        assertTrue(body.contains("CatLifePet 项目组"))
+        assertTrue(body.contains("1132994878@qq.com"))
+        assertTrue(body.contains("DeepSeek"))
+    }
+
+    @Test
+    fun `public privacy markdown matches release policy source`() = testApplication {
+        configureTestApplication()
+
+        val response = createClient {}.get("/privacy.md")
+        val body = response.body<String>().normalizeLineEndings()
+        val source = File("../PRIVACY_POLICY.md").readText(Charsets.UTF_8).normalizeLineEndings()
+
+        assertEquals(HttpStatusCode.OK, response.status)
+        assertEquals(source, body)
+    }
+
+    @Test
     fun `unexpected failure returns a generic structured error`() = testApplication {
         configureTestApplication()
 
@@ -102,6 +131,8 @@ class ServerApplicationTest {
     private fun ApplicationTestBuilder.jsonClient() = createClient {
         install(ContentNegotiation) { json() }
     }
+
+    private fun String.normalizeLineEndings(): String = replace("\r\n", "\n").trimEnd()
 }
 
 class ServerSettingsTest {

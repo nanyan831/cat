@@ -3,7 +3,9 @@ package com.example.catlifepet.server.http
 import com.example.catlifepet.server.config.ServerSettings
 import io.ktor.server.application.Application
 import io.ktor.server.application.call
+import io.ktor.http.ContentType
 import io.ktor.server.response.respond
+import io.ktor.server.response.respondText
 import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
 
@@ -19,6 +21,12 @@ internal fun Application.configureRoutes(settings: ServerSettings) {
                     requestId = call.requestId()
                 )
             )
+        }
+        get(PublicPages.PRIVACY_PATH) {
+            call.respondText(PublicPages.privacyHtml(), ContentType.Text.Html)
+        }
+        get("${PublicPages.PRIVACY_PATH}.md") {
+            call.respondText(PublicPages.privacyMarkdown(), ContentType("text", "markdown"))
         }
     }
 }
