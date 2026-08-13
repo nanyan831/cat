@@ -9,6 +9,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.Gravity
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -22,11 +23,14 @@ class ChatMessageAdapter(
     private val onRetry: (ChatMessage) -> Unit
 ) : RecyclerView.Adapter<ChatMessageAdapter.MessageHolder>() {
     private var items: List<ChatMessage> = emptyList()
+    private val appearingIds = mutableSetOf<String>()
 
     init { setHasStableIds(true) }
 
-    fun submit(messages: List<ChatMessage>) {
+    fun submit(messages: List<ChatMessage>, committed: () -> Unit = {}) {
         val previous = items
+        val oldIds = previous.mapTo(hashSetOf()) { it.id }
+        appearingIds.addAll(messages.map { it.id }.filter { it !in oldIds })
         val diff = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
             override fun getOldListSize() = previous.size
             override fun getNewListSize() = messages.size
@@ -37,6 +41,7 @@ class ChatMessageAdapter(
         })
         items = messages
         diff.dispatchUpdatesTo(this)
+        committed()
     }
 
     override fun getItemId(position: Int): Long = items[position].id.hashCode().toLong()
@@ -47,7 +52,8 @@ class ChatMessageAdapter(
     }
 
     override fun onBindViewHolder(holder: MessageHolder, position: Int) {
-        holder.row.bind(items[position])
+        val message = items[position]
+        holder.row.bind(message, appearingIds.remove(message.id))
     }
 
     class MessageHolder(val row: MessageRow) : RecyclerView.ViewHolder(row)
@@ -93,7 +99,7 @@ class MessageRow(
         retry.setOnClickListener { bound?.let(onRetry) }
     }
 
-    fun bind(message: ChatMessage) {
+    fun bind(message: ChatMessage, animateAppear: Boolean) {
         bound = message
         val user = message.role == "user"
         gravity = if (user) Gravity.END else Gravity.START
@@ -134,6 +140,20 @@ class MessageRow(
         retry.setTextColor(ContextCompat.getColor(context, R.color.primary))
         contentDescription = (if (user) "你说：" else "小猫说：") + message.content +
             if (state.isNotEmpty()) "，$state" else ""
+        if (animateAppear) animateIn(user)
+    }
+
+    private fun animateIn(user: Boolean) {
+        alpha = 0f
+        translationY = dp(10).toFloat()
+        translationX = if (user) dp(8).toFloat() else -dp(8).toFloat()
+        animate()
+            .alpha(1f)
+            .translationX(0f)
+            .translationY(0f)
+            .setDuration(180L)
+            .setInterpolator(DecelerateInterpolator(1.8f))
+            .start()
     }
 
     private fun rounded(color: Int, radius: Int) = GradientDrawable().apply {
@@ -179,8 +199,7 @@ private class SmoothStreamingText(
         }
         target = text
         if (target.isEmpty()) {
-            stop()
-            view.text = ""
+            showThinking()
             return
         }
         if (!running && visible.length < target.length) {
@@ -206,6 +225,25 @@ private class SmoothStreamingText(
         handler.removeCallbacks(pump)
     }
 
+    private fun showThinking() {
+        if (running && messageId == THINKING_ID) return
+        messageId = THINKING_ID
+        target = ""
+        visible = ""
+        running = true
+        handler.removeCallbacks(pump)
+        handler.post(object : Runnable {
+            private var step = 0
+
+            override fun run() {
+                if (!running || messageId != THINKING_ID) return
+                step = (step + 1) % 4
+                view.text = "小猫正在想" + ".".repeat(step.coerceAtLeast(1))
+                handler.postDelayed(this, THINKING_DELAY_MS)
+            }
+        })
+    }
+
     private fun nextEndIndex(start: Int, text: String, codePoints: Int): Int {
         var end = start
         repeat(codePoints) {
@@ -216,6 +254,8 @@ private class SmoothStreamingText(
 
     private companion object {
         const val FRAME_DELAY_MS = 38L
+        const val THINKING_DELAY_MS = 360L
         const val CHARS_PER_FRAME = 1
+        const val THINKING_ID = "thinking"
     }
 }

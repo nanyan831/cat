@@ -6,8 +6,10 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.Gravity
 import android.view.View
+import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
@@ -37,8 +39,11 @@ class ChatActivity : ComponentActivity() {
     private lateinit var sendButton: Button
     private lateinit var stopButton: Button
     private lateinit var stateAction: Button
+    private lateinit var layoutManager: LinearLayoutManager
     private val adapter = ChatMessageAdapter { viewModel.retry(it) }
     private var lastState = ChatUiState()
+    private var lastRenderedMessageCount = 0
+    private var lastAutoScrollAt = 0L
 
     private val appBackground get() = ContextCompat.getColor(this, R.color.app_background)
     private val surface get() = ContextCompat.getColor(this, R.color.surface_primary)
@@ -88,8 +93,18 @@ class ChatActivity : ComponentActivity() {
         })
 
         recycler = RecyclerView(this).apply {
-            layoutManager = LinearLayoutManager(this@ChatActivity).apply { stackFromEnd = true }
+            layoutManager = LinearLayoutManager(this@ChatActivity).apply {
+                stackFromEnd = true
+                this@ChatActivity.layoutManager = this
+            }
             adapter = this@ChatActivity.adapter
+            itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator().apply {
+                addDuration = 180L
+                moveDuration = 140L
+                changeDuration = 0L
+                removeDuration = 120L
+                supportsChangeAnimations = false
+            }
             clipToPadding = false
             setPadding(0, dp(10), 0, dp(12))
             contentDescription = "聊天消息"
@@ -135,6 +150,7 @@ class ChatActivity : ComponentActivity() {
     }
 
     private fun render(state: ChatUiState) {
+        val shouldFollow = shouldFollowConversation()
         lastState = state
         val conversation = state.conversations.firstOrNull { it.id == state.conversationId }
         title.text = conversation?.title?.takeIf(String::isNotBlank) ?: "和小猫聊聊"
@@ -149,15 +165,32 @@ class ChatActivity : ComponentActivity() {
                 status = "streaming"
             )
         }
-        adapter.submit(displayMessages)
-        if (displayMessages.isNotEmpty()) recycler.scrollToPosition(displayMessages.lastIndex)
+        adapter.submit(displayMessages) {
+            val appended = displayMessages.size > lastRenderedMessageCount
+            val now = SystemClock.uptimeMillis()
+            val streamingFollow = state.generating && shouldFollow && now - lastAutoScrollAt > AUTO_SCROLL_INTERVAL_MS
+            if (displayMessages.isNotEmpty() && (appended || streamingFollow)) {
+                lastAutoScrollAt = now
+                recycler.post {
+                    if (appended) recycler.smoothScrollToPosition(displayMessages.lastIndex)
+                    else recycler.scrollToPosition(displayMessages.lastIndex)
+                }
+            }
+            lastRenderedMessageCount = displayMessages.size
+        }
 
-        status.text = when (state.status) {
+        val nextStatusText = when (state.status) {
             ChatScreenStatus.LOADING -> "正在准备聊天…"
             ChatScreenStatus.READY -> state.message ?: if (displayMessages.isEmpty()) "小猫在这里，慢慢说就好。" else ""
             ChatScreenStatus.OFFLINE -> state.message ?: "当前离线，显示最近聊天记录。"
             ChatScreenStatus.SESSION_EXPIRED -> state.message ?: "登录后才能继续聊天。"
             ChatScreenStatus.ERROR -> state.message ?: "聊天暂时不可用。"
+        }
+        if (status.text.toString() != nextStatusText) {
+            status.animate().cancel()
+            status.alpha = 0.35f
+            status.text = nextStatusText
+            status.animate().alpha(1f).setDuration(140L).setInterpolator(DecelerateInterpolator()).start()
         }
         status.visibility = if (status.text.isEmpty()) View.GONE else View.VISIBLE
         stateAction.visibility = if (state.status in setOf(
@@ -174,10 +207,48 @@ class ChatActivity : ComponentActivity() {
         }
         val ready = state.status == ChatScreenStatus.READY && state.conversationId != null
         input.isEnabled = ready && !state.generating
-        sendButton.visibility = if (state.generating) View.GONE else View.VISIBLE
-        stopButton.visibility = if (state.generating) View.VISIBLE else View.GONE
+        crossfadeActionButtons(state.generating)
         sendButton.isEnabled = ready
         sendButton.alpha = if (ready) 1f else 0.5f
+    }
+
+    private fun shouldFollowConversation(): Boolean {
+        if (!::layoutManager.isInitialized || adapter.itemCount == 0) return true
+        val lastVisible = layoutManager.findLastCompletelyVisibleItemPosition()
+            .takeIf { it != RecyclerView.NO_POSITION }
+            ?: layoutManager.findLastVisibleItemPosition()
+        return adapter.itemCount - lastVisible <= 3
+    }
+
+    private fun crossfadeActionButtons(generating: Boolean) {
+        setButtonVisible(sendButton, !generating)
+        setButtonVisible(stopButton, generating)
+    }
+
+    private fun setButtonVisible(button: Button, visible: Boolean) {
+        val targetVisibility = if (visible) View.VISIBLE else View.GONE
+        if (button.visibility == targetVisibility) return
+        if (visible) {
+            button.alpha = 0f
+            button.scaleX = 0.96f
+            button.scaleY = 0.96f
+            button.visibility = View.VISIBLE
+            button.animate()
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .setDuration(140L)
+                .setInterpolator(DecelerateInterpolator())
+                .start()
+        } else {
+            button.animate()
+                .alpha(0f)
+                .scaleX(0.96f)
+                .scaleY(0.96f)
+                .setDuration(110L)
+                .withEndAction { button.visibility = View.GONE }
+                .start()
+        }
     }
 
     private fun showHistory() {
@@ -248,5 +319,6 @@ class ChatActivity : ComponentActivity() {
 
     companion object {
         const val EXTRA_CONVERSATION_ID = "com.example.catlifepet.chat.extra.CONVERSATION_ID"
+        private const val AUTO_SCROLL_INTERVAL_MS = 220L
     }
 }
