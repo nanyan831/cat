@@ -41,4 +41,19 @@ class ReleaseSurfaceTest {
 
         assertTrue("Legacy system bar flags found in $legacyUses", legacyUses.isEmpty())
     }
+
+    @Test
+    fun `release network security disables cleartext traffic`() {
+        val manifest = File("src/release/AndroidManifest.xml").readText()
+        val releaseConfig = File("src/release/res/xml/network_security_config.xml").readText()
+        val debugConfig = File("src/debug/res/xml/network_security_config.xml").readText()
+
+        assertTrue(manifest.contains("""android:usesCleartextTraffic="false""""))
+        assertTrue(manifest.contains("""android:networkSecurityConfig="@xml/network_security_config""""))
+        assertTrue(releaseConfig.contains("""cleartextTrafficPermitted="false""""))
+        assertFalse(releaseConfig.contains("127.0.0.1"))
+        assertFalse(releaseConfig.contains("47.100.9.190"))
+        assertTrue(debugConfig.contains("""cleartextTrafficPermitted="true""""))
+        assertTrue(debugConfig.contains("47.100.9.190"))
+    }
 }
