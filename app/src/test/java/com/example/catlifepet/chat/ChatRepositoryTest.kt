@@ -88,6 +88,37 @@ class ChatRepositoryTest {
         assertEquals("明天见", dao.listPending("conversation").single().content)
     }
 
+    @Test
+    fun `provider auth failure tells tester to check server key`() = runBlocking {
+        server.enqueue(sse(
+            """event: error
+                |data: {"code":"ai_provider_authentication_failed","error":"provider rejected","retryable":false}
+                |
+            """.trimMargin()
+        ))
+
+        val events = repository.sendMessage("conversation", "测试一下", "provider-auth").toList()
+
+        val failure = events.single() as ChatSendEvent.Failure
+        assertEquals("模型服务授权失败，请检查服务器上的 DeepSeek Key。", failure.message)
+        assertEquals("failed", dao.listPending("conversation").single().state)
+    }
+
+    @Test
+    fun `unknown http rejection is converted to friendly copy`() = runBlocking {
+        server.enqueue(json(
+            """{"error":{"code":"provider_changed_shape","message":"server rejected request"}}"""
+        ).setResponseCode(422))
+
+        val events = repository.sendMessage("conversation", "换一种说法", "unknown-http").toList()
+
+        val failure = events.single() as ChatSendEvent.Failure
+        assertEquals(
+            "请求内容不太对，换一种说法再试试。（provider_changed_shape / HTTP 422）",
+            failure.message
+        )
+    }
+
     private fun sse(body: String) = MockResponse().setHeader("Content-Type", "text/event-stream").setBody(body)
     private fun json(body: String) = MockResponse().setHeader("Content-Type", "application/json").setBody(body)
 

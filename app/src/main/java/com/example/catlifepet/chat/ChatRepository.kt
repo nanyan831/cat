@@ -235,20 +235,41 @@ class ChatRepository(
             "rate_limited" -> "说得有点快啦，稍等一会儿再试。"
             "turn_in_progress" -> "上一条还在生成，稍等一下再试。"
             "client_message_conflict", "message_retry_conflict" -> "这条消息状态不一致，请重新发送一条新的。"
+            "invalid_request" -> "这条消息格式不太对，换一种说法再试试。"
+            "message_too_long" -> "这条消息有点长，分成几段发给小猫吧。"
+            "conversation_not_found", "not_found" -> "这段聊天暂时找不到了，重新新建一段聊天吧。"
+            "message_finalization_conflict" -> "这条回复已经结束了，请重新发送一条新的。"
+            "ai_provider_authentication_failed" -> "模型服务授权失败，请检查服务器上的 DeepSeek Key。"
+            "ai_provider_rejected_request" -> "模型服务拒绝了这次请求，换一种说法再试试。"
             "ai_provider_rate_limited" -> "模型那边有点忙，稍等一会儿再试。"
+            "ai_provider_unavailable" -> "模型服务暂时不可用，稍后再试。"
+            "ai_provider_error" -> "模型服务返回异常，稍后再试。"
+            "ai_invalid_response" -> "模型回复内容异常，请稍后重试。"
             "ai_timeout" -> "模型回复超时了，稍后再试一次。"
             "ai_network_error", "ai_stream_failed", "internal_error" -> "小猫刚才没连上模型，稍后再试。"
             "network_error", "stream_interrupted" -> "网络中断，消息已保留。"
             "empty_response" -> "服务器没有返回内容，请稍后重试。"
             "invalid_stream" -> "回复数据异常，请稍后重试。"
-            "http_error" -> this.message.ifBlank { "服务器拒绝了请求。" }
-            else -> this.message.ifBlank { "服务器拒绝了请求。" }
+            "http_error" -> friendlyHttpMessage(status)
+            else -> friendlyHttpMessage(status)
         }
         return if (status != null && code !in USER_FRIENDLY_CODES) {
             "$message（$code / HTTP $status）"
         } else {
             message
         }
+    }
+
+    private fun friendlyHttpMessage(status: Int?): String = when (status) {
+        400, 422 -> "请求内容不太对，换一种说法再试试。"
+        401 -> "登录已失效，请重新登录。"
+        403 -> "当前账号没有权限继续聊天，请重新登录后再试。"
+        404 -> "这段聊天暂时找不到了，重新新建一段聊天吧。"
+        408 -> "服务器响应超时了，稍后再试。"
+        409 -> "这条消息状态不一致，请重新发送一条新的。"
+        429 -> "请求有点频繁，等一会儿再试。"
+        in 500..599 -> "服务器正在开小差，稍后再试。"
+        else -> "聊天暂时没有完成，请稍后再试。"
     }
 
     private fun logWarning(message: String) {
@@ -268,7 +289,17 @@ class ChatRepository(
             "turn_in_progress",
             "client_message_conflict",
             "message_retry_conflict",
+            "invalid_request",
+            "message_too_long",
+            "conversation_not_found",
+            "not_found",
+            "message_finalization_conflict",
+            "ai_provider_authentication_failed",
+            "ai_provider_rejected_request",
             "ai_provider_rate_limited",
+            "ai_provider_unavailable",
+            "ai_provider_error",
+            "ai_invalid_response",
             "ai_timeout",
             "ai_network_error",
             "ai_stream_failed",
