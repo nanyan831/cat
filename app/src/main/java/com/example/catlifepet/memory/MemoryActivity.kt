@@ -21,6 +21,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.catlifepet.R
 import com.example.catlifepet.auth.AuthActivity
 import com.example.catlifepet.util.ScreenUtils
+import com.example.catlifepet.util.SystemBarUtils
 import kotlinx.coroutines.launch
 
 class MemoryActivity : ComponentActivity() {
@@ -42,9 +43,7 @@ class MemoryActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.statusBarColor = background
-        window.navigationBarColor = surface
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        SystemBarUtils.applyLightBars(this, background, surface)
         setContentView(buildPage())
         load()
     }

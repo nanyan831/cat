@@ -22,6 +22,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.catlifepet.R
 import com.example.catlifepet.auth.AuthActivity
 import com.example.catlifepet.util.ScreenUtils
+import com.example.catlifepet.util.SystemBarUtils
 import kotlinx.coroutines.launch
 
 class ChatConversationListActivity : ComponentActivity() {
@@ -40,9 +41,7 @@ class ChatConversationListActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.statusBarColor = appBackground
-        window.navigationBarColor = surface
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        SystemBarUtils.applyLightBars(this, appBackground, surface)
         setContentView(buildContent())
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {

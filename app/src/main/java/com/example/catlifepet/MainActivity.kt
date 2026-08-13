@@ -1,8 +1,6 @@
 package com.example.catlifepet
 
 import android.Manifest
-import android.app.Activity
-import android.app.ActivityManager
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
@@ -28,6 +26,9 @@ import android.widget.ScrollView
 import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.catlifepet.data.SettingsRepository
@@ -45,10 +46,11 @@ import com.example.catlifepet.permission.OverlayPermissionHelper
 import com.example.catlifepet.reminder.ReminderManager
 import com.example.catlifepet.reminder.ReminderType
 import com.example.catlifepet.util.ScreenUtils
+import com.example.catlifepet.util.SystemBarUtils
 import java.time.LocalDate
 import java.util.Locale
 
-class MainActivity : Activity() {
+class MainActivity : ComponentActivity() {
     private lateinit var settingsRepository: SettingsRepository
     private lateinit var reminderManager: ReminderManager
     private lateinit var petStatusManager: PetStatusManager
@@ -78,11 +80,20 @@ class MainActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.statusBarColor = WARM_BACKGROUND
-        window.navigationBarColor = SURFACE
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        SystemBarUtils.applyLightBars(this, WARM_BACKGROUND, SURFACE)
         settingsRepository = SettingsRepository(this)
         reminderManager = ReminderManager(this)
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (screen.isDetail) {
+                    screen = screen.parent!!
+                    render(screen)
+                } else {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                }
+            }
+        })
         // Migrate before PetStatusManager initializes default values into prefs.
         migrateLegacyUserIfNeeded()
         petStatusManager = PetStatusManager.getInstance(this)
@@ -101,15 +112,6 @@ class MainActivity : Activity() {
             Log.d(TAG, "temporary hide marker expired; pet can be shown")
         }
         if (::content.isInitialized) render(screen)
-    }
-
-    override fun onBackPressed() {
-        if (screen.isDetail) {
-            screen = screen.parent!!
-            render(screen)
-        } else {
-            super.onBackPressed()
-        }
     }
 
     private fun buildShell(): View {
@@ -731,7 +733,7 @@ class MainActivity : Activity() {
         }
     }
 
-    private fun isCatServiceRunning(): Boolean = (getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager).getRunningServices(100).any { it.service.className == CatFloatingService::class.java.name }
+    private fun isCatServiceRunning(): Boolean = CatFloatingService.isRunning()
     private fun isMuteTodayActive(): Boolean { val s = settingsRepository.getSettings(); return s.muteTodayEnabled && s.muteTodayDate == LocalDate.now().toString() }
     private fun reminderIsEnabled(type: ReminderType): Boolean { val s = settingsRepository.getSettings(); return when (type) { ReminderType.WATER -> s.waterReminderEnabled; ReminderType.FOOD -> s.foodReminderEnabled; ReminderType.REST -> s.restReminderEnabled; ReminderType.SLEEP -> s.sleepReminderEnabled } }
     private fun reminderEnabled(type: ReminderType): String = if (reminderIsEnabled(type)) "已开启" else "已关闭"

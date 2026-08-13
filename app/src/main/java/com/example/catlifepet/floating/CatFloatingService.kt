@@ -1,7 +1,6 @@
 package com.example.catlifepet.floating
 
 import android.app.Service
-import android.app.ActivityManager
 import android.content.pm.ApplicationInfo
 import android.content.pm.ServiceInfo
 import android.content.Context
@@ -21,6 +20,7 @@ class CatFloatingService : Service() {
 
     override fun onCreate() {
         super.onCreate()
+        isRunning = true
         Log.d(TAG, "服务启动 onCreate")
         controller = PetWindowController(this)
         ServiceCompat.startForeground(
@@ -81,6 +81,7 @@ class CatFloatingService : Service() {
         Log.d(TAG, "服务停止 onDestroy")
         controller?.hide()
         controller = null
+        isRunning = false
         ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE)
         super.onDestroy()
     }
@@ -184,6 +185,10 @@ class CatFloatingService : Service() {
         const val ACTION_UPDATE_SIZE = "com.example.catlifepet.action.UPDATE_SIZE"
         const val ACTION_HIDE_TEMPORARILY = "com.example.catlifepet.action.HIDE_TEMPORARILY"
         const val EXTRA_REMINDER_TYPE = "extra_reminder_type"
+        @Volatile
+        private var isRunning = false
+
+        fun isRunning(): Boolean = isRunning
 
         fun start(context: Context) {
             val intent = Intent(context, CatFloatingService::class.java).setAction(ACTION_START)
@@ -206,7 +211,7 @@ class CatFloatingService : Service() {
         fun showReminder(context: Context, type: ReminderType) {
             val action = actionForType(type)
             val intent = Intent(context, CatFloatingService::class.java).setAction(action)
-            if (isServiceRunning(context)) {
+            if (isRunning) {
                 runCatching { context.startService(intent) }
                     .onFailure {
                         Log.w(TAG, "running service reminder dispatch failed: $type", it)
@@ -260,21 +265,13 @@ class CatFloatingService : Service() {
         }
 
         private fun sendActionIfServiceMayRun(context: Context, action: String) {
-            if (!isServiceRunning(context)) {
+            if (!isRunning) {
                 Log.d(TAG, "optional action ignored because service is not running: $action")
                 return
             }
             val intent = Intent(context, CatFloatingService::class.java).setAction(action)
             runCatching { context.startService(intent) }
                 .onFailure { Log.d(TAG, "service not running for optional action=$action") }
-        }
-
-        private fun isServiceRunning(context: Context): Boolean {
-            val manager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-            @Suppress("DEPRECATION")
-            return manager.getRunningServices(Int.MAX_VALUE).any {
-                it.service.className == CatFloatingService::class.java.name
-            }
         }
 
         private fun Context.isDebugBuild(): Boolean =

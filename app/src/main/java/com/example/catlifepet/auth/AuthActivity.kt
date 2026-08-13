@@ -1,6 +1,5 @@
 package com.example.catlifepet.auth
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -19,10 +18,14 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.ScrollView
 import android.widget.TextView
+import androidx.activity.ComponentActivity
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import com.example.catlifepet.MainActivity
 import com.example.catlifepet.R
 import com.example.catlifepet.util.ScreenUtils
+import com.example.catlifepet.util.SystemBarUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -30,7 +33,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import java.time.ZoneId
 
-class AuthActivity : Activity() {
+class AuthActivity : ComponentActivity() {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
     private lateinit var repository: AuthRepository
     private lateinit var content: LinearLayout
@@ -51,11 +54,19 @@ class AuthActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.statusBarColor = backgroundColor
-        window.navigationBarColor = surfaceColor
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        SystemBarUtils.applyLightBars(this, backgroundColor, surfaceColor)
         repository = AuthGraph.repository(this)
         requireLogin = intent.getBooleanExtra(EXTRA_REQUIRE_LOGIN, false)
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (requireLogin) {
+                    moveTaskToBack(true)
+                } else {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                }
+            }
+        })
         setContentView(buildShell())
 
         repository.currentUser?.let {
@@ -75,14 +86,6 @@ class AuthActivity : Activity() {
     override fun onDestroy() {
         scope.cancel()
         super.onDestroy()
-    }
-
-    override fun onBackPressed() {
-        if (requireLogin) {
-            moveTaskToBack(true)
-        } else {
-            super.onBackPressed()
-        }
     }
 
     private fun buildShell(): View {

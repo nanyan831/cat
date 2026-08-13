@@ -26,4 +26,19 @@ class ReleaseSurfaceTest {
         assertTrue(privacyPolicy.contains("{隐私政策 URL}"))
         assertTrue(privacyPolicy.contains("DeepSeek"))
     }
+
+    @Test
+    fun `activities use shared system bar helper instead of legacy light status flag`() {
+        val sourceRoot = File("src/main/java/com/example/catlifepet")
+        val legacyUses = sourceRoot.walkTopDown()
+            .filter { it.isFile && it.extension == "kt" && it.name != "SystemBarUtils.kt" }
+            .filter { file ->
+                val text = file.readText()
+                text.contains("SYSTEM_UI_FLAG_LIGHT_STATUS_BAR") || text.contains("systemUiVisibility")
+            }
+            .map { it.relativeTo(sourceRoot).invariantSeparatorsPath }
+            .toList()
+
+        assertTrue("Legacy system bar flags found in $legacyUses", legacyUses.isEmpty())
+    }
 }

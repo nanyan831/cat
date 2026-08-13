@@ -19,6 +19,7 @@ import com.example.catlifepet.chat.ChatActivity
 import com.example.catlifepet.memory.MemoryActivity
 import com.example.catlifepet.permission.OverlayPermissionHelper
 import com.example.catlifepet.util.ScreenUtils
+import com.example.catlifepet.util.SystemBarUtils
 
 class PrivacyActivity : Activity() {
     private lateinit var content: LinearLayout
@@ -33,9 +34,7 @@ class PrivacyActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.statusBarColor = background
-        window.navigationBarColor = surface
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        SystemBarUtils.applyLightBars(this, background, surface)
         setContentView(buildPage())
         render()
     }
