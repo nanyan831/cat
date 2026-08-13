@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.DiffUtil
 import com.example.catlifepet.R
+import com.example.catlifepet.util.InteractionUtils.fadeSlideIn
 import com.example.catlifepet.util.ScreenUtils
 
 class ChatMessageAdapter(
@@ -151,9 +152,10 @@ class MessageRow(
             .alpha(1f)
             .translationX(0f)
             .translationY(0f)
-            .setDuration(180L)
-            .setInterpolator(DecelerateInterpolator(1.8f))
+            .setDuration(220L)
+            .setInterpolator(DecelerateInterpolator(1.55f))
             .start()
+        bubble.fadeSlideIn(dp(4).toFloat(), 240L)
     }
 
     private fun rounded(color: Int, radius: Int) = GradientDrawable().apply {
@@ -260,10 +262,10 @@ private class SmoothStreamingText(
     }
 
     private companion object {
-        const val FRAME_DELAY_MS = 72L
-        const val CLAUSE_DELAY_MS = 150L
-        const val SENTENCE_DELAY_MS = 240L
-        const val LINE_DELAY_MS = 180L
+        const val FRAME_DELAY_MS = 110L
+        const val CLAUSE_DELAY_MS = 240L
+        const val SENTENCE_DELAY_MS = 360L
+        const val LINE_DELAY_MS = 280L
         const val THINKING_DELAY_MS = 360L
         const val CHARS_PER_FRAME = 1
         const val THINKING_ID = "thinking"

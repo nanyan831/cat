@@ -1,6 +1,5 @@
 package com.example.catlifepet.privacy
 
-import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
@@ -12,16 +11,17 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
+import androidx.activity.ComponentActivity
 import androidx.core.content.ContextCompat
 import com.example.catlifepet.R
 import com.example.catlifepet.auth.AuthActivity
-import com.example.catlifepet.chat.ChatActivity
+import com.example.catlifepet.chat.ChatConversationListActivity
 import com.example.catlifepet.memory.MemoryActivity
 import com.example.catlifepet.permission.OverlayPermissionHelper
 import com.example.catlifepet.util.ScreenUtils
 import com.example.catlifepet.util.SystemBarUtils
 
-class PrivacyActivity : Activity() {
+class PrivacyActivity : ComponentActivity() {
     private lateinit var content: LinearLayout
 
     private val background get() = ContextCompat.getColor(this, R.color.app_background)
@@ -78,7 +78,7 @@ class PrivacyActivity : Activity() {
             startActivity(Intent(this, AuthActivity::class.java))
         }, match(10))
         content.addView(actionCard("聊天记录", "继续历史会话，或删除当前聊天", "打开") {
-            startActivity(Intent(this, ChatActivity::class.java))
+            startActivity(Intent(this, ChatConversationListActivity::class.java))
         }, match(10))
         content.addView(actionCard("陪伴记忆", "查看、添加、删除或清空长期记忆", "打开") {
             startActivity(Intent(this, MemoryActivity::class.java))

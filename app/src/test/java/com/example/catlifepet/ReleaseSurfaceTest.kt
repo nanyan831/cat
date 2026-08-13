@@ -73,4 +73,12 @@ class ReleaseSurfaceTest {
         assertTrue(dataExtractionRules.contains("<cloud-backup>"))
         assertTrue(dataExtractionRules.contains("<device-transfer>"))
     }
+
+    @Test
+    fun `privacy chat records entry opens conversation list`() {
+        val source = File("src/main/java/com/example/catlifepet/privacy/PrivacyActivity.kt").readText()
+
+        assertTrue(source.contains("ChatConversationListActivity::class.java"))
+        assertFalse(source.contains("ChatActivity::class.java"))
+    }
 }

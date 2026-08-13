@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.catlifepet.R
 import com.example.catlifepet.auth.AuthActivity
+import com.example.catlifepet.util.InteractionUtils.applySpringPressEffect
 import com.example.catlifepet.util.ScreenUtils
 import com.example.catlifepet.util.SystemBarUtils
 import kotlinx.coroutines.launch
@@ -131,6 +132,7 @@ class ChatActivity : ComponentActivity() {
             setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEND) { send(); true } else false
             }
+            applySpringPressEffect(pressedScale = 0.985f)
         }
         composer.addView(input, LinearLayout.LayoutParams(0, -2, 1f).apply { marginEnd = dp(8) })
         sendButton = primaryButton("发送") { send() }
@@ -280,6 +282,7 @@ class ChatActivity : ComponentActivity() {
         background = rounded(Color.TRANSPARENT, 8)
         stateListAnimator = null
         setOnClickListener { action() }
+        applySpringPressEffect()
     }
 
     private fun primaryButton(value: String, action: () -> Unit) = actionButton(value, action).apply {
@@ -298,6 +301,7 @@ class ChatActivity : ComponentActivity() {
         background = rounded(appBackground, 18, divider)
         stateListAnimator = null
         setOnClickListener { action() }
+        applySpringPressEffect()
     }
 
     private fun label(value: String, size: Float, bold: Boolean, color: Int) = TextView(this).apply {
