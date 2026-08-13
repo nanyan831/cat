@@ -56,4 +56,21 @@ class ReleaseSurfaceTest {
         assertTrue(debugConfig.contains("""cleartextTrafficPermitted="true""""))
         assertTrue(debugConfig.contains("47.100.9.190"))
     }
+
+    @Test
+    fun `manifest disables system backup for local tokens and chat cache`() {
+        val manifest = File("src/main/AndroidManifest.xml").readText()
+        val backupRules = File("src/main/res/xml/backup_rules.xml").readText()
+        val dataExtractionRules = File("src/main/res/xml/data_extraction_rules.xml").readText()
+
+        assertTrue(manifest.contains("""android:allowBackup="false""""))
+        assertTrue(manifest.contains("""android:fullBackupContent="@xml/backup_rules""""))
+        assertTrue(manifest.contains("""android:dataExtractionRules="@xml/data_extraction_rules""""))
+        listOf("sharedpref", "database", "file", "external", "root").forEach { domain ->
+            assertTrue(backupRules.contains("""domain="$domain""""))
+            assertTrue(dataExtractionRules.contains("""domain="$domain""""))
+        }
+        assertTrue(dataExtractionRules.contains("<cloud-backup>"))
+        assertTrue(dataExtractionRules.contains("<device-transfer>"))
+    }
 }
