@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -30,6 +31,9 @@ class ChatViewModel(private val source: ChatDataSource) : ViewModel() {
     val state: StateFlow<ChatUiState> = mutableState.asStateFlow()
     private var messagesJob: Job? = null
     private var sendJob: Job? = null
+    private var draftFlushJob: Job? = null
+    private var draftMessageId: String? = null
+    private val draftBuffer = StringBuilder()
 
     init {
         viewModelScope.launch {
@@ -70,31 +74,35 @@ class ChatViewModel(private val source: ChatDataSource) : ViewModel() {
         val normalized = content.trim()
         if (normalized.isEmpty() || sendJob?.isActive == true) return
         sendJob = viewModelScope.launch {
+            resetDraftBuffer()
             mutableState.update {
                 it.copy(generating = true, assistantDraft = "", assistantDraftId = null, message = null)
             }
             source.sendMessage(conversationId, normalized, clientMessageId).collect { event ->
                 when (event) {
-                    is ChatSendEvent.Delta -> mutableState.update {
-                        it.copy(
-                            assistantDraftId = event.messageId,
-                            assistantDraft = it.assistantDraft + event.text
-                        )
+                    is ChatSendEvent.Delta -> appendAssistantDelta(event.messageId, event.text)
+                    is ChatSendEvent.Completed -> {
+                        flushAssistantDraft()
+                        resetDraftBuffer()
+                        mutableState.update {
+                            it.copy(generating = false, assistantDraft = "", assistantDraftId = null)
+                        }
                     }
-                    is ChatSendEvent.Completed -> mutableState.update {
-                        it.copy(generating = false, assistantDraft = "", assistantDraftId = null)
-                    }
-                    is ChatSendEvent.Failure -> mutableState.update {
-                        it.copy(
-                            status = if (event.sessionExpired) ChatScreenStatus.SESSION_EXPIRED else it.status,
-                            generating = false,
-                            assistantDraft = "",
-                            assistantDraftId = null,
-                            message = event.message
-                        )
+                    is ChatSendEvent.Failure -> {
+                        resetDraftBuffer()
+                        mutableState.update {
+                            it.copy(
+                                status = if (event.sessionExpired) ChatScreenStatus.SESSION_EXPIRED else it.status,
+                                generating = false,
+                                assistantDraft = "",
+                                assistantDraftId = null,
+                                message = event.message
+                            )
+                        }
                     }
                 }
             }
+            resetDraftBuffer()
             mutableState.update { it.copy(generating = false) }
         }
     }
@@ -107,6 +115,7 @@ class ChatViewModel(private val source: ChatDataSource) : ViewModel() {
     fun stopGenerating() {
         sendJob?.cancel()
         sendJob = null
+        resetDraftBuffer()
         mutableState.update {
             it.copy(
                 generating = false,
@@ -115,6 +124,37 @@ class ChatViewModel(private val source: ChatDataSource) : ViewModel() {
                 message = "已停止生成，原消息已保留。"
             )
         }
+    }
+
+    private fun appendAssistantDelta(messageId: String, text: String) {
+        draftMessageId = messageId
+        draftBuffer.append(text)
+        if (draftFlushJob?.isActive == true) return
+        draftFlushJob = viewModelScope.launch {
+            while (draftBuffer.isNotEmpty()) {
+                delay(DRAFT_FLUSH_INTERVAL_MS)
+                flushAssistantDraft()
+            }
+        }
+    }
+
+    private fun flushAssistantDraft() {
+        if (draftBuffer.isEmpty()) return
+        val chunk = draftBuffer.toString()
+        draftBuffer.clear()
+        mutableState.update {
+            it.copy(
+                assistantDraftId = draftMessageId,
+                assistantDraft = it.assistantDraft + chunk
+            )
+        }
+    }
+
+    private fun resetDraftBuffer() {
+        draftFlushJob?.cancel()
+        draftFlushJob = null
+        draftMessageId = null
+        draftBuffer.clear()
     }
 
     private suspend fun applyLoadResult(result: ChatLoadResult) {
@@ -153,5 +193,9 @@ class ChatViewModel(private val source: ChatDataSource) : ViewModel() {
             require(modelClass.isAssignableFrom(ChatViewModel::class.java))
             return ChatViewModel(source) as T
         }
+    }
+
+    private companion object {
+        const val DRAFT_FLUSH_INTERVAL_MS = 96L
     }
 }

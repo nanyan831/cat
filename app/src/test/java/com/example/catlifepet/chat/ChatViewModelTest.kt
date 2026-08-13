@@ -44,6 +44,26 @@ class ChatViewModelTest {
     }
 
     @Test
+    fun `rapid deltas are buffered before rendering draft text`() = runTest(dispatcher) {
+        val source = FakeChatSource(hang = true)
+        val viewModel = ChatViewModel(source)
+        advanceUntilIdle()
+
+        viewModel.send("慢一点说", "client-buffer")
+        dispatcher.scheduler.runCurrent()
+
+        assertTrue(viewModel.state.value.generating)
+        assertEquals("", viewModel.state.value.assistantDraft)
+
+        dispatcher.scheduler.advanceTimeBy(96)
+        dispatcher.scheduler.runCurrent()
+
+        assertEquals("开", viewModel.state.value.assistantDraft)
+        viewModel.stopGenerating()
+        advanceUntilIdle()
+    }
+
+    @Test
     fun `network interruption keeps user text and retry reuses client id`() = runTest(dispatcher) {
         val source = FakeChatSource(failFirst = true)
         val viewModel = ChatViewModel(source)

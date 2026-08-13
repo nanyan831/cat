@@ -187,7 +187,7 @@ private class SmoothStreamingText(
             }
             visible = target.substring(0, nextEndIndex(visible.length, target, CHARS_PER_FRAME))
             view.text = visible
-            handler.postDelayed(this, FRAME_DELAY_MS)
+            handler.postDelayed(this, delayAfter(visible.lastOrNull()))
         }
     }
 
@@ -252,8 +252,18 @@ private class SmoothStreamingText(
         return end
     }
 
+    private fun delayAfter(lastChar: Char?): Long = when (lastChar) {
+        '。', '！', '？', '.', '!', '?' -> SENTENCE_DELAY_MS
+        '，', '、', ',', ';', '；', ':' -> CLAUSE_DELAY_MS
+        '\n' -> LINE_DELAY_MS
+        else -> FRAME_DELAY_MS
+    }
+
     private companion object {
-        const val FRAME_DELAY_MS = 38L
+        const val FRAME_DELAY_MS = 72L
+        const val CLAUSE_DELAY_MS = 150L
+        const val SENTENCE_DELAY_MS = 240L
+        const val LINE_DELAY_MS = 180L
         const val THINKING_DELAY_MS = 360L
         const val CHARS_PER_FRAME = 1
         const val THINKING_ID = "thinking"
