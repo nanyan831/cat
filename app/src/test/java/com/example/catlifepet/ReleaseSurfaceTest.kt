@@ -81,4 +81,18 @@ class ReleaseSurfaceTest {
         assertTrue(source.contains("ChatConversationListActivity::class.java"))
         assertFalse(source.contains("ChatActivity::class.java"))
     }
+
+    @Test
+    fun `primary screens share spring press interaction feedback`() {
+        listOf(
+            "src/main/java/com/example/catlifepet/MainActivity.kt",
+            "src/main/java/com/example/catlifepet/chat/ChatActivity.kt",
+            "src/main/java/com/example/catlifepet/chat/ChatConversationListActivity.kt",
+            "src/main/java/com/example/catlifepet/memory/MemoryActivity.kt",
+            "src/main/java/com/example/catlifepet/privacy/PrivacyActivity.kt"
+        ).forEach { path ->
+            val source = File(path).readText()
+            assertTrue("$path should use shared spring feedback", source.contains("applySpringPressEffect"))
+        }
+    }
 }

@@ -45,6 +45,7 @@ import com.example.catlifepet.floating.PetStatusManager
 import com.example.catlifepet.permission.OverlayPermissionHelper
 import com.example.catlifepet.reminder.ReminderManager
 import com.example.catlifepet.reminder.ReminderType
+import com.example.catlifepet.util.InteractionUtils.applySpringPressEffect
 import com.example.catlifepet.util.ScreenUtils
 import com.example.catlifepet.util.SystemBarUtils
 import java.time.LocalDate
@@ -513,7 +514,7 @@ class MainActivity : ComponentActivity() {
     private fun topBar(root: LinearLayout, title: String, action: String, onAction: () -> Unit) {
         val row = LinearLayout(this).apply { gravity = Gravity.CENTER_VERTICAL }
         row.addView(text(title, 24f, TEXT_PRIMARY, true), LinearLayout.LayoutParams(0, -2, 1f))
-        row.addView(Button(this).apply { text = action; contentDescription = "打开设置"; setAllCaps(false); background = rounded(Color.TRANSPARENT, 14); setOnClickListener { onAction() } }, LinearLayout.LayoutParams(dp(54), dp(48)))
+        row.addView(Button(this).apply { text = action; contentDescription = "打开设置"; setAllCaps(false); background = rounded(Color.TRANSPARENT, 14); setOnClickListener { onAction() }; applySpringPressEffect() }, LinearLayout.LayoutParams(dp(54), dp(48)))
         root.addView(row, match(dp(14)))
     }
 
@@ -524,7 +525,7 @@ class MainActivity : ComponentActivity() {
 
     private fun backBar(root: LinearLayout, title: String) {
         val row = LinearLayout(this).apply { gravity = Gravity.CENTER_VERTICAL }
-        row.addView(Button(this).apply { text = "‹"; contentDescription = "返回"; textSize = 30f; setAllCaps(false); background = rounded(Color.TRANSPARENT, 14); setOnClickListener { screen = screen.parent!!; render(screen) } }, LinearLayout.LayoutParams(dp(52), dp(52)))
+        row.addView(Button(this).apply { text = "‹"; contentDescription = "返回"; textSize = 30f; setAllCaps(false); background = rounded(Color.TRANSPARENT, 14); setOnClickListener { screen = screen.parent!!; render(screen) }; applySpringPressEffect() }, LinearLayout.LayoutParams(dp(52), dp(52)))
         row.addView(text(title, 22f, TEXT_PRIMARY, true), LinearLayout.LayoutParams(0, -2, 1f))
         root.addView(row, match(dp(10)))
     }
@@ -564,6 +565,7 @@ class MainActivity : ComponentActivity() {
             isClickable = onClick != null
             if (onClick != null) foreground = selectableItemBackground()
             setOnClickListener { onClick?.invoke() }
+            if (onClick != null) applySpringPressEffect(pressedScale = 0.985f)
         }
         card.addView(text(icon, 24f, PRIMARY, false), LinearLayout.LayoutParams(dp(42), -2))
         val copy = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
@@ -608,7 +610,7 @@ class MainActivity : ComponentActivity() {
 
     private fun chip(parent: LinearLayout, value: String) { parent.addView(text(value, 12f, TEXT_PRIMARY, true).apply { gravity = Gravity.CENTER; background = rounded(PRIMARY_LIGHT, 18, DIVIDER); setPadding(dp(10), dp(8), dp(10), dp(8)) }, weightParams()) }
 
-    private fun navItem(icon: String, label: String, onClick: () -> Unit): TextView = text("$icon\n$label", 12f, TEXT_SECONDARY, true).apply { gravity = Gravity.CENTER; contentDescription = label; minHeight = dp(48); setPadding(0, dp(4), 0, dp(4)); setOnClickListener { onClick() } }
+    private fun navItem(icon: String, label: String, onClick: () -> Unit): TextView = text("$icon\n$label", 12f, TEXT_SECONDARY, true).apply { gravity = Gravity.CENTER; contentDescription = label; minHeight = dp(48); setPadding(0, dp(4), 0, dp(4)); setOnClickListener { onClick() }; applySpringPressEffect(pressedScale = 0.94f) }
 
     private fun section(value: String) = text(value, 18f, TEXT_PRIMARY, true).apply { setPadding(0, dp(10), 0, dp(4)) }
     private fun text(value: String, size: Float, color: Int, bold: Boolean) = TextView(this).apply { text = value; textSize = size; setTextColor(color); if (bold) setTypeface(typeface, android.graphics.Typeface.BOLD); setLineSpacing(0f, 1.15f) }
@@ -631,6 +633,7 @@ class MainActivity : ComponentActivity() {
         stateListAnimator = null
         background = rounded(if (primary) PRIMARY else SURFACE, 18, if (primary) null else DIVIDER)
         elevation = if (primary) dp(2).toFloat() else 0f
+        applySpringPressEffect()
     }
     private fun selectableItemBackground(): Drawable? {
         val value = TypedValue()

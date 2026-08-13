@@ -18,6 +18,7 @@ import com.example.catlifepet.auth.AuthActivity
 import com.example.catlifepet.chat.ChatConversationListActivity
 import com.example.catlifepet.memory.MemoryActivity
 import com.example.catlifepet.permission.OverlayPermissionHelper
+import com.example.catlifepet.util.InteractionUtils.applySpringPressEffect
 import com.example.catlifepet.util.ScreenUtils
 import com.example.catlifepet.util.SystemBarUtils
 
@@ -125,6 +126,7 @@ class PrivacyActivity : ComponentActivity() {
             contentDescription = if (action == null) "$title，$body" else "$title，$body，$action"
             isClickable = onClick != null
             setOnClickListener { onClick?.invoke() }
+            if (onClick != null) applySpringPressEffect(pressedScale = 0.985f)
         }
         val copy = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
         copy.addView(label(title, 15f, true, titleColor), LinearLayout.LayoutParams(-1, -2))
@@ -146,6 +148,7 @@ class PrivacyActivity : ComponentActivity() {
         background = rounded(Color.TRANSPARENT, 8)
         stateListAnimator = null
         setOnClickListener { action() }
+        applySpringPressEffect()
     }
 
     private fun label(value: String, size: Float, bold: Boolean, color: Int) = TextView(this).apply {

@@ -20,6 +20,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.catlifepet.R
 import com.example.catlifepet.auth.AuthActivity
+import com.example.catlifepet.util.InteractionUtils.applySpringPressEffect
 import com.example.catlifepet.util.ScreenUtils
 import com.example.catlifepet.util.SystemBarUtils
 import kotlinx.coroutines.launch
@@ -124,6 +125,7 @@ class ChatConversationListActivity : ComponentActivity() {
             addView(label("更新时间：${conversation.updatedAt}", 13f, false, textSecondary), match(dp(4)))
             addView(label(if (selected) "当前会话，点击继续" else "点击继续聊天", 13f, false, primary), match())
             setOnClickListener { openConversation(conversation.id) }
+            applySpringPressEffect(pressedScale = 0.985f)
         }
     }
 
@@ -159,6 +161,7 @@ class ChatConversationListActivity : ComponentActivity() {
         background = rounded(surface, 18, divider)
         stateListAnimator = null
         setOnClickListener { action() }
+        applySpringPressEffect()
     }
 
     private fun label(value: String, size: Float, bold: Boolean, color: Int) = TextView(this).apply {

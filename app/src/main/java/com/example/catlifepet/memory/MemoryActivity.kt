@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.catlifepet.R
 import com.example.catlifepet.auth.AuthActivity
+import com.example.catlifepet.util.InteractionUtils.applySpringPressEffect
 import com.example.catlifepet.util.ScreenUtils
 import com.example.catlifepet.util.SystemBarUtils
 import kotlinx.coroutines.launch
@@ -89,6 +90,7 @@ class MemoryActivity : ComponentActivity() {
             setHintTextColor(textSecondary)
             setPadding(dp(14), dp(12), dp(14), dp(12))
             background = rounded(surface, 8)
+            applySpringPressEffect(pressedScale = 0.985f)
         }
         content.addView(memoryInput, cardParams(8))
         saveButton = primaryButton("保存这条记忆") { save() }
@@ -251,6 +253,7 @@ class MemoryActivity : ComponentActivity() {
         background = rounded(warmSurface, 8)
         stateListAnimator = null
         setOnClickListener { action() }
+        applySpringPressEffect()
     }
 
     private fun primaryButton(value: String, action: () -> Unit) = button(value, action).apply {
