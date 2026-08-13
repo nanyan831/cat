@@ -60,5 +60,24 @@ class ReminderPolicyTest {
         assertEquals(Duration.ofMinutes(5), ReminderScheduleCalculator.delayFor(ReminderType.SLEEP, debug, now))
     }
 
+    @Test
+    fun `release scheduling ignores stale debug reminder setting`() {
+        val staleDebug = PetSettings(debugReminderEnabled = true)
+        val now = at("2026-07-22T12:00:00+08:00")
+
+        assertEquals(Duration.ofHours(2), ReminderScheduleCalculator.delayFor(
+            ReminderType.WATER, staleDebug, now, allowDebugReminder = false
+        ))
+        assertEquals(Duration.ofMinutes(60), ReminderScheduleCalculator.delayFor(
+            ReminderType.REST, staleDebug, now, allowDebugReminder = false
+        ))
+        assertEquals(Duration.ofHours(6), ReminderScheduleCalculator.delayFor(
+            ReminderType.FOOD, staleDebug, now, allowDebugReminder = false
+        ))
+        assertEquals(Duration.ofHours(11).plusMinutes(30), ReminderScheduleCalculator.delayFor(
+            ReminderType.SLEEP, staleDebug, now, allowDebugReminder = false
+        ))
+    }
+
     private fun at(value: String) = ZonedDateTime.parse(value)
 }

@@ -7,8 +7,13 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 object ReminderScheduleCalculator {
-    fun delayFor(type: ReminderType, settings: PetSettings, now: ZonedDateTime): Duration {
-        if (settings.debugReminderEnabled) {
+    fun delayFor(
+        type: ReminderType,
+        settings: PetSettings,
+        now: ZonedDateTime,
+        allowDebugReminder: Boolean = true
+    ): Duration {
+        if (allowDebugReminder && settings.debugReminderEnabled) {
             return when (type) {
                 ReminderType.WATER -> Duration.ofMinutes(1)
                 ReminderType.REST -> Duration.ofMinutes(2)

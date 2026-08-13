@@ -1,6 +1,7 @@
 package com.example.catlifepet.reminder
 
 import android.content.Context
+import android.content.pm.ApplicationInfo
 import android.util.Log
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
@@ -19,10 +20,12 @@ class ReminderManager(
     private val appContext = context.applicationContext
     private val workManager = WorkManager.getInstance(appContext)
     private val settingsRepository = SettingsRepository(appContext)
+    private val allowDebugReminder =
+        appContext.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
 
     fun syncAll() {
         val settings = settingsRepository.getSettings()
-        Log.d(TAG, "调试模式开关状态: ${settings.debugReminderEnabled}")
+        Log.d(TAG, "调试模式开关状态: configured=${settings.debugReminderEnabled}, active=${settings.debugReminderEnabled && allowDebugReminder}")
         if (settings.waterReminderEnabled) scheduleWaterReminder() else cancelReminder(ReminderType.WATER)
         if (settings.foodReminderEnabled) scheduleFoodReminder() else cancelReminder(ReminderType.FOOD)
         if (settings.restReminderEnabled) scheduleRestReminder() else cancelReminder(ReminderType.REST)
@@ -71,7 +74,8 @@ class ReminderManager(
     }
 
     private fun scheduleOneShot(type: ReminderType, delay: Duration) {
-        Log.d(TAG, "安排提醒: type=$type, delayMinutes=${delay.toMinutes()}, debug=${settingsRepository.getSettings().debugReminderEnabled}")
+        val debugActive = settingsRepository.getSettings().debugReminderEnabled && allowDebugReminder
+        Log.d(TAG, "安排提醒: type=$type, delayMinutes=${delay.toMinutes()}, debugActive=$debugActive")
         val request = OneTimeWorkRequestBuilder<ReminderWorker>()
             .setInitialDelay(delay.toMillis().coerceAtLeast(1000L), TimeUnit.MILLISECONDS)
             .setInputData(workDataOf(ReminderWorker.KEY_TYPE to type.name))
@@ -86,7 +90,8 @@ class ReminderManager(
     private fun nextDelay(type: ReminderType): Duration = ReminderScheduleCalculator.delayFor(
         type,
         settingsRepository.getSettings(),
-        ZonedDateTime.now(clock)
+        ZonedDateTime.now(clock),
+        allowDebugReminder
     )
 
     companion object {
