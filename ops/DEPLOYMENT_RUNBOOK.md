@@ -43,6 +43,14 @@ docker compose -f docker-compose.production.yml --env-file ops/env.production.lo
 .\ops\smoke-test.ps1 -BaseUrl http://localhost:8080
 ```
 
+For low-memory servers, prefer building the server distribution locally and uploading it instead of running Gradle on the server:
+
+```powershell
+.\ops\deploy-server-installDist.ps1
+```
+
+If SSH hangs during banner exchange after a server-side build, use `ops/SERVER_RECOVERY_RUNBOOK.md`.
+
 ## Staging Deployment
 
 1. Create a managed PostgreSQL database.
