@@ -17,6 +17,14 @@ class ReleaseSurfaceTest {
     }
 
     @Test
+    fun `debug overlay screen is not exported outside the test build`() {
+        val debugManifest = File("src/debug/AndroidManifest.xml").readText()
+
+        assertTrue(debugManifest.contains("OverlayDebugActivity"))
+        assertTrue(debugManifest.contains("""android:exported="false""""))
+    }
+
+    @Test
     fun `privacy policy keeps release placeholders explicit`() {
         val privacyPolicy = File("../PRIVACY_POLICY.md").readText()
 

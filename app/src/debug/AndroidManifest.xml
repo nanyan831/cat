@@ -4,7 +4,7 @@
         <activity
             android:name=".debug.OverlayDebugActivity"
             android:excludeFromRecents="true"
-            android:exported="true"
+            android:exported="false"
             android:noHistory="true" />
     </application>
 </manifest>
