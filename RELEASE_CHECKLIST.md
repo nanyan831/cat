@@ -42,7 +42,7 @@ CatLifePet 是一只会待在屏幕边缘陪伴你的生活小猫。它可以拖
 
 ## 发布前硬性门槛
 
-- 生产 HTTPS API 已部署，并替换 `CATLIFEPET_RELEASE_API_BASE_URL`。
+- 生产 HTTPS API 已部署，默认 release API 为 `https://api.catlifepet.top/`；如环境不同，用 `CATLIFEPET_RELEASE_API_BASE_URL` 覆盖并确认仍为 HTTPS。
 - SMTP、DeepSeek API key、PostgreSQL、备份和监控已配置在服务器端。
 - 隐私政策补齐运营者名称、联系邮箱、服务器地区和公开链接。
 - 签名 APK/AAB 完成密钥扫描，确认不含 API key、JWT secret、refresh token 或测试服务器地址。

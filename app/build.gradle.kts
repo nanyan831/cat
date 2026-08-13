@@ -61,11 +61,14 @@ android {
         }
         getByName("release") {
             val apiBaseUrl = providers.gradleProperty("CATLIFEPET_RELEASE_API_BASE_URL")
-                .orElse("https://api.catlifepet.invalid/")
+                .orElse("https://api.catlifepet.top/")
                 .get()
                 .let { if (it.endsWith('/')) it else "$it/" }
             require(apiBaseUrl.startsWith("https://")) {
                 "CATLIFEPET_RELEASE_API_BASE_URL must use HTTPS."
+            }
+            require(!apiBaseUrl.contains(".invalid", ignoreCase = true)) {
+                "CATLIFEPET_RELEASE_API_BASE_URL must not use a placeholder domain."
             }
             buildConfigField("String", "API_BASE_URL", "\"$apiBaseUrl\"")
             val releaseSigning = signingConfigs.getByName("release")
