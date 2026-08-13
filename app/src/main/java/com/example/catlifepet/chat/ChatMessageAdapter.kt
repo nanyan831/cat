@@ -39,6 +39,18 @@ class ChatMessageAdapter(
                 previous[oldItemPosition].id == messages[newItemPosition].id
             override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
                 previous[oldItemPosition] == messages[newItemPosition]
+
+            override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
+                val old = previous[oldItemPosition]
+                val new = messages[newItemPosition]
+                if (old.role != new.role) return null
+                return MessagePayload(
+                    contentChanged = old.content != new.content,
+                    statusChanged = old.status != new.status ||
+                        old.pending != new.pending ||
+                        old.errorMessage != new.errorMessage
+                )
+            }
         })
         items = messages
         diff.dispatchUpdatesTo(this)
@@ -57,7 +69,27 @@ class ChatMessageAdapter(
         holder.row.bind(message, appearingIds.remove(message.id))
     }
 
+    override fun onBindViewHolder(holder: MessageHolder, position: Int, payloads: MutableList<Any>) {
+        val message = items[position]
+        val payload = payloads.filterIsInstance<MessagePayload>().fold(MessagePayload()) { acc, item ->
+            MessagePayload(
+                contentChanged = acc.contentChanged || item.contentChanged,
+                statusChanged = acc.statusChanged || item.statusChanged
+            )
+        }
+        if (payloads.isNotEmpty() && message.id !in appearingIds) {
+            holder.row.update(message, payload)
+        } else {
+            onBindViewHolder(holder, position)
+        }
+    }
+
     class MessageHolder(val row: MessageRow) : RecyclerView.ViewHolder(row)
+
+    data class MessagePayload(
+        val contentChanged: Boolean = false,
+        val statusChanged: Boolean = false
+    )
 }
 
 @SuppressLint("ViewConstructor")
@@ -111,18 +143,45 @@ class MessageRow(
         } else if (getChildAt(0) !== bubble) {
             removeAllViews(); addView(bubble, LayoutParams(0, -2, 0.82f)); addView(TextView(context), LayoutParams(0, 1, 0.18f))
         }
+        updateBubbleStyle(user)
+        updateMessageText(message, user)
+        updateState(message)
+        contentDescription = buildDescription(message)
+        if (animateAppear) animateIn(user)
+    }
+
+    fun update(message: ChatMessage, payload: ChatMessageAdapter.MessagePayload) {
+        val previous = bound
+        bound = message
+        val user = message.role == "user"
+        if (previous == null || previous.role != message.role) {
+            bind(message, animateAppear = false)
+            return
+        }
+        if (payload.contentChanged) updateMessageText(message, user)
+        if (payload.statusChanged) updateState(message)
+        contentDescription = buildDescription(message)
+    }
+
+    private fun updateMessageText(message: ChatMessage, user: Boolean) {
         if (!user && (message.status == "streaming" || smoothText.canContinue(message.id, message.content))) {
             smoothText.showStreaming(message.id, message.content)
         } else {
             smoothText.showImmediate(message.id, message.content.ifBlank { "…" })
         }
         messageText.setTextColor(ContextCompat.getColor(context, R.color.text_primary))
+    }
+
+    private fun updateBubbleStyle(user: Boolean) {
         bubble.background = rounded(
             ContextCompat.getColor(context, if (user) R.color.primary_light else R.color.surface_primary),
             18
         ).apply {
             setStroke(dp(1), ContextCompat.getColor(context, R.color.divider_soft))
         }
+    }
+
+    private fun updateState(message: ChatMessage) {
         val state = when (message.status) {
             "sending" -> "正在发送…"
             "stopped" -> "已停止"
@@ -139,9 +198,12 @@ class MessageRow(
             setStroke(dp(1), ContextCompat.getColor(context, R.color.primary))
         }
         retry.setTextColor(ContextCompat.getColor(context, R.color.primary))
-        contentDescription = (if (user) "你说：" else "小猫说：") + message.content +
+    }
+
+    private fun buildDescription(message: ChatMessage): String {
+        val state = stateText.text.toString()
+        return (if (message.role == "user") "你说：" else "小猫说：") + message.content +
             if (state.isNotEmpty()) "，$state" else ""
-        if (animateAppear) animateIn(user)
     }
 
     private fun animateIn(user: Boolean) {
@@ -262,11 +324,11 @@ private class SmoothStreamingText(
     }
 
     private companion object {
-        const val FRAME_DELAY_MS = 110L
-        const val CLAUSE_DELAY_MS = 240L
-        const val SENTENCE_DELAY_MS = 360L
-        const val LINE_DELAY_MS = 280L
-        const val THINKING_DELAY_MS = 360L
+        const val FRAME_DELAY_MS = 150L
+        const val CLAUSE_DELAY_MS = 340L
+        const val SENTENCE_DELAY_MS = 520L
+        const val LINE_DELAY_MS = 380L
+        const val THINKING_DELAY_MS = 420L
         const val CHARS_PER_FRAME = 1
         const val THINKING_ID = "thinking"
     }
