@@ -15,4 +15,15 @@ class ReleaseSurfaceTest {
         assertTrue(manifest.contains("""android:name=".floating.CatFloatingService""""))
         assertTrue(manifest.contains("""android:exported="false""""))
     }
+
+    @Test
+    fun `privacy policy keeps release placeholders explicit`() {
+        val privacyPolicy = File("../PRIVACY_POLICY.md").readText()
+
+        assertTrue(privacyPolicy.contains("{运营者名称}"))
+        assertTrue(privacyPolicy.contains("{隐私联系邮箱}"))
+        assertTrue(privacyPolicy.contains("{服务器所在国家或地区}"))
+        assertTrue(privacyPolicy.contains("{隐私政策 URL}"))
+        assertTrue(privacyPolicy.contains("DeepSeek"))
+    }
 }
