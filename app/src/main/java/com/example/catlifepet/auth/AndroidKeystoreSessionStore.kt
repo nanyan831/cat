@@ -4,6 +4,7 @@ import android.content.Context
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.util.Base64
+import androidx.core.content.edit
 import java.security.KeyStore
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
@@ -27,7 +28,7 @@ class AndroidKeystoreSessionStore(context: Context) : SessionStore {
             }
             String(cipher.doFinal(ciphertext), Charsets.UTF_8)
         }.getOrElse {
-            preferences.edit().remove(KEY_REFRESH_TOKEN).apply()
+            preferences.edit { remove(KEY_REFRESH_TOKEN) }
             null
         }
     }
@@ -42,11 +43,11 @@ class AndroidKeystoreSessionStore(context: Context) : SessionStore {
             Base64.encodeToString(cipher.iv, Base64.NO_WRAP),
             Base64.encodeToString(cipher.doFinal(refreshToken.toByteArray(Charsets.UTF_8)), Base64.NO_WRAP)
         ).joinToString(":")
-        preferences.edit().putString(KEY_REFRESH_TOKEN, encoded).apply()
+        preferences.edit { putString(KEY_REFRESH_TOKEN, encoded) }
     }
 
     override fun clear() = synchronized(lock) {
-        preferences.edit().remove(KEY_REFRESH_TOKEN).apply()
+        preferences.edit { remove(KEY_REFRESH_TOKEN) }
         Unit
     }
 

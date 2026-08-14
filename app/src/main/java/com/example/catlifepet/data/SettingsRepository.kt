@@ -2,6 +2,7 @@ package com.example.catlifepet.data
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 
 class SettingsRepository(context: Context) {
     private val prefs: SharedPreferences = context.applicationContext.getSharedPreferences(
@@ -28,62 +29,62 @@ class SettingsRepository(context: Context) {
     }
 
     fun savePetSize(sizeDp: Int) {
-        prefs.edit().putInt(KEY_PET_SIZE_DP, sizeDp.coerceIn(80, 180)).apply()
+        prefs.edit { putInt(KEY_PET_SIZE_DP, sizeDp.coerceIn(80, 180)) }
     }
 
     fun savePetPosition(x: Int, y: Int) {
-        prefs.edit()
-            .putInt(KEY_LAST_X, x)
-            .putInt(KEY_LAST_Y, y)
-            .apply()
+        prefs.edit {
+            putInt(KEY_LAST_X, x)
+            putInt(KEY_LAST_Y, y)
+        }
     }
 
     fun setReminderEnabled(key: ReminderSettingKey, enabled: Boolean) {
-        prefs.edit().putBoolean(key.prefKey, enabled).apply()
+        prefs.edit { putBoolean(key.prefKey, enabled) }
     }
 
     fun setDoNotDisturbEnabled(enabled: Boolean) {
-        prefs.edit().putBoolean(KEY_DND_ENABLED, enabled).apply()
+        prefs.edit { putBoolean(KEY_DND_ENABLED, enabled) }
     }
 
     fun saveDoNotDisturbTime(start: String, end: String) {
-        prefs.edit()
-            .putString(KEY_DND_START, start)
-            .putString(KEY_DND_END, end)
-            .apply()
+        prefs.edit {
+            putString(KEY_DND_START, start)
+            putString(KEY_DND_END, end)
+        }
     }
 
     fun setDebugReminderEnabled(enabled: Boolean) {
-        prefs.edit().putBoolean(KEY_DEBUG_REMINDER_ENABLED, enabled).apply()
+        prefs.edit { putBoolean(KEY_DEBUG_REMINDER_ENABLED, enabled) }
     }
 
     fun setMuteToday(enabled: Boolean, date: String) {
-        prefs.edit()
-            .putBoolean(KEY_MUTE_TODAY_ENABLED, enabled)
-            .putString(KEY_MUTE_TODAY_DATE, if (enabled) date else "")
-            .apply()
+        prefs.edit {
+            putBoolean(KEY_MUTE_TODAY_ENABLED, enabled)
+            putString(KEY_MUTE_TODAY_DATE, if (enabled) date else "")
+        }
     }
 
     fun isOnboardingCompleted(): Boolean = prefs.getBoolean(KEY_ONBOARDING_COMPLETED, false)
 
     fun setOnboardingCompleted(completed: Boolean) {
-        prefs.edit().putBoolean(KEY_ONBOARDING_COMPLETED, completed).apply()
+        prefs.edit { putBoolean(KEY_ONBOARDING_COMPLETED, completed) }
     }
 
     fun isFirstPetSummonCompleted(): Boolean = prefs.getBoolean(KEY_FIRST_PET_SUMMON_COMPLETED, false)
 
     fun setFirstPetSummonCompleted(completed: Boolean) {
-        prefs.edit().putBoolean(KEY_FIRST_PET_SUMMON_COMPLETED, completed).apply()
+        prefs.edit { putBoolean(KEY_FIRST_PET_SUMMON_COMPLETED, completed) }
     }
 
     fun saveTemporaryHideUntil(epochMillis: Long) {
-        prefs.edit().putLong(KEY_TEMPORARY_HIDE_UNTIL, epochMillis).apply()
+        prefs.edit { putLong(KEY_TEMPORARY_HIDE_UNTIL, epochMillis) }
     }
 
     fun getTemporaryHideUntil(): Long = prefs.getLong(KEY_TEMPORARY_HIDE_UNTIL, 0L)
 
     fun clearTemporaryHide() {
-        prefs.edit().remove(KEY_TEMPORARY_HIDE_UNTIL).apply()
+        prefs.edit { remove(KEY_TEMPORARY_HIDE_UNTIL) }
     }
 
     fun hasExistingUserData(): Boolean {
@@ -101,14 +102,14 @@ class SettingsRepository(context: Context) {
     fun getLastClickEnergyChangeTime(): Long = prefs.getLong(KEY_LAST_CLICK_ENERGY_CHANGE_TIME, 0L)
 
     fun saveEnergyState(energy: Int, lastUpdateTime: Long) {
-        prefs.edit()
-            .putInt(KEY_PET_ENERGY, energy)
-            .putLong(KEY_LAST_ENERGY_UPDATE_TIME, lastUpdateTime)
-            .apply()
+        prefs.edit {
+            putInt(KEY_PET_ENERGY, energy)
+            putLong(KEY_LAST_ENERGY_UPDATE_TIME, lastUpdateTime)
+        }
     }
 
     fun saveLastClickEnergyChangeTime(timeMillis: Long) {
-        prefs.edit().putLong(KEY_LAST_CLICK_ENERGY_CHANGE_TIME, timeMillis).apply()
+        prefs.edit { putLong(KEY_LAST_CLICK_ENERGY_CHANGE_TIME, timeMillis) }
     }
 
     fun getStoredMood(): Int? {
@@ -120,14 +121,14 @@ class SettingsRepository(context: Context) {
     fun getLastClickMoodChangeTime(): Long = prefs.getLong(KEY_LAST_CLICK_MOOD_CHANGE_TIME, 0L)
 
     fun saveMoodState(mood: Int, lastUpdateTime: Long) {
-        prefs.edit()
-            .putInt(KEY_PET_MOOD, mood)
-            .putLong(KEY_LAST_MOOD_UPDATE_TIME, lastUpdateTime)
-            .apply()
+        prefs.edit {
+            putInt(KEY_PET_MOOD, mood)
+            putLong(KEY_LAST_MOOD_UPDATE_TIME, lastUpdateTime)
+        }
     }
 
     fun saveLastClickMoodChangeTime(timeMillis: Long) {
-        prefs.edit().putLong(KEY_LAST_CLICK_MOOD_CHANGE_TIME, timeMillis).apply()
+        prefs.edit { putLong(KEY_LAST_CLICK_MOOD_CHANGE_TIME, timeMillis) }
     }
 
     fun getStoredAffection(): Int? {
@@ -149,18 +150,18 @@ class SettingsRepository(context: Context) {
     }
 
     fun saveAffectionState(affection: Int, state: AffectionDailyState) {
-        prefs.edit()
-            .putInt(KEY_PET_AFFECTION, affection)
-            .putString(KEY_LAST_AFFECTION_INTERACTION_DATE, state.lastInteractionDate)
-            .putString(KEY_AFFECTION_REMINDER_GAIN_DATE, state.reminderGainDate)
-            .putInt(KEY_AFFECTION_REMINDER_GAIN_COUNT, state.reminderGainCount)
-            .putString(KEY_LAST_AFFECTION_SLEEP_REWARD_DATE, state.lastSleepRewardDate)
-            .putString(KEY_AFFECTION_COMPANION_DATE, state.companionDate)
-            .putLong(KEY_AFFECTION_COMPANION_ACCUMULATED_MS, state.companionAccumulatedMs)
-            .putInt(KEY_AFFECTION_COMPANION_REWARD_COUNT, state.companionRewardCount)
-            .putString(KEY_AFFECTION_DAILY_GAIN_DATE, state.dailyGainDate)
-            .putInt(KEY_AFFECTION_DAILY_GAIN_AMOUNT, state.dailyGainAmount)
-            .apply()
+        prefs.edit {
+            putInt(KEY_PET_AFFECTION, affection)
+            putString(KEY_LAST_AFFECTION_INTERACTION_DATE, state.lastInteractionDate)
+            putString(KEY_AFFECTION_REMINDER_GAIN_DATE, state.reminderGainDate)
+            putInt(KEY_AFFECTION_REMINDER_GAIN_COUNT, state.reminderGainCount)
+            putString(KEY_LAST_AFFECTION_SLEEP_REWARD_DATE, state.lastSleepRewardDate)
+            putString(KEY_AFFECTION_COMPANION_DATE, state.companionDate)
+            putLong(KEY_AFFECTION_COMPANION_ACCUMULATED_MS, state.companionAccumulatedMs)
+            putInt(KEY_AFFECTION_COMPANION_REWARD_COUNT, state.companionRewardCount)
+            putString(KEY_AFFECTION_DAILY_GAIN_DATE, state.dailyGainDate)
+            putInt(KEY_AFFECTION_DAILY_GAIN_AMOUNT, state.dailyGainAmount)
+        }
     }
 
     fun getHighestUnlockedAffectionLevel(): Int? {
@@ -172,7 +173,7 @@ class SettingsRepository(context: Context) {
     }
 
     fun saveHighestUnlockedAffectionLevel(levelOrdinal: Int) {
-        prefs.edit().putInt(KEY_HIGHEST_UNLOCKED_AFFECTION_LEVEL, levelOrdinal).apply()
+        prefs.edit { putInt(KEY_HIGHEST_UNLOCKED_AFFECTION_LEVEL, levelOrdinal) }
     }
 
     fun getPendingRelationshipLevelUp(): Int? {
@@ -184,13 +185,13 @@ class SettingsRepository(context: Context) {
     }
 
     fun savePendingRelationshipLevelUp(levelOrdinal: Int?) {
-        val editor = prefs.edit()
-        if (levelOrdinal == null) {
-            editor.remove(KEY_PENDING_RELATIONSHIP_LEVEL_UP)
-        } else {
-            editor.putInt(KEY_PENDING_RELATIONSHIP_LEVEL_UP, levelOrdinal)
+        prefs.edit {
+            if (levelOrdinal == null) {
+                remove(KEY_PENDING_RELATIONSHIP_LEVEL_UP)
+            } else {
+                putInt(KEY_PENDING_RELATIONSHIP_LEVEL_UP, levelOrdinal)
+            }
         }
-        editor.apply()
     }
 
     fun getPendingRelationshipPreviousLevel(): Int? {
@@ -202,13 +203,13 @@ class SettingsRepository(context: Context) {
     }
 
     fun savePendingRelationshipPreviousLevel(levelOrdinal: Int?) {
-        val editor = prefs.edit()
-        if (levelOrdinal == null) {
-            editor.remove(KEY_PENDING_RELATIONSHIP_PREVIOUS_LEVEL)
-        } else {
-            editor.putInt(KEY_PENDING_RELATIONSHIP_PREVIOUS_LEVEL, levelOrdinal)
+        prefs.edit {
+            if (levelOrdinal == null) {
+                remove(KEY_PENDING_RELATIONSHIP_PREVIOUS_LEVEL)
+            } else {
+                putInt(KEY_PENDING_RELATIONSHIP_PREVIOUS_LEVEL, levelOrdinal)
+            }
         }
-        editor.apply()
     }
 
     fun getLastRelationshipWelcomeDate(): String {
@@ -216,7 +217,7 @@ class SettingsRepository(context: Context) {
     }
 
     fun saveLastRelationshipWelcomeDate(date: String) {
-        prefs.edit().putString(KEY_LAST_RELATIONSHIP_WELCOME_DATE, date).apply()
+        prefs.edit { putString(KEY_LAST_RELATIONSHIP_WELCOME_DATE, date) }
     }
 
     data class AffectionDailyState(
