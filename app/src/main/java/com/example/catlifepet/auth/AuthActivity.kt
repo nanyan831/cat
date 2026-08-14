@@ -7,8 +7,10 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.text.Editable
 import android.text.InputFilter
 import android.text.InputType
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.View
 import android.widget.Button
@@ -133,7 +135,7 @@ class AuthActivity : ComponentActivity() {
         }
         content.addView(emailInput, match(dp(12)))
         errorMessage?.let { content.addView(errorLabel(it), match(dp(10))) }
-        content.addView(primaryButton(if (busy) "正在发送…" else "发送验证码") {
+        val sendCodeButton = primaryButton(if (busy) "正在发送…" else "发送验证码") {
             if (busy) return@primaryButton
             email = normalizeEmail(emailInput.text.toString())
             if (email.isBlank()) {
@@ -142,7 +144,13 @@ class AuthActivity : ComponentActivity() {
             } else {
                 requestCode()
             }
-        }, match(dp(18)))
+        }
+        emailInput.addTextChangedListener(simpleWatcher {
+            email = normalizeEmail(emailInput.text.toString())
+            updatePrimaryButtonEnabled(sendCodeButton, email.isNotBlank())
+        })
+        updatePrimaryButtonEnabled(sendCodeButton, normalizeEmail(emailInput.text.toString()).isNotBlank())
+        content.addView(sendCodeButton, match(dp(18)))
         addLocalFeatureNotice()
     }
 
@@ -158,7 +166,7 @@ class AuthActivity : ComponentActivity() {
         }
         content.addView(codeInput, match(dp(12)))
         errorMessage?.let { content.addView(errorLabel(it), match(dp(10))) }
-        content.addView(primaryButton(if (busy) "正在登录…" else "登录") {
+        val loginButton = primaryButton(if (busy) "正在登录…" else "登录") {
             if (busy) return@primaryButton
             val code = codeInput.text.toString().trim()
             if (code.length != 6) {
@@ -167,7 +175,12 @@ class AuthActivity : ComponentActivity() {
             } else {
                 verifyCode(code)
             }
-        }, match(dp(10)))
+        }
+        codeInput.addTextChangedListener(simpleWatcher {
+            updatePrimaryButtonEnabled(loginButton, codeInput.text.toString().trim().length == 6)
+        })
+        updatePrimaryButtonEnabled(loginButton, false)
+        content.addView(loginButton, match(dp(10)))
         content.addView(actionButton("重新发送验证码") {
             if (!busy) requestCode()
         }, match(dp(6)))
@@ -245,7 +258,7 @@ class AuthActivity : ComponentActivity() {
                 page = Page.CODE
                 errorMessage = null
             }
-            is AuthOutcome.Failure -> errorMessage = outcome.toUserMessage()
+            is AuthOutcome.Failure -> errorMessage = outcome.message
         }
     }
 
@@ -260,7 +273,7 @@ class AuthActivity : ComponentActivity() {
                     errorMessage = null
                 }
             }
-            is AuthOutcome.Failure -> errorMessage = outcome.toUserMessage()
+            is AuthOutcome.Failure -> errorMessage = outcome.message
         }
     }
 
@@ -282,7 +295,7 @@ class AuthActivity : ComponentActivity() {
                     } else {
                         page = Page.RESTORE_ERROR
                     }
-                    errorMessage = outcome.toUserMessage()
+                    errorMessage = outcome.message
                 }
             }
         }
@@ -296,7 +309,7 @@ class AuthActivity : ComponentActivity() {
             )
         ) {
             is AuthOutcome.Success -> errorMessage = null
-            is AuthOutcome.Failure -> errorMessage = outcome.toUserMessage()
+            is AuthOutcome.Failure -> errorMessage = outcome.message
         }
     }
 
@@ -327,7 +340,7 @@ class AuthActivity : ComponentActivity() {
                 email = ""
                 errorMessage = null
             }
-            is AuthOutcome.Failure -> errorMessage = outcome.toUserMessage()
+            is AuthOutcome.Failure -> errorMessage = outcome.message
         }
     }
 
@@ -405,6 +418,18 @@ class AuthActivity : ComponentActivity() {
         elevation = dp(2).toFloat()
         isEnabled = !busy
         alpha = if (busy) 0.65f else 1f
+    }
+
+    private fun updatePrimaryButtonEnabled(button: Button, hasValidInput: Boolean) {
+        val enabled = !busy && hasValidInput
+        button.isEnabled = enabled
+        button.alpha = if (enabled) 1f else 0.45f
+    }
+
+    private fun simpleWatcher(onChanged: () -> Unit): TextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = onChanged()
+        override fun afterTextChanged(s: Editable?) = Unit
     }
 
     private fun dangerButton(textValue: String, action: () -> Unit) = actionButton(textValue, action).apply {
