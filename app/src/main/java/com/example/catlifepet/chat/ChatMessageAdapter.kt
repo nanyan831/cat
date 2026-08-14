@@ -84,6 +84,11 @@ class ChatMessageAdapter(
         }
     }
 
+    override fun onViewRecycled(holder: MessageHolder) {
+        holder.row.stopAnimations()
+        super.onViewRecycled(holder)
+    }
+
     class MessageHolder(val row: MessageRow) : RecyclerView.ViewHolder(row)
 
     data class MessagePayload(
@@ -144,7 +149,7 @@ class MessageRow(
             removeAllViews(); addView(bubble, LayoutParams(0, -2, 0.82f)); addView(TextView(context), LayoutParams(0, 1, 0.18f))
         }
         updateBubbleStyle(user)
-        updateMessageText(message, user)
+        updateMessageText(message, user, animateAppear)
         updateState(message)
         contentDescription = buildDescription(message)
         if (animateAppear) animateIn(user)
@@ -158,13 +163,22 @@ class MessageRow(
             bind(message, animateAppear = false)
             return
         }
-        if (payload.contentChanged) updateMessageText(message, user)
+        if (payload.contentChanged) updateMessageText(message, user, animateNewAssistant = false)
         if (payload.statusChanged) updateState(message)
         contentDescription = buildDescription(message)
     }
 
-    private fun updateMessageText(message: ChatMessage, user: Boolean) {
-        if (!user && (message.status == "streaming" || smoothText.canContinue(message.id, message.content))) {
+    private fun updateMessageText(
+        message: ChatMessage,
+        user: Boolean,
+        animateNewAssistant: Boolean
+    ) {
+        val shouldTypeAssistant = !user && (
+            message.status == "streaming" ||
+                smoothText.canContinue(message.id, message.content) ||
+                (animateNewAssistant && message.status == "completed" && message.content.length >= MIN_TYPEWRITER_CHARS)
+            )
+        if (shouldTypeAssistant) {
             smoothText.showStreaming(message.id, message.content)
         } else {
             smoothText.showImmediate(message.id, message.content.ifBlank { "…" })
@@ -227,6 +241,16 @@ class MessageRow(
 
     private fun dp(value: Int) = ScreenUtils.dp(context, value)
 
+    fun stopAnimations() {
+        smoothText.stop()
+        animate().cancel()
+        bubble.animate().cancel()
+    }
+
+    companion object {
+        private const val MIN_TYPEWRITER_CHARS = 6
+    }
+
     override fun onDetachedFromWindow() {
         smoothText.stop()
         super.onDetachedFromWindow()
@@ -252,6 +276,17 @@ private class SmoothStreamingText(
             visible = target.substring(0, nextEndIndex(visible.length, target, CHARS_PER_FRAME))
             view.text = visible
             handler.postDelayed(this, delayAfter(visible.lastOrNull()))
+        }
+    }
+
+    private val thinkingPump = object : Runnable {
+        private var step = 0
+
+        override fun run() {
+            if (!running || messageId != THINKING_ID) return
+            step = (step + 1) % 4
+            view.text = "小猫正在想" + ".".repeat(step.coerceAtLeast(1))
+            handler.postDelayed(this, THINKING_DELAY_MS)
         }
     }
 
@@ -287,6 +322,7 @@ private class SmoothStreamingText(
     fun stop() {
         running = false
         handler.removeCallbacks(pump)
+        handler.removeCallbacks(thinkingPump)
     }
 
     private fun showThinking() {
@@ -296,16 +332,8 @@ private class SmoothStreamingText(
         visible = ""
         running = true
         handler.removeCallbacks(pump)
-        handler.post(object : Runnable {
-            private var step = 0
-
-            override fun run() {
-                if (!running || messageId != THINKING_ID) return
-                step = (step + 1) % 4
-                view.text = "小猫正在想" + ".".repeat(step.coerceAtLeast(1))
-                handler.postDelayed(this, THINKING_DELAY_MS)
-            }
-        })
+        handler.removeCallbacks(thinkingPump)
+        handler.post(thinkingPump)
     }
 
     private fun nextEndIndex(start: Int, text: String, codePoints: Int): Int {
@@ -324,10 +352,10 @@ private class SmoothStreamingText(
     }
 
     private companion object {
-        const val FRAME_DELAY_MS = 150L
-        const val CLAUSE_DELAY_MS = 340L
-        const val SENTENCE_DELAY_MS = 520L
-        const val LINE_DELAY_MS = 380L
+        const val FRAME_DELAY_MS = 210L
+        const val CLAUSE_DELAY_MS = 460L
+        const val SENTENCE_DELAY_MS = 720L
+        const val LINE_DELAY_MS = 520L
         const val THINKING_DELAY_MS = 420L
         const val CHARS_PER_FRAME = 1
         const val THINKING_ID = "thinking"

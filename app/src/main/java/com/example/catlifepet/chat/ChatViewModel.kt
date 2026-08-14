@@ -196,6 +196,6 @@ class ChatViewModel(private val source: ChatDataSource) : ViewModel() {
     }
 
     private companion object {
-        const val DRAFT_FLUSH_INTERVAL_MS = 180L
+        const val DRAFT_FLUSH_INTERVAL_MS = 260L
     }
 }

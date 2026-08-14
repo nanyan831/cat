@@ -322,6 +322,6 @@ class ChatActivity : ComponentActivity() {
 
     companion object {
         const val EXTRA_CONVERSATION_ID = "com.example.catlifepet.chat.extra.CONVERSATION_ID"
-        private const val AUTO_SCROLL_INTERVAL_MS = 220L
+        private const val AUTO_SCROLL_INTERVAL_MS = 520L
     }
 }

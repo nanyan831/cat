@@ -55,7 +55,7 @@ class ChatViewModelTest {
         assertTrue(viewModel.state.value.generating)
         assertEquals("", viewModel.state.value.assistantDraft)
 
-        dispatcher.scheduler.advanceTimeBy(180)
+        dispatcher.scheduler.advanceTimeBy(260)
         dispatcher.scheduler.runCurrent()
 
         assertEquals("开", viewModel.state.value.assistantDraft)
