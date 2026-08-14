@@ -146,7 +146,7 @@ class MemoryActivity : ComponentActivity() {
             }
             val description = "${kindLabel(memory.kind)}\n${memory.content}"
             row.addView(label(description, 14f, false), LinearLayout.LayoutParams(0, -2, 1f))
-            row.addView(button("删除") { confirmDelete(memory) }, LinearLayout.LayoutParams(dp(68), dp(44)))
+            row.addView(button("删除") { confirmDelete(memory) }, LinearLayout.LayoutParams(dp(68), dp(48)))
             content.addView(row, cardParams(8))
         }
         val clearMemories = button("清空全部记忆") { confirmClearMemories() }.apply { tag = DYNAMIC_TAG }

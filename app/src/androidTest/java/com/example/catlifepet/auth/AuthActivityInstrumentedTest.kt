@@ -27,7 +27,7 @@ class AuthActivityInstrumentedTest {
                 val root = activity.window.decorView
                 assertTrue(root.containsText("账号与云同步"))
                 assertTrue(root.containsText("发送验证码"))
-                assertTrue(root.containsText("本地陪伴不受影响"))
+                assertTrue(root.containsText("登录成功后才能进入桌宠、提醒和 AI 聊天功能。"))
             }
         }
     }

@@ -75,11 +75,11 @@ class ChatActivity : ComponentActivity() {
             gravity = Gravity.CENTER_VERTICAL
             setPadding(dp(12), dp(26), dp(12), dp(8))
         }
-        top.addView(iconButton("‹", "返回") { finish() }, LinearLayout.LayoutParams(dp(46), dp(46)))
+        top.addView(iconButton("‹", "返回") { finish() }, LinearLayout.LayoutParams(dp(48), dp(48)))
         title = label("和小猫聊聊", 19f, true, textPrimary).apply { gravity = Gravity.CENTER }
-        top.addView(title, LinearLayout.LayoutParams(0, dp(46), 1f))
-        top.addView(iconButton("☷", "聊天记录") { showHistory() }, LinearLayout.LayoutParams(dp(46), dp(46)))
-        top.addView(iconButton("＋", "新建聊天") { viewModel.newConversation() }, LinearLayout.LayoutParams(dp(46), dp(46)))
+        top.addView(title, LinearLayout.LayoutParams(0, dp(48), 1f))
+        top.addView(iconButton("☷", "聊天记录") { showHistory() }, LinearLayout.LayoutParams(dp(48), dp(48)))
+        top.addView(iconButton("＋", "新建聊天") { viewModel.newConversation() }, LinearLayout.LayoutParams(dp(48), dp(48)))
         root.addView(top, LinearLayout.LayoutParams(-1, dp(84)))
 
         status = label("正在准备聊天…", 13f, false, textSecondary).apply {

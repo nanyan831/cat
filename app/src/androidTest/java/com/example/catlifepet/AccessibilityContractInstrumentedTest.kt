@@ -38,6 +38,8 @@ class AccessibilityContractInstrumentedTest {
 
     @Test
     fun primaryScreensExposeAccessibleClickableTargets() {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        AndroidKeystoreSessionStore(context).writeRefreshToken("accessibility-test-refresh-token")
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
             scenario.onActivity { activity ->
                 assertTrue(activity.window.decorView.clickFirstAccessibleNameContaining("设置"))
@@ -45,12 +47,13 @@ class AccessibilityContractInstrumentedTest {
             InstrumentationRegistry.getInstrumentation().waitForIdleSync()
             scenario.onActivity { activity ->
                 val root = activity.window.decorView
-                assertTrue(root.containsText("聊天记录"))
+                assertTrue(root.containsText("AI 会话"))
                 assertTrue(root.containsText("陪伴记忆"))
                 assertTrue(root.containsText("隐私与数据"))
                 root.assertClickableTargets(activity, "MainActivity")
             }
         }
+        AndroidKeystoreSessionStore(context).clear()
         ActivityScenario.launch(AuthActivity::class.java).use { scenario ->
             scenario.onActivity { it.window.decorView.assertClickableTargets(it, "AuthActivity") }
         }
