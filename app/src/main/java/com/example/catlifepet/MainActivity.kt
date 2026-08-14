@@ -1,6 +1,7 @@
 package com.example.catlifepet
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
@@ -402,7 +403,7 @@ class MainActivity : ComponentActivity() {
         root.addView(section("小猫大小"), wrap())
         val sizeRow = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
         listOf(80 to "小", 120 to "中", 160 to "大").forEach { (value, labelText) ->
-            val button = configureActionButton(Button(this).apply { text = "$labelText  ${value}dp" }).apply { background = rounded(if (settings.petSizeDp == value) PRIMARY_LIGHT else SURFACE, 16); setOnClickListener {
+            val button = configureActionButton(Button(this).apply { text = getString(R.string.pet_size_option, labelText, value) }).apply { background = rounded(if (settings.petSizeDp == value) PRIMARY_LIGHT else SURFACE, 16); setOnClickListener {
                 settingsRepository.savePetSize(value); CatFloatingService.updateSize(this@MainActivity); toast("小猫大小已更新"); render(Screen.PET_SETTINGS)
             } }
             sizeRow.addView(button, weightParams())
@@ -452,6 +453,7 @@ class MainActivity : ComponentActivity() {
         root.addView(text("© 2026 CatLifePet", 12f, TEXT_SECONDARY, false).apply { gravity = Gravity.CENTER }, match(dp(12)))
     }
 
+    @SuppressLint("SetTextI18n")
     private fun debugPage(root: LinearLayout) {
         backBar(root, "开发者 / Debug")
         root.addView(infoCard("仅在 Debug 模式可见", "这里的操作只用于测试，不影响正式用户界面"), match(dp(12)))
@@ -467,7 +469,7 @@ class MainActivity : ComponentActivity() {
         debugButtons(root, "Affection", { petStatusManager.changeAffectionForDebug(-10) }, { petStatusManager.changeAffectionForDebug(10) }, { petStatusManager.setAffectionForDebug(PetStatusManager.DEFAULT_AFFECTION) }, ::refresh)
         root.addView(section("Growth 边界测试"), wrap())
         val boundary = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
-        listOf(19, 20, 49, 50, 79, 80).forEach { value -> boundary.addView(configureActionButton(Button(this).apply { text = "Aff $value"; setOnClickListener { petStatusManager.setAffectionForDebug(value); growthUnlockManager.syncWithAffection(petStatusManager.getAffectionLevel()); refresh() } }), weightParams()) }
+        listOf(19, 20, 49, 50, 79, 80).forEach { value -> boundary.addView(configureActionButton(Button(this).apply { text = getString(R.string.debug_affection_value, value); setOnClickListener { petStatusManager.setAffectionForDebug(value); growthUnlockManager.syncWithAffection(petStatusManager.getAffectionLevel()); refresh() } }), weightParams()) }
         root.addView(boundary, wrap())
         root.addView(cardRow("↻", "重置 Growth 解锁状态", "以当前关系等级作为历史最高等级", "重置") { growthUnlockManager.resetForDebug(petStatusManager.getAffectionLevel()); refresh() }, match(dp(12)))
         root.addView(cardRow("◷", "模拟陪伴 +60 分钟", "测试陪伴时间和 Affection 奖励", "执行") { petStatusManager.simulateCompanionshipForDebug(PetStatusManager.COMPANIONSHIP_REWARD_INTERVAL_MS); refresh() }, match(dp(12)))

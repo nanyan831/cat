@@ -285,7 +285,10 @@ private class SmoothStreamingText(
         override fun run() {
             if (!running || messageId != THINKING_ID) return
             step = (step + 1) % 4
-            view.text = "小猫正在想" + ".".repeat(step.coerceAtLeast(1))
+            view.text = view.context.getString(
+                R.string.chat_thinking,
+                ".".repeat(step.coerceAtLeast(1))
+            )
             handler.postDelayed(this, THINKING_DELAY_MS)
         }
     }
