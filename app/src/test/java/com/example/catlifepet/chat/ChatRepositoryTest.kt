@@ -18,6 +18,7 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -149,6 +150,17 @@ class ChatRepositoryTest {
             "请求内容不太对，换一种说法再试试。",
             failure.message
         )
+    }
+
+    @Test
+    fun `gateway 403 is shown as temporary chat service outage`() = runBlocking {
+        server.enqueue(json("<html>blocked</html>").setResponseCode(403))
+
+        val events = repository.sendMessage("conversation", "还在吗", "gateway-403").toList()
+
+        val failure = events.single() as ChatSendEvent.Failure
+        assertEquals("聊天服务暂时不可用，稍后再试。", failure.message)
+        assertFalse(failure.message.contains("权限"))
     }
 
     @Test

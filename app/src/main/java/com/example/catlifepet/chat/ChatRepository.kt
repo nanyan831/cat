@@ -58,7 +58,7 @@ class ChatRepository(
                     local.firstOrNull { it.id == preferredConversationId }?.id ?: local.first().id,
                     offline = true
                 )
-                else -> ChatLoadResult.Failure("无法连接服务器，登录后再来和小猫聊天吧。")
+                else -> ChatLoadResult.Failure("聊天服务暂时不可用，稍后再来找小猫吧。")
             }
         }
     }
@@ -260,7 +260,7 @@ class ChatRepository(
     private fun friendlyHttpMessage(status: Int?): String = when (status) {
         400, 422 -> "请求内容不太对，换一种说法再试试。"
         401 -> "登录已失效，请重新登录。"
-        403 -> "当前账号没有权限继续聊天，请重新登录后再试。"
+        403 -> "聊天服务暂时不可用，稍后再试。"
         404 -> "这段聊天暂时找不到了，重新新建一段聊天吧。"
         408 -> "服务器响应超时了，稍后再试。"
         409 -> "这条消息状态不一致，请重新发送一条新的。"

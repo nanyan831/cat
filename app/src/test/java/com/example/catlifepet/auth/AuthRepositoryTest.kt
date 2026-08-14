@@ -113,6 +113,18 @@ class AuthRepositoryTest {
     }
 
     @Test
+    fun `gateway 403 is converted to temporary cloud service copy`() = runBlocking {
+        server.enqueue(jsonResponse(403, "<html>blocked</html>"))
+
+        val outcome = repository.requestCode("cat@example.com")
+
+        assertTrue(outcome is AuthOutcome.Failure)
+        assertEquals("http_error", (outcome as AuthOutcome.Failure).code)
+        assertEquals("云端服务暂时不可用，请稍后重试。", outcome.message)
+        assertFalse(outcome.message.contains("权限"))
+    }
+
+    @Test
     fun `network auth failure uses friendly retry copy`() = runBlocking {
         server.shutdown()
 
