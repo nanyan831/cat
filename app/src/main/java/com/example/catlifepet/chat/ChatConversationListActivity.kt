@@ -23,6 +23,7 @@ import com.example.catlifepet.auth.AuthActivity
 import com.example.catlifepet.util.InteractionUtils.applySpringPressEffect
 import com.example.catlifepet.util.ScreenUtils
 import com.example.catlifepet.util.SystemBarUtils
+import com.example.catlifepet.util.TimeTextUtils
 import kotlinx.coroutines.launch
 
 class ChatConversationListActivity : ComponentActivity() {
@@ -129,7 +130,7 @@ class ChatConversationListActivity : ComponentActivity() {
             isClickable = true
             foreground = selectableItemBackground()
             addView(label(conversation.title?.takeIf(String::isNotBlank) ?: "未命名 AI 会话", 17f, true, textPrimary), match(dp(5)))
-            addView(label("更新时间：${conversation.updatedAt}", 13f, false, textSecondary), match(dp(4)))
+            addView(label("更新时间：${TimeTextUtils.formatConversationUpdatedAt(conversation.updatedAt)}", 13f, false, textSecondary), match(dp(4)))
             addView(label(if (selected) "当前会话，点击继续" else "点击继续聊天", 13f, false, primary), match())
             setOnClickListener { openConversation(conversation.id) }
             applySpringPressEffect(pressedScale = 0.985f)
