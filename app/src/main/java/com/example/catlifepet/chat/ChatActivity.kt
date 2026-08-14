@@ -7,6 +7,8 @@ import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.os.SystemClock
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.View
 import android.view.animation.DecelerateInterpolator
@@ -132,6 +134,13 @@ class ChatActivity : ComponentActivity() {
             setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEND) { send(); true } else false
             }
+            addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    updateComposerControls(lastState)
+                }
+                override fun afterTextChanged(s: Editable?) = Unit
+            })
             applySpringPressEffect(pressedScale = 0.985f)
         }
         composer.addView(input, LinearLayout.LayoutParams(0, -2, 1f).apply { marginEnd = dp(8) })
@@ -206,11 +215,16 @@ class ChatActivity : ComponentActivity() {
                 startActivity(Intent(this, AuthActivity::class.java))
             } else viewModel.load()
         }
+        updateComposerControls(state)
+    }
+
+    private fun updateComposerControls(state: ChatUiState) {
         val ready = state.status == ChatScreenStatus.READY && state.conversationId != null
         input.isEnabled = ready && !state.generating
         crossfadeActionButtons(state.generating)
-        sendButton.isEnabled = ready
-        sendButton.alpha = if (ready) 1f else 0.5f
+        val canSend = ready && !state.generating && input.text?.isNotBlank() == true
+        sendButton.isEnabled = canSend
+        sendButton.alpha = if (canSend) 1f else 0.45f
     }
 
     private fun shouldFollowConversation(): Boolean {
