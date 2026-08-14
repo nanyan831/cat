@@ -130,7 +130,7 @@ class ChatRepositoryTest {
 
         val failure = events.single() as ChatSendEvent.Failure
         assertEquals(
-            "请求内容不太对，换一种说法再试试。（provider_changed_shape / HTTP 422）",
+            "请求内容不太对，换一种说法再试试。",
             failure.message
         )
     }

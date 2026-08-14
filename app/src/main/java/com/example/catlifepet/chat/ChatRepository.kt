@@ -254,11 +254,7 @@ class ChatRepository(
             "http_error" -> friendlyHttpMessage(status)
             else -> friendlyHttpMessage(status)
         }
-        return if (status != null && code !in USER_FRIENDLY_CODES) {
-            "$message（$code / HTTP $status）"
-        } else {
-            message
-        }
+        return message
     }
 
     private fun friendlyHttpMessage(status: Int?): String = when (status) {
@@ -280,37 +276,6 @@ class ChatRepository(
     private companion object {
         const val TAG = "CatLifePet"
         const val STREAM_TIMEOUT_MS = 45_000L
-
-        val USER_FRIENDLY_CODES = setOf(
-            "invalid_access_token",
-            "missing_access_token",
-            "token_expired",
-            "daily_quota_exceeded",
-            "rate_limited",
-            "turn_in_progress",
-            "client_message_conflict",
-            "message_retry_conflict",
-            "invalid_request",
-            "message_too_long",
-            "conversation_not_found",
-            "not_found",
-            "message_finalization_conflict",
-            "ai_provider_authentication_failed",
-            "ai_provider_insufficient_balance",
-            "ai_provider_rejected_request",
-            "ai_provider_rate_limited",
-            "ai_provider_unavailable",
-            "ai_provider_error",
-            "ai_invalid_response",
-            "ai_timeout",
-            "ai_network_error",
-            "ai_stream_failed",
-            "internal_error",
-            "network_error",
-            "stream_interrupted",
-            "empty_response",
-            "invalid_stream"
-        )
     }
 }
 

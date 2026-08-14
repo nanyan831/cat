@@ -171,7 +171,7 @@ class ChatHttpClient(
         }.getOrNull()
         val errorCode = envelope?.error?.code ?: "http_error"
         val errorMessage = envelope?.error?.message
-            ?: "服务器拒绝了请求（HTTP $code，$errorCode）。"
+            ?: "请求暂时没有完成，请稍后再试。"
         return ChatHttpException(
             code,
             errorCode,
