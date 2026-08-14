@@ -30,6 +30,7 @@ class ChatViewModel(private val source: ChatDataSource) : ViewModel() {
     private val mutableState = MutableStateFlow(ChatUiState())
     val state: StateFlow<ChatUiState> = mutableState.asStateFlow()
     private var messagesJob: Job? = null
+    private var workspaceJob: Job? = null
     private var sendJob: Job? = null
     private var draftFlushJob: Job? = null
     private var draftMessageId: String? = null
@@ -46,27 +47,23 @@ class ChatViewModel(private val source: ChatDataSource) : ViewModel() {
 
     fun load(preferredConversationId: String? = mutableState.value.conversationId) {
         if (sendJob?.isActive == true) return
-        mutableState.update { it.copy(status = ChatScreenStatus.LOADING, message = null) }
-        viewModelScope.launch { applyLoadResult(source.loadWorkspace(preferredConversationId)) }
+        launchWorkspaceAction { source.loadWorkspace(preferredConversationId) }
     }
 
     fun selectConversation(conversationId: String) {
         if (conversationId == mutableState.value.conversationId || sendJob?.isActive == true) return
-        mutableState.update { it.copy(status = ChatScreenStatus.LOADING, message = null) }
-        viewModelScope.launch { applyLoadResult(source.selectConversation(conversationId)) }
+        launchWorkspaceAction { source.selectConversation(conversationId) }
     }
 
     fun newConversation() {
         if (sendJob?.isActive == true) return
-        mutableState.update { it.copy(status = ChatScreenStatus.LOADING, message = null) }
-        viewModelScope.launch { applyLoadResult(source.createConversation()) }
+        launchWorkspaceAction { source.createConversation() }
     }
 
     fun deleteCurrentConversation() {
         val id = mutableState.value.conversationId ?: return
         if (sendJob?.isActive == true) return
-        mutableState.update { it.copy(status = ChatScreenStatus.LOADING, message = null) }
-        viewModelScope.launch { applyLoadResult(source.deleteConversation(id)) }
+        launchWorkspaceAction { source.deleteConversation(id) }
     }
 
     fun send(content: String, clientMessageId: String = UUID.randomUUID().toString()) {
@@ -155,6 +152,12 @@ class ChatViewModel(private val source: ChatDataSource) : ViewModel() {
         draftFlushJob = null
         draftMessageId = null
         draftBuffer.clear()
+    }
+
+    private fun launchWorkspaceAction(block: suspend () -> ChatLoadResult) {
+        workspaceJob?.cancel()
+        mutableState.update { it.copy(status = ChatScreenStatus.LOADING, message = null) }
+        workspaceJob = viewModelScope.launch { applyLoadResult(block()) }
     }
 
     private suspend fun applyLoadResult(result: ChatLoadResult) {

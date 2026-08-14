@@ -112,22 +112,56 @@ class ChatViewModelTest {
         assertEquals("先停一下", viewModel.state.value.messages.single().content)
         assertEquals("stopped", viewModel.state.value.messages.single().status)
     }
+
+    @Test
+    fun `new conversation cancels initial workspace load`() = runTest(dispatcher) {
+        val source = FakeChatSource(hangInitialLoad = true, createdConversationId = "conversation-new")
+        val viewModel = ChatViewModel(source)
+        dispatcher.scheduler.runCurrent()
+
+        viewModel.newConversation()
+        advanceUntilIdle()
+
+        assertTrue(source.initialLoadCancelled)
+        assertEquals(ChatScreenStatus.READY, viewModel.state.value.status)
+        assertEquals("conversation-new", viewModel.state.value.conversationId)
+    }
 }
 
 private class FakeChatSource(
     private var failFirst: Boolean = false,
-    private val hang: Boolean = false
+    private val hang: Boolean = false,
+    private val hangInitialLoad: Boolean = false,
+    private val createdConversationId: String = "conversation-one"
 ) : ChatDataSource {
     private val conversations = MutableStateFlow(
         listOf(ChatConversation("conversation-one", null, "2026-07-22T00:00:00Z", "2026-07-22T00:00:00Z"))
     )
     private val messages = MutableStateFlow<List<ChatMessage>>(emptyList())
     val sentClientIds = mutableListOf<String>()
+    var initialLoadCancelled = false
 
     override fun observeConversations(): Flow<List<ChatConversation>> = conversations
     override fun observeMessages(conversationId: String): Flow<List<ChatMessage>> = messages
-    override suspend fun loadWorkspace(preferredConversationId: String?) = ChatLoadResult.Ready("conversation-one")
-    override suspend fun createConversation(title: String?) = ChatLoadResult.Ready("conversation-one")
+    override suspend fun loadWorkspace(preferredConversationId: String?): ChatLoadResult {
+        if (hangInitialLoad) {
+            try {
+                awaitCancellation()
+            } finally {
+                initialLoadCancelled = true
+            }
+        }
+        return ChatLoadResult.Ready("conversation-one")
+    }
+    override suspend fun createConversation(title: String?): ChatLoadResult {
+        conversations.value = conversations.value + ChatConversation(
+            createdConversationId,
+            null,
+            "2026-07-22T00:00:01Z",
+            "2026-07-22T00:00:01Z"
+        )
+        return ChatLoadResult.Ready(createdConversationId)
+    }
     override suspend fun selectConversation(conversationId: String) = ChatLoadResult.Ready(conversationId)
     override suspend fun deleteConversation(conversationId: String) = ChatLoadResult.Ready("conversation-one")
 

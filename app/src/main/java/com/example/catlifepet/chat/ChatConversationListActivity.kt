@@ -99,7 +99,7 @@ class ChatConversationListActivity : ComponentActivity() {
         }
 
         content.addView(primaryButton("新建 AI 会话") {
-            startActivity(Intent(this, ChatActivity::class.java))
+            startNewConversation()
         }, match(dp(12)))
     }
 
@@ -108,9 +108,16 @@ class ChatConversationListActivity : ComponentActivity() {
         row.addView(actionButton("‹") { finish() }.apply { contentDescription = "返回" }, LinearLayout.LayoutParams(dp(48), dp(48)))
         row.addView(label("AI 会话", 22f, true, textPrimary), LinearLayout.LayoutParams(0, -2, 1f))
         row.addView(actionButton("＋") {
-            startActivity(Intent(this, ChatActivity::class.java))
+            startNewConversation()
         }.apply { contentDescription = "新建 AI 会话" }, LinearLayout.LayoutParams(dp(48), dp(48)))
         content.addView(row, match(dp(16)))
+    }
+
+    private fun startNewConversation() {
+        startActivity(
+            Intent(this, ChatActivity::class.java)
+                .putExtra(ChatActivity.EXTRA_START_NEW_CONVERSATION, true)
+        )
     }
 
     private fun conversationCard(conversation: ChatConversation, selected: Boolean): View {

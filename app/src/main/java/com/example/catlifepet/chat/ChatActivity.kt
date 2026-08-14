@@ -60,7 +60,10 @@ class ChatActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         SystemBarUtils.applyLightBars(this, appBackground, surface)
         setContentView(buildContent())
-        intent.getStringExtra(EXTRA_CONVERSATION_ID)?.let(viewModel::load)
+        when {
+            intent.getBooleanExtra(EXTRA_START_NEW_CONVERSATION, false) -> viewModel.newConversation()
+            else -> intent.getStringExtra(EXTRA_CONVERSATION_ID)?.let(viewModel::load)
+        }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect(::render)
@@ -345,6 +348,7 @@ class ChatActivity : ComponentActivity() {
 
     companion object {
         const val EXTRA_CONVERSATION_ID = "com.example.catlifepet.chat.extra.CONVERSATION_ID"
+        const val EXTRA_START_NEW_CONVERSATION = "com.example.catlifepet.chat.extra.START_NEW_CONVERSATION"
         private const val AUTO_SCROLL_INTERVAL_MS = 520L
     }
 }
