@@ -72,9 +72,10 @@ class MemoryRepository(
         val envelope = runCatching {
             response.body?.charStream()?.use { gson.fromJson(it, ErrorEnvelopeDto::class.java) }
         }.getOrNull()
+        val errorCode = envelope?.error?.code ?: "http_error"
         throw MemoryHttpException(
             response.code,
-            envelope?.error?.message ?: "服务器拒绝了请求。"
+            friendlyMemoryMessage(response.code, errorCode)
         )
     }
 
@@ -84,10 +85,32 @@ class MemoryRepository(
 
     private fun url(path: String) = baseUrl.newBuilder().addPathSegments(path).build()
 
+    private fun friendlyMemoryMessage(status: Int, code: String): String = when (code) {
+        "invalid_access_token", "missing_access_token", "token_expired" -> "登录已失效，请重新登录。"
+        "invalid_request" -> "记忆内容格式不正确，请检查后再试。"
+        "not_found" -> "这条记忆已经不存在了，请刷新后再试。"
+        "rate_limited" -> "操作有些频繁，请稍后再试。"
+        "internal_error" -> "服务器暂时不可用，请稍后重试。"
+        "http_error" -> friendlyMemoryHttpMessage(status)
+        else -> friendlyMemoryHttpMessage(status)
+    }
+
+    private fun friendlyMemoryHttpMessage(status: Int): String = when (status) {
+        400, 422 -> "记忆内容格式不正确，请检查后再试。"
+        401 -> "登录已失效，请重新登录。"
+        403 -> "当前账号没有权限管理这些记忆，请重新登录后再试。"
+        404 -> "这条记忆已经不存在了，请刷新后再试。"
+        408 -> "服务器响应超时，请稍后重试。"
+        409 -> "当前记忆状态已变化，请刷新后再试。"
+        429 -> "操作有些频繁，请稍后再试。"
+        in 500..599 -> "服务器暂时不可用，请稍后重试。"
+        else -> "操作没有完成，请稍后重试。"
+    }
+
     private data class CreateMemoryDto(val kind: String, val content: String)
     private data class MemoryListDto(val memories: List<CompanionMemory>)
     private data class ErrorEnvelopeDto(val error: ErrorDto?)
-    private data class ErrorDto(val message: String?)
+    private data class ErrorDto(val code: String?, val message: String?)
     private class MemoryHttpException(val status: Int, val userMessage: String) : IOException(userMessage)
 
     private companion object {
