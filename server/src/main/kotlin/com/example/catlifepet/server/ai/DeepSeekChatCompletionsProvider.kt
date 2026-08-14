@@ -190,6 +190,7 @@ class DeepSeekChatCompletionsProvider internal constructor(
     private fun mapHttpFailure(status: HttpStatusCode): AiException = when (status.value) {
         400, 404, 422 -> AiProviderException("ai_provider_rejected_request", false)
         401, 403 -> AiProviderException("ai_provider_authentication_failed", false)
+        402 -> AiProviderException("ai_provider_insufficient_balance", false)
         408 -> AiTimeoutException()
         429 -> AiProviderException("ai_provider_rate_limited", true)
         in 500..599 -> AiProviderException("ai_provider_unavailable", true)

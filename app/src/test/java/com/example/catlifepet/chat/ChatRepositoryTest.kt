@@ -105,6 +105,22 @@ class ChatRepositoryTest {
     }
 
     @Test
+    fun `provider balance failure tells tester to top up DeepSeek`() = runBlocking {
+        server.enqueue(sse(
+            """event: error
+                |data: {"code":"ai_provider_insufficient_balance","error":"payment required","retryable":false}
+                |
+            """.trimMargin()
+        ))
+
+        val events = repository.sendMessage("conversation", "再试一次", "provider-balance").toList()
+
+        val failure = events.single() as ChatSendEvent.Failure
+        assertEquals("模型额度不足，请补充服务器上的 DeepSeek 余额或稍后再试。", failure.message)
+        assertEquals("failed", dao.listPending("conversation").single().state)
+    }
+
+    @Test
     fun `unknown http rejection is converted to friendly copy`() = runBlocking {
         server.enqueue(json(
             """{"error":{"code":"provider_changed_shape","message":"server rejected request"}}"""

@@ -83,12 +83,18 @@ class DeepSeekChatCompletionsProviderTest {
     }
 
     @Test
-    fun `provider maps authentication and rate failures`() = runBlocking {
+    fun `provider maps authentication balance and rate failures`() = runBlocking {
         val authProvider = provider(clientResponding(HttpStatusCode.Unauthorized, "secret auth detail"))
         val authError = assertFailsWith<AiProviderException> { authProvider.generate(validRequest()) }
         assertEquals("ai_provider_authentication_failed", authError.code)
         assertFalse(authError.retryable)
         assertFalse(authError.message.orEmpty().contains("secret auth detail"))
+
+        val balanceProvider = provider(clientResponding(HttpStatusCode.PaymentRequired, "balance detail"))
+        val balanceError = assertFailsWith<AiProviderException> { balanceProvider.generate(validRequest()) }
+        assertEquals("ai_provider_insufficient_balance", balanceError.code)
+        assertFalse(balanceError.retryable)
+        assertFalse(balanceError.message.orEmpty().contains("balance detail"))
 
         val rateProvider = provider(clientResponding(HttpStatusCode.TooManyRequests, "rate body"))
         val rateError = assertFailsWith<AiProviderException> { rateProvider.generate(validRequest()) }
