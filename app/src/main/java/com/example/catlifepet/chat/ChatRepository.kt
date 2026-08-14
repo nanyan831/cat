@@ -241,7 +241,7 @@ class ChatRepository(
             "message_finalization_conflict" -> "这条回复已经结束了，请重新发送一条新的。"
             "ai_provider_authentication_failed" -> "模型服务授权失败，请检查服务器上的 DeepSeek Key。"
             "ai_provider_insufficient_balance" -> "模型额度不足，请补充服务器上的 DeepSeek 余额或稍后再试。"
-            "ai_provider_rejected_request" -> "模型服务拒绝了这次请求，换一种说法再试试。"
+            "ai_provider_rejected_request" -> "小猫没理解这次请求，换一种说法再试试。"
             "ai_provider_rate_limited" -> "模型那边有点忙，稍等一会儿再试。"
             "ai_provider_unavailable" -> "模型服务暂时不可用，稍后再试。"
             "ai_provider_error" -> "模型服务返回异常，稍后再试。"

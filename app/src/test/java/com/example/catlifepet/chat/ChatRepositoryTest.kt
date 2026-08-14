@@ -121,6 +121,22 @@ class ChatRepositoryTest {
     }
 
     @Test
+    fun `provider rejected request becomes friendly rewrite guidance`() = runBlocking {
+        server.enqueue(sse(
+            """event: error
+                |data: {"code":"ai_provider_rejected_request","error":"provider rejected request","retryable":false}
+                |
+            """.trimMargin()
+        ))
+
+        val events = repository.sendMessage("conversation", "这次请求", "provider-rejected").toList()
+
+        val failure = events.single() as ChatSendEvent.Failure
+        assertEquals("小猫没理解这次请求，换一种说法再试试。", failure.message)
+        assertEquals("failed", dao.listPending("conversation").single().state)
+    }
+
+    @Test
     fun `unknown http rejection is converted to friendly copy`() = runBlocking {
         server.enqueue(json(
             """{"error":{"code":"provider_changed_shape","message":"server rejected request"}}"""
