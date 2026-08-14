@@ -6,6 +6,8 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.View
 import android.widget.ArrayAdapter
@@ -90,6 +92,7 @@ class MemoryActivity : ComponentActivity() {
             setHintTextColor(textSecondary)
             setPadding(dp(14), dp(12), dp(14), dp(12))
             background = rounded(surface, 8)
+            addTextChangedListener(simpleWatcher { updateEditorEnabled() })
             applySpringPressEffect(pressedScale = 0.985f)
         }
         content.addView(memoryInput, cardParams(8))
@@ -149,8 +152,10 @@ class MemoryActivity : ComponentActivity() {
             row.addView(button("删除") { confirmDelete(memory) }, LinearLayout.LayoutParams(dp(68), dp(48)))
             content.addView(row, cardParams(8))
         }
-        val clearMemories = button("清空全部记忆") { confirmClearMemories() }.apply { tag = DYNAMIC_TAG }
-        content.addView(clearMemories, LinearLayout.LayoutParams(-1, dp(48)).apply { bottomMargin = dp(8) })
+        if (memories.isNotEmpty()) {
+            val clearMemories = button("清空全部记忆") { confirmClearMemories() }.apply { tag = DYNAMIC_TAG }
+            content.addView(clearMemories, LinearLayout.LayoutParams(-1, dp(48)).apply { bottomMargin = dp(8) })
+        }
         val clearChats = button("清空全部云端聊天") { confirmClearConversations() }.apply { tag = DYNAMIC_TAG }
         content.addView(clearChats, LinearLayout.LayoutParams(-1, dp(48)))
     }
@@ -229,11 +234,17 @@ class MemoryActivity : ComponentActivity() {
 
     private fun updateEditorEnabled() {
         if (!::saveButton.isInitialized) return
-        val enabled = canEdit && !busy
+        val enabled = canEdit && !busy && memoryInput.text?.isNotBlank() == true
         saveButton.isEnabled = enabled
         saveButton.alpha = if (enabled) 1f else 0.5f
-        memoryInput.isEnabled = enabled
-        kindSpinner.isEnabled = enabled
+        memoryInput.isEnabled = canEdit && !busy
+        kindSpinner.isEnabled = canEdit && !busy
+    }
+
+    private fun simpleWatcher(onChanged: () -> Unit): TextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = onChanged()
+        override fun afterTextChanged(s: Editable?) = Unit
     }
 
     private fun label(value: String, size: Float, bold: Boolean, color: Int = textPrimary) = TextView(this).apply {
