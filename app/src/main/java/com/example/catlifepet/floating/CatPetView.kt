@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
+import android.util.AttributeSet
 import android.util.Log
 import android.view.Gravity
 import android.view.MotionEvent
@@ -21,6 +22,11 @@ class CatPetView(
     private val stateManager: CatStateManager,
     private val callbacks: Callbacks
 ) : FrameLayout(context) {
+    constructor(context: Context) : this(context, 0, CatStateManager(), NoOpCallbacks)
+
+    constructor(context: Context, attrs: AttributeSet?) : this(context)
+
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context)
 
     interface Callbacks {
         fun onDragBy(dx: Int, dy: Int)
@@ -36,7 +42,7 @@ class CatPetView(
     }
 
     private val handler = Handler(Looper.getMainLooper())
-    private val catImage = ImageView(context)
+    private val catImage = PetImageView(context)
     private val animationManager = CatAnimationManager(catImage)
     private val bubbleView = PetBubbleView(context)
     private val touchSlopPx = ScreenUtils.dp(context, 10)
@@ -221,7 +227,7 @@ class CatPetView(
                         callbacks.onDragEnd()
                         setCatState(CatState.IDLE)
                     } else {
-                        handlePetClick()
+                        catImage.performClick()
                     }
                     dragging = false
                     true
@@ -239,6 +245,12 @@ class CatPetView(
                 else -> false
             }
         }
+    }
+
+    override fun performClick(): Boolean {
+        super.performClick()
+        handlePetClick()
+        return true
     }
 
     private fun handlePetClick() {
@@ -263,5 +275,20 @@ class CatPetView(
     private companion object {
         const val TAG = "CatLifePet"
         private val BUBBLE_TOKEN = Any()
+
+        private object NoOpCallbacks : Callbacks {
+            override fun onDragBy(dx: Int, dy: Int) = Unit
+            override fun onDragEnd() = Unit
+            override fun onClickPet() = Unit
+            override fun onUserInteractionStarted(kind: UserInteraction) = Unit
+            override fun onReminderConfirmed(type: ReminderType, stateAtConfirmation: CatState) = Unit
+        }
+    }
+
+    private inner class PetImageView(context: Context) : ImageView(context) {
+        override fun performClick(): Boolean {
+            super.performClick()
+            return this@CatPetView.performClick()
+        }
     }
 }

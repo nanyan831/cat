@@ -1,5 +1,6 @@
 package com.example.catlifepet.util
 
+import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.DecelerateInterpolator
@@ -15,7 +16,8 @@ object InteractionUtils {
     ): View {
         val springX = spring(DynamicAnimation.SCALE_X, dampingRatio, stiffness)
         val springY = spring(DynamicAnimation.SCALE_Y, dampingRatio, stiffness)
-        setOnTouchListener { view, event ->
+        @SuppressLint("ClickableViewAccessibility")
+        setOnTouchListener { _, event ->
             when (event.actionMasked) {
                 MotionEvent.ACTION_DOWN -> {
                     springX.animateToFinalPosition(pressedScale)
