@@ -154,7 +154,10 @@ class ChatActivity : ComponentActivity() {
 
     private fun send() {
         val value = input.text.toString()
-        if (value.isBlank() || lastState.generating) return
+        if (!canSendMessage(lastState, value)) {
+            updateComposerControls(lastState)
+            return
+        }
         input.text.clear()
         viewModel.send(value)
     }
@@ -222,10 +225,16 @@ class ChatActivity : ComponentActivity() {
         val ready = state.status == ChatScreenStatus.READY && state.conversationId != null
         input.isEnabled = ready && !state.generating
         crossfadeActionButtons(state.generating)
-        val canSend = ready && !state.generating && input.text?.isNotBlank() == true
+        val canSend = canSendMessage(state, input.text)
         sendButton.isEnabled = canSend
         sendButton.alpha = if (canSend) 1f else 0.45f
     }
+
+    private fun canSendMessage(state: ChatUiState, value: CharSequence?): Boolean =
+        state.status == ChatScreenStatus.READY &&
+            state.conversationId != null &&
+            !state.generating &&
+            !value.isNullOrBlank()
 
     private fun shouldFollowConversation(): Boolean {
         if (!::layoutManager.isInitialized || adapter.itemCount == 0) return true
