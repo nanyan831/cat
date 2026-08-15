@@ -61,6 +61,7 @@ class SmtpEmailSender(
             setProperty("mail.smtp.host", settings.host)
             setProperty("mail.smtp.port", settings.port.toString())
             setProperty("mail.smtp.auth", "true")
+            setProperty("mail.smtp.from", settings.fromAddress)
             setProperty("mail.smtp.starttls.enable", settings.startTls.toString())
             setProperty("mail.smtp.starttls.required", settings.startTls.toString())
             setProperty("mail.smtp.connectiontimeout", SMTP_TIMEOUT_MILLIS)
@@ -76,7 +77,8 @@ class SmtpEmailSender(
             }
         )
         val message = MimeMessage(session).apply {
-            setFrom(InternetAddress(settings.fromAddress, "CatLifePet"))
+            setFrom(InternetAddress(settings.fromAddress))
+            replyTo = arrayOf(InternetAddress(settings.fromAddress))
             setRecipient(Message.RecipientType.TO, InternetAddress(email.recipient, true))
             subject = "Your CatLifePet login code"
             setText(

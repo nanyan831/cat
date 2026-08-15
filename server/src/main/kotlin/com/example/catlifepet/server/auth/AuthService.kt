@@ -8,6 +8,7 @@ import com.example.catlifepet.server.data.Repositories
 import com.example.catlifepet.server.data.UserRecord
 import com.example.catlifepet.server.http.ApiException
 import io.ktor.http.HttpStatusCode
+import jakarta.mail.MessagingException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.sql.Connection
@@ -66,7 +67,15 @@ internal class AuthService(
             repositories.loginCodes.insert(connection, codeRecord)
         }
 
-        emailSender.sendLoginCode(LoginCodeEmail(email, code, codeRecord.expiresAt))
+        try {
+            emailSender.sendLoginCode(LoginCodeEmail(email, code, codeRecord.expiresAt))
+        } catch (error: MessagingException) {
+            throw ApiException(
+                HttpStatusCode.ServiceUnavailable,
+                "code_send_failed",
+                "The verification code could not be sent. Please try again later."
+            )
+        }
         return RequestLoginCodeResponse(expiresInSeconds = settings.verificationCodeLifetime.seconds)
     }
 

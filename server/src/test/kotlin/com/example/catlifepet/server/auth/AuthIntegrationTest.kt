@@ -23,6 +23,7 @@ import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.testing.testApplication
 import io.zonky.test.db.postgres.embedded.EmbeddedPostgres
+import jakarta.mail.MessagingException
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
@@ -244,6 +245,18 @@ class AuthIntegrationTest {
         assertEquals("invalid_request", response.body<ApiErrorEnvelope>().error.code)
     }
 
+    @Test
+    fun `smtp failures return a structured retryable auth error`() = testApplication {
+        application { module(testSettings(), AuthRuntimeOverrides(FailingEmailSender(), MutableClock(BASE_TIME))) }
+        val response = jsonClient().post("/v1/auth/code/request") {
+            contentType(ContentType.Application.Json)
+            setBody(RequestLoginCodeRequest(uniqueEmail("smtp-failure")))
+        }
+
+        assertEquals(HttpStatusCode.ServiceUnavailable, response.status)
+        assertEquals("code_send_failed", response.body<ApiErrorEnvelope>().error.code)
+    }
+
     private fun testSettings() = ServerSettings.forTest(
         database = databaseSettings,
         authSettings = AuthSettings(maximumIpRequestsPerWindow = 100)
@@ -287,6 +300,12 @@ private class RecordingEmailSender : EmailSender {
     }
 
     fun codeFor(email: String): String = assertNotNull(messages[email]).code
+}
+
+private class FailingEmailSender : EmailSender {
+    override suspend fun sendLoginCode(email: LoginCodeEmail) {
+        throw MessagingException("simulated smtp failure")
+    }
 }
 
 private class MutableClock(initial: Instant) : Clock() {
