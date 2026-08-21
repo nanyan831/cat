@@ -33,7 +33,7 @@ class ReleaseSurfaceTest {
             .toList()
 
         assertTrue("Unresolved privacy placeholders found: $unresolvedPlaceholders", unresolvedPlaceholders.isEmpty())
-        assertTrue(privacyPolicy.contains("CatLifePet 项目组"))
+        assertTrue(privacyPolicy.contains("维护者：个人开发者"))
         assertTrue(privacyPolicy.contains("1132994878@qq.com"))
         assertTrue(privacyPolicy.contains("中国大陆（阿里云华东 2 上海）"))
         assertTrue(privacyPolicy.contains("https://catlifepet.top/privacy"))

@@ -11,6 +11,9 @@ import io.ktor.server.routing.routing
 
 internal fun Application.configureRoutes(settings: ServerSettings) {
     routing {
+        get("/") {
+            call.respondText(PublicPages.homeHtml(), ContentType.Text.Html)
+        }
         get("/health") {
             call.respond(
                 HealthResponse(

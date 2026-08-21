@@ -10,17 +10,59 @@ internal object PublicPages {
 
     fun privacyMarkdown(): String = privacyMarkdown
 
+    fun homeHtml(): String {
+        return pageShell(
+            title = "CatLifePet 小猫桌宠",
+            body = """
+                <section class="hero">
+                  <p class="eyebrow">个人作品记录</p>
+                  <h1>CatLifePet 小猫桌宠</h1>
+                  <p>这里记录一个 Android 小猫桌宠作品的开发过程、功能说明和隐私说明。</p>
+                </section>
+                <section>
+                  <h2>关于这个作品</h2>
+                  <p>CatLifePet 是我个人学习 Kotlin、Android 悬浮窗、提醒任务和简单 AI 对话时制作的小猫陪伴应用。桌宠可以悬浮在手机屏幕上，支持拖动、点击互动和生活提醒。</p>
+                  <p>当前页面仅用于个人作品展示和必要说明。</p>
+                </section>
+                <section>
+                  <h2>当前功能</h2>
+                  <ul>
+                    <li>小猫悬浮、拖动、贴边和点击互动。</li>
+                    <li>喝水、吃饭、休息、睡觉等本地提醒。</li>
+                    <li>登录后可以使用 AI 对话和聊天同步。</li>
+                    <li>本地桌宠和提醒在断网时仍可继续使用。</li>
+                  </ul>
+                </section>
+                <section>
+                  <h2>隐私说明</h2>
+                  <p>如果想了解数据保存、权限用途和删除方式，可以查看 <a href="/privacy">CatLifePet 隐私说明</a>。</p>
+                </section>
+                <section>
+                  <h2>联系</h2>
+                  <p>邮箱：1132994878@qq.com</p>
+                </section>
+            """.trimIndent()
+        )
+    }
+
     fun privacyHtml(): String {
         val body = privacyMarkdown()
             .lineSequence()
             .joinToString("\n") { line -> line.toHtmlLine() }
+        return pageShell(
+            title = "CatLifePet 隐私说明",
+            body = body
+        )
+    }
+
+    private fun pageShell(title: String, body: String): String {
         return """
             <!doctype html>
             <html lang="zh-CN">
             <head>
               <meta charset="utf-8">
               <meta name="viewport" content="width=device-width, initial-scale=1">
-              <title>CatLifePet 隐私政策</title>
+              <title>${title.escapeHtml()}</title>
               <style>
                 :root { color-scheme: light; }
                 body {
@@ -39,6 +81,14 @@ internal object PublicPages {
                 h2 { font-size: 20px; margin: 30px 0 10px; }
                 p, li { font-size: 16px; }
                 ul { padding-left: 22px; }
+                .hero {
+                  padding: 24px 0 10px;
+                }
+                .eyebrow {
+                  color: #a45a43;
+                  font-size: 14px;
+                  margin: 0 0 8px;
+                }
                 code {
                   background: #fff0e6;
                   border-radius: 6px;

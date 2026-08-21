@@ -78,6 +78,20 @@ class ServerApplicationTest {
     }
 
     @Test
+    fun `home page is served as a personal project page`() = testApplication {
+        configureTestApplication()
+
+        val response = createClient {}.get("/")
+        val body = response.body<String>()
+
+        assertEquals(HttpStatusCode.OK, response.status)
+        assertEquals("text/html", response.contentType()?.withoutParameters().toString())
+        assertTrue(body.contains("<title>CatLifePet 小猫桌宠</title>"))
+        assertTrue(body.contains("个人作品记录"))
+        assertTrue(body.contains("/privacy"))
+    }
+
+    @Test
     fun `privacy policy is publicly served as html`() = testApplication {
         configureTestApplication()
 
@@ -86,8 +100,8 @@ class ServerApplicationTest {
 
         assertEquals(HttpStatusCode.OK, response.status)
         assertEquals("text/html", response.contentType()?.withoutParameters().toString())
-        assertTrue(body.contains("<title>CatLifePet 隐私政策</title>"))
-        assertTrue(body.contains("CatLifePet 项目组"))
+        assertTrue(body.contains("<title>CatLifePet 隐私说明</title>"))
+        assertTrue(body.contains("个人开发者"))
         assertTrue(body.contains("1132994878@qq.com"))
         assertTrue(body.contains("DeepSeek"))
     }

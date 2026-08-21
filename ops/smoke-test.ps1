@@ -73,6 +73,14 @@ if ($healthBody.service -ne "catlifepet-server") {
     throw "Unexpected health service: $($healthBody.service)"
 }
 
+$homeResponse = Invoke-SmokeRequest -Method GET -Path "/" -ExpectedStatus 200
+$homeValid = $homeResponse.Content -match "CatLifePet"
+$homeValid = $homeValid -and ($homeResponse.Content -match "个人作品记录")
+$homeValid = $homeValid -and ($homeResponse.Content -match "/privacy")
+if (-not $homeValid) {
+    throw "Home page does not contain expected personal project text."
+}
+
 Invoke-SmokeRequest -Method GET -Path "/v1/conversations" -ExpectedStatus 401 | Out-Null
 
 $privacyHtml = Invoke-SmokeRequest -Method GET -Path "/privacy" -ExpectedStatus 200
