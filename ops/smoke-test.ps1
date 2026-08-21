@@ -49,7 +49,16 @@ function Invoke-SmokeRequest {
         }
         $response = [pscustomobject]@{ StatusCode = $statusCode; Content = $content }
     } catch {
-        throw "Smoke request failed for $Method $Path. $($_.Exception.Message)"
+        if ($null -eq $_.Exception.Response) {
+            throw "Smoke request failed for $Method $Path. $($_.Exception.Message)"
+        }
+        $statusCode = [int]$_.Exception.Response.StatusCode
+        try {
+            $content = $_.ErrorDetails.Message
+        } catch {
+            $content = ""
+        }
+        $response = [pscustomobject]@{ StatusCode = $statusCode; Content = $content }
     }
 
     if ($ExpectedStatus -notcontains $statusCode) {
